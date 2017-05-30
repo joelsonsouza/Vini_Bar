@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="corpo">
+        <title>ViniBarWeb</title>
+
+        <h1 >Cadastro de Fornecedor</h1>
+        <p:messages id="messages" showDetail="true" showSummary="false" autoUpdate="true" closable="true" />
+        <h:form id="frm">
+            <div class="ui-fluid">
+                <p:panelGrid columns="4" layout="grid"
+                             columnClasses="ui-grid-col-2, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3"
+                             styleClass="panelgrid-noborder">
+
+                    <p:selectBooleanCheckbox itemLabel="Ativo?" value="#{beanFornecedor.fornecedor.ativo}" />
+                    <p:outputLabel/>
+                    <p:outputLabel/>
+                    <p:outputLabel/>
+
+                    <p:outputLabel for="emp" value="* Empresa:"/>
+                    <p:inputText id="emp" styleClass="up" required="true" requiredMessage="CAMPO EMPRESA" value="#{beanFornecedor.fornecedor.empresa}"/>
+
+                    <p:outputLabel for="cn" value=" CNPJ:"/>
+                    <p:inputMask id="cn" value="#{beanFornecedor.fornecedor.cnpj}"  mask="99.999.999/9999-99"/>      
+
+                    <p:outputLabel for="resp"  value="* Responsável:"/>
+                    <p:inputText id="resp" required="true" requiredMessage="CAMPO RESPONSÁVEL" styleClass="up" value="#{beanFornecedor.fornecedor.reponsavel}"/> 
+
+                </p:panelGrid>
+                <p:fieldset legend="Contato" toggleable="true" toggleSpeed="500" collapsed="true">    
+                    <p:panelGrid columns="4" layout="grid"
+                                 columnClasses="ui-grid-col-2, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3"
+                                 styleClass="panelgrid-noborder">
+
+                        <p:outputLabel for="telefone" value="Telefone:"/>
+                        <p:inputMask id="telefone" mask="(99)9999-9999" value="#{beanFornecedor.fornecedor.telefone}"/>  
+
+                        <p:outputLabel for="celular" value="Celular:"/>
+                        <p:inputMask id="celular" mask="(99)99999-9999" value="#{beanFornecedor.fornecedor.celular}"/> 
+
+                        <p:outputLabel for="email" value="Email:"/>
+                        <p:inputText id="email" value="#{beanFornecedor.fornecedor.email}" placeholder="ex: empresa@empresa.com"/> 
+                    </p:panelGrid>
+                </p:fieldset>
+                <p:fieldset legend="Endereço" toggleable="true" toggleSpeed="500" collapsed="true">    
+                    <p:panelGrid columns="4" layout="grid"
+                                 columnClasses="ui-grid-col-2, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3"
+                                 styleClass="panelgrid-noborder">
+
+                        <p:outputLabel for="log" value="Logradouro:"/>
+                        <p:inputText id="log" styleClass="up" value="#{beanFornecedor.fornecedor.logradouro}"/>
+
+                        <p:outputLabel for="num" value="Nº:"/>
+                        <p:inputNumber id="num" value="#{beanFornecedor.fornecedor.numero}" maxlength="5"/>
+
+                        <p:outputLabel for="com" value="Complemento:"/>
+                        <p:inputText id="com" styleClass="up" value="#{beanFornecedor.fornecedor.complemeto}"/>      
+
+
+                        <p:outputLabel for="bai" value="Bairro:"/>
+                        <p:inputText id="bai" styleClass="up" value="#{beanFornecedor.fornecedor.bairro}"/> 
+
+                        <p:outputLabel for="cep" value="CEP:"/>
+                        <p:inputMask id="cep" mask="99999-999" value="#{beanFornecedor.fornecedor.cep}"/> 
+
+
+                        <p:outputLabel for="cidade" value="Cidade:"/>
+                        <p:inputText id="cidade" styleClass="up" value="#{beanFornecedor.fornecedor.cidade}"/>  
+
+                        <p:outputLabel for="uf" value="UF:"/>
+                        <p:selectOneMenu id="uf" filter="false" value="#{beanFornecedor.fornecedor.uf}" required="false" requiredMessage="INFORME O PERÍODO">
+                            <f:selectItem itemValue="" itemLabel="SELECIONE"/>
+                            <f:selectItem itemValue="MS" itemLabel="MS"/>
+                            <f:selectItem itemValue="AC" itemLabel="AC"/>
+                            <f:selectItem itemValue="AL" itemLabel="AL"/>          
+                            <f:selectItem itemValue="AP" itemLabel="AP"/>          
+                            <f:selectItem itemValue="AM" itemLabel="AM"/>                   
+                            <f:selectItem itemValue="BA" itemLabel="BA"/>          
+                            <f:selectItem itemValue="CE" itemLabel="CE"/>          
+                            <f:selectItem itemValue="DF" itemLabel="DF"/>          
+                            <f:selectItem itemValue="ES" itemLabel="ES"/>          
+                            <f:selectItem itemValue="GO" itemLabel="GO"/>          
+                            <f:selectItem itemValue="MA" itemLabel="MA"/>          
+                            <f:selectItem itemValue="MT" itemLabel="MT"/>          
+
+                            <f:selectItem itemValue="MG" itemLabel="MG"/>          
+                            <f:selectItem itemValue="PA" itemLabel="PA"/>          
+                            <f:selectItem itemValue="PB" itemLabel="PB"/>          
+                            <f:selectItem itemValue="PR" itemLabel="PR"/>          
+                            <f:selectItem itemValue="PE" itemLabel="PE"/>          
+                            <f:selectItem itemValue="PI" itemLabel="PI"/>          
+                            <f:selectItem itemValue="RJ" itemLabel="RJ"/>          
+                            <f:selectItem itemValue="RN" itemLabel="RN"/>          
+                            <f:selectItem itemValue="RS" itemLabel="RS"/>          
+                            <f:selectItem itemValue="RO" itemLabel="RO"/>          
+                            <f:selectItem itemValue="RR" itemLabel="RR"/>          
+                            <f:selectItem itemValue="SC" itemLabel="SC"/>          
+                            <f:selectItem itemValue="SP" itemLabel="SP"/>          
+                            <f:selectItem itemValue="SE" itemLabel="SE"/>          
+                            <f:selectItem itemValue="TO" itemLabel="TO"/>          
+                        </p:selectOneMenu>  
+                    </p:panelGrid>
+                </p:fieldset>
+                </div>
+                
+                    <p:commandButton value="Salvar"   action="#{beanFornecedor.incluir()}" update="@(form)" process="@all" />
+                    <p:commandButton value="Editar"   action="#{beanFornecedor.incluir()}" update="@(form)" process="@all" />
+                    <p:commandButton value="Limpar"   action="#{beanFornecedor.init()}" update="@(form)" process="@all" />
+                    <p:commandButton value="Excluir"   action="#{beanFornecedor.excluir()}" update="@(form)" process="@this" />
+                    <p:separator/>
+               
+            
+        </h:form>
+        <h:form>
+            <p:dataTable id="tb" var="tbl" value="#{beanFornecedor.lista}" rows="10" paginator="true"  
+                         selectionMode="single" selection="#{beanFornecedor.fornecedor}"   rowKey="#{tbl.id}"  > 
+                <p:ajax event="rowSelect" update="frm"/>
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <h:outputText value="Fornecedores Cadastrados" />
+                    </p:outputPanel>
+                </f:facet>
+                <p:column  headerText="Id"  width="25" sortBy=""> 
+                    <h:outputText value="#{tbl.id}" />
+                </p:column>
+                <p:column  headerText="Responsável" filterBy="" sortBy="">
+                    <h:outputText value="#{tbl.reponsavel}" />
+                </p:column>
+                 <p:column  headerText="Empresa"  > <!--sortBy="#{tipodespesa.periodo}" -->
+                    <h:outputText value="#{tbl.empresa}" />
+                </p:column>
+            </p:dataTable>
+            <!--*******************************************CONFIRM DIALOG***********************************************************-->
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
+                <p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />              
+                <p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

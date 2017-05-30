@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="corpo"> 
+        <title>ViniBarWeb</title>
+
+        <h2 >Cadastro de Tipo de Despesas</h2>
+
+        <p:messages id="messages" showDetail="true" showSummary="false" autoUpdate="true" closable="true" />
+        <div class="ui-fluid">
+
+            <h:form id="form1">
+
+                <p:separator/>
+
+                <p:panelGrid columns="6" layout="grid"  columnClasses="ui-grid-col-0,ui-grid-col-0,ui-grid-col-4,ui-grid-col-0,ui-grid-col-4,ui-grid-col-0"
+		 styleClass="panelgrid-noborder" > <!--cellpadding="6" styleClass="panelgrid-noborder" styleClass="ui-panelgrid-blank ui-fluid" >-->
+                    <p:outputLabel value="* Tipo:" for="tipo" />
+                    <p:inputText id="tipo"  value="#{tipoDespesaBean.tipodespesa.tipo}" required="false" requiredMessage="INFORME O TIPO"  placeholder="EX: COSMÉTICOS"/> 
+                    <p:outputLabel value="* Período:" for="per"/>
+                    <p:selectOneMenu id="per" filter="false" value="#{tipoDespesaBean.tipodespesa.periodo}" required="false" requiredMessage="INFORME O PERÍODO">
+                        <f:selectItem itemValue="" itemLabel="SELECIONE UM TIPO"/>
+                        <f:selectItem itemValue="FIXO" itemLabel="FIXO"/>
+                        <f:selectItem itemValue="EVENTUAL" itemLabel="EVENTUAL"/>          
+                    </p:selectOneMenu> 
+                    
+                    <p:commandButton value="Salvar"   action="#{tipoDespesaBean.incluir()}" update="@(form)" />  
+           
+                </p:panelGrid>   
+
+                <p:separator/>
+                <br/>
+                <br/>
+
+                <p:dataTable id="tipodespesa" var="tipodespesa" value="#{tipoDespesaBean.lista}" rows="10" paginator="true" sortBy="#{tipodespesa.tipo}" > 
+                             <!--selectionMode="single"   selection="#{tipoDespesaBean.tipodespesa}"  rowKey="#{tipodespesa.id}">--> 
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Tipos Cadastrados" />
+                        </p:outputPanel>
+                    </f:facet>
+                    <p:column  headerText="Id"  width="25" sortBy="#{tipodespesa.id}"> 
+                        <h:outputText value="#{tipodespesa.id}" />
+                    </p:column>
+                    <p:column  headerText="Tipo" filterBy="#{tipodespesa.tipo}" sortBy="#{tipodespesa.tipo}">
+                        <h:outputText value="#{tipodespesa.tipo}" />
+                    </p:column>
+                     <p:column  headerText="Período"  > <!--sortBy="#{tipodespesa.periodo}" -->
+                        <h:outputText value="#{tipodespesa.periodo}" />
+                    </p:column>
+
+                    <!--*******************************************EXCLUIR***********************************************************-->
+                    <p:column width="25">
+                        <p:commandButton  icon="ui-icon-trash" title="Excluir Registro" action="#{tipoDespesaBean.excluir()}" update="@(form)"  style="color:#FF0000;background-color:#FFFFFF"> <!--process="@all" update="@form"-->
+                            <f:setPropertyActionListener value="#{tipodespesa}" target="#{tipoDespesaBean.tipodespesa}"/>
+                            <p:confirm header="" message="Exluir registro?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                    </p:column>
+
+                    <!--*******************************************ALTERAR***********************************************************-->
+                    <p:column width="25">
+                        <p:commandButton id="btnAlterar"  oncomplete="PF('novoDialogo').show();" process="@this" update="@(form)"  title="Alterar Registro" icon="ui-icon-disk" style="color:#FF0000;background-color:#FFFFFF">     
+                            <f:setPropertyActionListener value="#{tipodespesa}" target="#{tipoDespesaBean.edtipodespesa}"   />  <!--process="@this" update="@(form)"-->
+                            <!--<f:ajax render="novoDialogo"  execute="@form" /> execute="@form"-->
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+
+
+
+
+                <!--*******************************************CONFIRM DIALOG***********************************************************-->
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
+                    <p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />              
+                    <p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+
+                <!--*******************************************P:DIALOG***********************************************************-->
+
+                <p:dialog  header="Alterar Registro" widgetVar="novoDialogo" resizable="false" modal="false" hideEffect="side"  showEffect="side"  closable="true" > <!--appendTo ="@(body)"-->
+                    <!--<ui:include src="/alterarTipo.xhtml" />-->
+
+                    <h:panelGrid columns="2"  cellpadding="10" id="x">
+
+                        <p:outputLabel value="* Tipo:" for="t"/>
+                        <p:inputText value="#{tipoDespesaBean.edtipodespesa.tipo}" id="t" size="30"/>
+                        <p:outputLabel value="* Período:" for="p"/>
+                        <p:selectOneMenu filter="true" value="#{tipoDespesaBean.edtipodespesa.periodo}" id="p" >
+                            <f:selectItem itemValue="" itemLabel="Selecione um tipo"/>
+                            <f:selectItem itemValue="FIXO" itemLabel="FIXO"/>
+                            <f:selectItem itemValue="EVENTUAL" itemLabel="EVENTUAL"/>          
+                        </p:selectOneMenu>  
+                        <p:commandButton value="Alterar"                                       
+                                         action="#{tipoDespesaBean.editar()}"
+                                         process="@all"
+                                         update="@(form)"
+                                         onclick="PF('novoDialogo').hide();"
+
+                                         > <!--   -->
+                        </p:commandButton>                    
+                    </h:panelGrid>
+
+                </p:dialog>     
+            </h:form>
+            </div>   
+    </ui:define>
+</ui:composition>
+

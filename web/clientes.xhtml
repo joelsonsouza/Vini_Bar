@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="corpo">
+        <title>ViniBarWeb</title>
+        <h1 >Cadastro de Cliente</h1>
+        <h:form id="frm">
+            <div class="ui-fluid">
+                <p:panelGrid columns="4" layout="grid"
+                             columnClasses="ui-grid-col-2, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3"
+                             styleClass="panelgrid-noborder">
+
+                    <p:selectBooleanCheckbox itemLabel="Ativo?" />
+                    <p:outputLabel/>
+                    <p:outputLabel/>
+                    <p:outputLabel/>
+
+                    <p:outputLabel for="nome" value="* Nome:"/>
+                    <p:inputText id="nome" value=""/>
+
+                    <p:outputLabel for="cpf" value="* CPF:"/>
+                    <p:inputText id="cpf" value=""/>       
+
+                    <p:outputLabel for="dataNascimento" value="* Nascimento:"/>
+                    <p:inputText id="dataNascimento" value=""/>       
+                   
+                </p:panelGrid>
+                <p:fieldset legend="Contato" toggleable="true" toggleSpeed="500" collapsed="true">    
+                    <p:panelGrid columns="4" layout="grid"
+                                 columnClasses="ui-grid-col-2, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3"
+                                 styleClass="panelgrid-noborder">
+
+                        <p:outputLabel for="telefone" value="Telefone:"/>
+                        <p:inputText id="telefone" value=""/>  
+
+                        <p:outputLabel for="celular" value="* Celular:"/>
+                        <p:inputText id="celular" value=""/> 
+
+                        <p:outputLabel for="email" value="Email:"/>
+                        <p:inputText id="email" value=""/> 
+                    </p:panelGrid>
+                </p:fieldset>
+                <p:fieldset legend="Endereço" toggleable="true" toggleSpeed="500" collapsed="true">    
+                    <p:panelGrid columns="4" layout="grid"
+                                 columnClasses="ui-grid-col-2, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3"
+                                 styleClass="panelgrid-noborder">
+
+                        <p:outputLabel for="logradouro" value="Logradouro:"/>
+                        <p:inputText id="logradouro" value=""/>
+
+                        <p:outputLabel for="numero" value="Nº:"/>
+                        <p:inputText id="numero" value=""/>      
+
+
+                        <p:outputLabel for="bairro" value="Bairro:"/>
+                        <p:inputText id="bairro" value=""/> 
+
+                        <p:outputLabel for="cep" value="CEP:"/>
+                        <p:inputText id="cep" value=""/> 
+
+
+                        <p:outputLabel for="cidade" value="Cidade:"/>
+                        <p:inputText id="cidade" value=""/>  
+
+                        <p:outputLabel for="uf" value="UF:"/>
+                        <p:selectOneMenu id="uf" filter="false" value="" required="false" requiredMessage="INFORME O PERÍODO">
+                            <f:selectItem itemValue="" itemLabel="SELECIONE"/>
+                            <f:selectItem itemValue="MS" itemLabel="MS"/>
+                            <f:selectItem itemValue="AC" itemLabel="AC"/>
+                            <f:selectItem itemValue="AL" itemLabel="AL"/>          
+                            <f:selectItem itemValue="AP" itemLabel="AP"/>          
+                            <f:selectItem itemValue="AM" itemLabel="AM"/>                   
+                            <f:selectItem itemValue="BA" itemLabel="BA"/>          
+                            <f:selectItem itemValue="CE" itemLabel="CE"/>          
+                            <f:selectItem itemValue="DF" itemLabel="DF"/>          
+                            <f:selectItem itemValue="ES" itemLabel="ES"/>          
+                            <f:selectItem itemValue="GO" itemLabel="GO"/>          
+                            <f:selectItem itemValue="MA" itemLabel="MA"/>          
+                            <f:selectItem itemValue="MT" itemLabel="MT"/>          
+
+                            <f:selectItem itemValue="MG" itemLabel="MG"/>          
+                            <f:selectItem itemValue="PA" itemLabel="PA"/>          
+                            <f:selectItem itemValue="PB" itemLabel="PB"/>          
+                            <f:selectItem itemValue="PR" itemLabel="PR"/>          
+                            <f:selectItem itemValue="PE" itemLabel="PE"/>          
+                            <f:selectItem itemValue="PI" itemLabel="PI"/>          
+                            <f:selectItem itemValue="RJ" itemLabel="RJ"/>          
+                            <f:selectItem itemValue="RN" itemLabel="RN"/>          
+                            <f:selectItem itemValue="RS" itemLabel="RS"/>          
+                            <f:selectItem itemValue="RO" itemLabel="RO"/>          
+                            <f:selectItem itemValue="RR" itemLabel="RR"/>          
+                            <f:selectItem itemValue="SC" itemLabel="SC"/>          
+                            <f:selectItem itemValue="SP" itemLabel="SP"/>          
+                            <f:selectItem itemValue="SE" itemLabel="SE"/>          
+                            <f:selectItem itemValue="TO" itemLabel="TO"/>          
+                        </p:selectOneMenu>  
+                    </p:panelGrid>
+                </p:fieldset>
+                <p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+                    <p:commandButton value="Salvar" onclick="PF('novoEnderecoDialog').show();" />
+                </p:panelGrid>
+            </div>
+            <p:dataTable id="tb" var="tbl" value="#{tipoDespesaBean.lista}" rows="10" paginator="true"  > 
+                             <!--selectionMode="single"   selection="#{tipoDespesaBean.tipodespesa}"  rowKey="#{tipodespesa.id}">--> 
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <h:outputText value="Clientes Cadastrados" />
+                    </p:outputPanel>
+                </f:facet>
+                <p:column  headerText="Id"  width="25" sortBy=""> 
+                    <h:outputText value="" />
+                </p:column>
+                <p:column  headerText="Nome" filterBy="" sortBy="">
+                    <h:outputText value="" />
+                </p:column>
+                 <p:column  headerText="Celular"  > <!--sortBy="#{tipodespesa.periodo}" -->
+                    <h:outputText value="" />
+                </p:column>
+                
+                <!--*******************************************EXCLUIR***********************************************************-->
+                <p:column width="25">
+                    <p:commandButton  icon="ui-icon-trash" title="Excluir Registro"  update="@(form)"  style="color:#FF0000;background-color:#FFFFFF"> <!--process="@all" update="@form"-->
+                        <!--<f:setPropertyActionListener value="#{tipodespesa}" target="#{tipoDespesaBean.tipodespesa}"/>-->
+                        <!--<p:confirm header="" message="Exluir registro?" icon="ui-icon-alert" />-->
+                    </p:commandButton>
+                </p:column>
+
+                <!--*******************************************ALTERAR***********************************************************-->
+                <p:column width="25">
+                    <p:commandButton id="btnAlterar"  oncomplete="PF('novoDialogo').show();" process="@this" update="@(form)"  title="Alterar Registro" icon="ui-icon-disk" style="color:#FF0000;background-color:#FFFFFF">     
+                        <!--<f:setPropertyActionListener value="#{tipodespesa}" target="#{tipoDespesaBean.edtipodespesa}"   />  process="@this" update="@(form)"-->
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+
+            <p:dialog widgetVar="novoEnderecoDialog" id="novoEnderecoDialog"
+                      header="Novo endereço" resizable="false" responsive="true">
+
+                <div class="ui-fluid">
+                    <p:panelGrid columns="2" layout="grid" styleClass="panelgrid-noborder"
+                                 columnClasses="ui-grid-col-4, ui-grid-col-8">
+                        <p:outputLabel value="Logradouro" for="logradouro" />
+                        <p:inputText id="logradouro" required="true" />
+
+                        <p:outputLabel value="Número" for="numero" />
+                        <p:inputText id="numero" required="true" />
+
+                        <p:outputLabel value="Bairro" for="bairro" />
+                        <p:inputText id="bairro" />
+
+                        <p:outputLabel value="Cidade" for="cidade" />
+                        <p:inputText id="cidade" />
+
+                        <p:outputLabel/>
+                        <p:commandButton value="Adicionar" />
+                    </p:panelGrid>
+                </div>
+            </p:dialog>
+            <!--*******************************************CONFIRM DIALOG***********************************************************-->
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
+                <p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />              
+                <p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+            <!--*******************************************P:DIALOG***********************************************************-->
+            <p:dialog  header="Alterar Registro" widgetVar="novoDialogo" resizable="false" modal="false" hideEffect="side"  showEffect="side"  closable="true" > <!--appendTo ="@(body)"-->
+                <h:panelGrid columns="2"  cellpadding="10" id="x">
+                    <p:outputLabel value="* Tipo:" for="t"/>
+                    <p:inputText value="" id="t" size="30"/>
+                    <p:outputLabel value="* Período:" for="p"/>
+                    <p:selectOneMenu filter="true" value="" id="p" >
+                        <f:selectItem itemValue="" itemLabel="Selecione um tipo"/>
+                        <f:selectItem itemValue="FIXO" itemLabel="FIXO"/>
+                        <f:selectItem itemValue="EVENTUAL" itemLabel="EVENTUAL"/>          
+                    </p:selectOneMenu>  
+                    <p:commandButton value="Alterar" process="@all" update="@(form)" onclick="PF('novoDialogo').hide();"/>                   
+                </h:panelGrid>
+            </p:dialog> 
+        </h:form>
+    </ui:define>
+</ui:composition>
