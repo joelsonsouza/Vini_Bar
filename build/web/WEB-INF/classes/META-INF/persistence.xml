@@ -8,6 +8,9 @@
     <class>br.com.vinibar.model.Fornecedor_1</class>
     <class>br.com.vinibar.model.Despesas</class>
     <class>br.com.vinibar.model.Tipodespesa</class>
+    <class>br.com.vinibar.model.Cliente</class>
+    <class>br.com.vinibar.model.Funcionario</class>
+    <class>br.com.vinibar.model.Itens</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/barbearia"/>

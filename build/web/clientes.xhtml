@@ -9,27 +9,28 @@
 
     <ui:define name="corpo">
         <title>ViniBarWeb</title>
-        <h1 >Cadastro de Cliente</h1>
+        <h1 >Cadastro de Clientes</h1>
+        <p:messages id="messages" showDetail="true" showSummary="false" autoUpdate="true" closable="true" />
         <h:form id="frm">
             <div class="ui-fluid">
                 <p:panelGrid columns="4" layout="grid"
                              columnClasses="ui-grid-col-2, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3"
                              styleClass="panelgrid-noborder">
 
-                    <p:selectBooleanCheckbox itemLabel="Ativo?" />
+                    <p:selectBooleanCheckbox itemLabel="Ativo?" value="#{beanCliente.cliente.ativo}" />
                     <p:outputLabel/>
                     <p:outputLabel/>
                     <p:outputLabel/>
 
-                    <p:outputLabel for="nome" value="* Nome:"/>
-                    <p:inputText id="nome" value=""/>
+                    <p:outputLabel for="nome" value="Nome:"/>
+                    <p:inputText id="nome" required="true" requiredMessage="PREENCHA O NOME" styleClass="up" value="#{beanCliente.cliente.nome}"/>
 
-                    <p:outputLabel for="cpf" value="* CPF:"/>
-                    <p:inputText id="cpf" value=""/>       
+                    <p:outputLabel for="cpf" value="CPF:"/>
+                    <p:inputMask id="cpf" mask="999.999.999-99" value="#{beanCliente.cliente.cpf}"/>       
 
-                    <p:outputLabel for="dataNascimento" value="* Nascimento:"/>
-                    <p:inputText id="dataNascimento" value=""/>       
-                   
+                    <p:outputLabel for="dataNascimento" value="Nascimento:"/>
+                    <p:calendar id="dataNascimento" value="#{beanCliente.cliente.dtnascimento}"/>       
+
                 </p:panelGrid>
                 <p:fieldset legend="Contato" toggleable="true" toggleSpeed="500" collapsed="true">    
                     <p:panelGrid columns="4" layout="grid"
@@ -37,13 +38,13 @@
                                  styleClass="panelgrid-noborder">
 
                         <p:outputLabel for="telefone" value="Telefone:"/>
-                        <p:inputText id="telefone" value=""/>  
+                        <p:inputMask id="telefone" mask="(99)9999-9999" value="#{beanCliente.cliente.telefone}"/>  
 
-                        <p:outputLabel for="celular" value="* Celular:"/>
-                        <p:inputText id="celular" value=""/> 
+                        <p:outputLabel for="celular" value="Celular:"/>
+                        <p:inputMask id="celular" mask="(99)99999-9999" value="#{beanCliente.cliente.celular}"/> 
 
                         <p:outputLabel for="email" value="Email:"/>
-                        <p:inputText id="email" value=""/> 
+                        <p:inputText id="email" value="#{beanCliente.cliente.email}" placeholder="exemplo@exemplo.com"/> 
                     </p:panelGrid>
                 </p:fieldset>
                 <p:fieldset legend="Endereço" toggleable="true" toggleSpeed="500" collapsed="true">    
@@ -52,24 +53,27 @@
                                  styleClass="panelgrid-noborder">
 
                         <p:outputLabel for="logradouro" value="Logradouro:"/>
-                        <p:inputText id="logradouro" value=""/>
+                        <p:inputText id="logradouro" styleClass="up" value="#{beanCliente.cliente.logradouro}"/>
 
                         <p:outputLabel for="numero" value="Nº:"/>
-                        <p:inputText id="numero" value=""/>      
+                        <p:inputNumber id="numero" value="#{beanCliente.cliente.numero}"/> 
+
+                        <p:outputLabel for="comp" value="Complemento:"/>
+                        <p:inputText id="comp" styleClass="up" value="#{beanCliente.cliente.complemento}"/>      
 
 
                         <p:outputLabel for="bairro" value="Bairro:"/>
-                        <p:inputText id="bairro" value=""/> 
+                        <p:inputText id="bairro" styleClass="up" value="#{beanCliente.cliente.bairro}"/> 
 
                         <p:outputLabel for="cep" value="CEP:"/>
-                        <p:inputText id="cep" value=""/> 
+                        <p:inputText id="cep" value="#{beanCliente.cliente.cep}"/> 
 
 
                         <p:outputLabel for="cidade" value="Cidade:"/>
-                        <p:inputText id="cidade" value=""/>  
+                        <p:inputText id="cidade" styleClass="up" value="#{beanCliente.cliente.cidade}"/>  
 
                         <p:outputLabel for="uf" value="UF:"/>
-                        <p:selectOneMenu id="uf" filter="false" value="" required="false" requiredMessage="INFORME O PERÍODO">
+                        <p:selectOneMenu id="uf" filter="false" value="#{beanCliente.cliente.uf}" required="false" requiredMessage="INFORME O PERÍODO">
                             <f:selectItem itemValue="" itemLabel="SELECIONE"/>
                             <f:selectItem itemValue="MS" itemLabel="MS"/>
                             <f:selectItem itemValue="AC" itemLabel="AC"/>
@@ -102,85 +106,41 @@
                         </p:selectOneMenu>  
                     </p:panelGrid>
                 </p:fieldset>
-                <p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
-                    <p:commandButton value="Salvar" onclick="PF('novoEnderecoDialog').show();" />
-                </p:panelGrid>
             </div>
-            <p:dataTable id="tb" var="tbl" value="#{tipoDespesaBean.lista}" rows="10" paginator="true"  > 
-                             <!--selectionMode="single"   selection="#{tipoDespesaBean.tipodespesa}"  rowKey="#{tipodespesa.id}">--> 
+            <p:commandButton value="Salvar"   action="#{beanCliente.incluir()}" update="@(form)" />
+            <p:commandButton value="Editar"   action="#{beanCliente.incluir()}" update="@(form)" />
+            <p:commandButton value="Limpar"   action="#{beanCliente.init()}" update="@(form)"/>
+            <p:commandButton value="Excluir"  action="#{beanCliente.excluir()}" update="@(form)"  />
+            <p:separator/>
+        </h:form>
+        <h:form>    
+
+            <p:dataTable id="tb" var="tbl" value="#{beanCliente.lista}" rows="10" paginator="true" 
+                         selectionMode="single"   selection="#{beanCliente.cliente}"  rowKey="#{tbl.id}"> 
+                <p:ajax event="rowSelect" update="frm"/>
                 <f:facet name="header">
                     <p:outputPanel>
                         <h:outputText value="Clientes Cadastrados" />
                     </p:outputPanel>
                 </f:facet>
-                <p:column  headerText="Id"  width="25" sortBy=""> 
-                    <h:outputText value="" />
+                <p:column  headerText="Id"  width="25" sortBy="#{tbl.id}"> 
+                    <h:outputText value="#{tbl.id}" />
                 </p:column>
-                <p:column  headerText="Nome" filterBy="" sortBy="">
-                    <h:outputText value="" />
+                <p:column  headerText="Nome" filterBy="#{tbl.nome}" sortBy="#{tbl.nome}">
+                    <h:outputText value="#{tbl.nome}" />
                 </p:column>
-                 <p:column  headerText="Celular"  > <!--sortBy="#{tipodespesa.periodo}" -->
-                    <h:outputText value="" />
-                </p:column>
-                
-                <!--*******************************************EXCLUIR***********************************************************-->
-                <p:column width="25">
-                    <p:commandButton  icon="ui-icon-trash" title="Excluir Registro"  update="@(form)"  style="color:#FF0000;background-color:#FFFFFF"> <!--process="@all" update="@form"-->
-                        <!--<f:setPropertyActionListener value="#{tipodespesa}" target="#{tipoDespesaBean.tipodespesa}"/>-->
-                        <!--<p:confirm header="" message="Exluir registro?" icon="ui-icon-alert" />-->
-                    </p:commandButton>
-                </p:column>
-
-                <!--*******************************************ALTERAR***********************************************************-->
-                <p:column width="25">
-                    <p:commandButton id="btnAlterar"  oncomplete="PF('novoDialogo').show();" process="@this" update="@(form)"  title="Alterar Registro" icon="ui-icon-disk" style="color:#FF0000;background-color:#FFFFFF">     
-                        <!--<f:setPropertyActionListener value="#{tipodespesa}" target="#{tipoDespesaBean.edtipodespesa}"   />  process="@this" update="@(form)"-->
-                    </p:commandButton>
+                <p:column  headerText="Celular">
+                    <h:outputText value="#{tbl.celular}" />
                 </p:column>
             </p:dataTable>
 
-            <p:dialog widgetVar="novoEnderecoDialog" id="novoEnderecoDialog"
-                      header="Novo endereço" resizable="false" responsive="true">
-
-                <div class="ui-fluid">
-                    <p:panelGrid columns="2" layout="grid" styleClass="panelgrid-noborder"
-                                 columnClasses="ui-grid-col-4, ui-grid-col-8">
-                        <p:outputLabel value="Logradouro" for="logradouro" />
-                        <p:inputText id="logradouro" required="true" />
-
-                        <p:outputLabel value="Número" for="numero" />
-                        <p:inputText id="numero" required="true" />
-
-                        <p:outputLabel value="Bairro" for="bairro" />
-                        <p:inputText id="bairro" />
-
-                        <p:outputLabel value="Cidade" for="cidade" />
-                        <p:inputText id="cidade" />
-
-                        <p:outputLabel/>
-                        <p:commandButton value="Adicionar" />
-                    </p:panelGrid>
-                </div>
-            </p:dialog>
             <!--*******************************************CONFIRM DIALOG***********************************************************-->
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
                 <p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />              
                 <p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
             </p:confirmDialog>
             <!--*******************************************P:DIALOG***********************************************************-->
-            <p:dialog  header="Alterar Registro" widgetVar="novoDialogo" resizable="false" modal="false" hideEffect="side"  showEffect="side"  closable="true" > <!--appendTo ="@(body)"-->
-                <h:panelGrid columns="2"  cellpadding="10" id="x">
-                    <p:outputLabel value="* Tipo:" for="t"/>
-                    <p:inputText value="" id="t" size="30"/>
-                    <p:outputLabel value="* Período:" for="p"/>
-                    <p:selectOneMenu filter="true" value="" id="p" >
-                        <f:selectItem itemValue="" itemLabel="Selecione um tipo"/>
-                        <f:selectItem itemValue="FIXO" itemLabel="FIXO"/>
-                        <f:selectItem itemValue="EVENTUAL" itemLabel="EVENTUAL"/>          
-                    </p:selectOneMenu>  
-                    <p:commandButton value="Alterar" process="@all" update="@(form)" onclick="PF('novoDialogo').hide();"/>                   
-                </h:panelGrid>
-            </p:dialog> 
+
         </h:form>
     </ui:define>
 </ui:composition>
