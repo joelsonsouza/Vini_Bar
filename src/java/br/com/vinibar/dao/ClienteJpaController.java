@@ -5,16 +5,19 @@
  */
 package br.com.vinibar.dao;
 
+import br.com.vinibar.dao.exceptions.IllegalOrphanException;
+import br.com.vinibar.dao.exceptions.NonexistentEntityException;
 import br.com.vinibar.model.Cliente;
-import br.com.vinibar.model.exceptions.NonexistentEntityException;
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import br.com.vinibar.model.Comanda;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 /**
  *
@@ -32,11 +35,29 @@ public class ClienteJpaController implements Serializable {
     }
 
     public void create(Cliente cliente) {
+        if (cliente.getComandaList() == null) {
+            cliente.setComandaList(new ArrayList<Comanda>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            List<Comanda> attachedComandaList = new ArrayList<Comanda>();
+            for (Comanda comandaListComandaToAttach : cliente.getComandaList()) {
+                comandaListComandaToAttach = em.getReference(comandaListComandaToAttach.getClass(), comandaListComandaToAttach.getId());
+                attachedComandaList.add(comandaListComandaToAttach);
+            }
+            cliente.setComandaList(attachedComandaList);
             em.persist(cliente);
+            for (Comanda comandaListComanda : cliente.getComandaList()) {
+                Cliente oldIdclienteOfComandaListComanda = comandaListComanda.getIdcliente();
+                comandaListComanda.setIdcliente(cliente);
+                comandaListComanda = em.merge(comandaListComanda);
+                if (oldIdclienteOfComandaListComanda != null) {
+                    oldIdclienteOfComandaListComanda.getComandaList().remove(comandaListComanda);
+                    oldIdclienteOfComandaListComanda = em.merge(oldIdclienteOfComandaListComanda);
+                }
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -45,12 +66,45 @@ public class ClienteJpaController implements Serializable {
         }
     }
 
-    public void edit(Cliente cliente) throws NonexistentEntityException, Exception {
+    public void edit(Cliente cliente) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Cliente persistentCliente = em.find(Cliente.class, cliente.getId());
+            List<Comanda> comandaListOld = persistentCliente.getComandaList();
+            List<Comanda> comandaListNew = cliente.getComandaList();
+            List<String> illegalOrphanMessages = null;
+            for (Comanda comandaListOldComanda : comandaListOld) {
+                if (!comandaListNew.contains(comandaListOldComanda)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Comanda " + comandaListOldComanda + " since its idcliente field is not nullable.");
+                }
+            }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
+            }
+            List<Comanda> attachedComandaListNew = new ArrayList<Comanda>();
+            for (Comanda comandaListNewComandaToAttach : comandaListNew) {
+                comandaListNewComandaToAttach = em.getReference(comandaListNewComandaToAttach.getClass(), comandaListNewComandaToAttach.getId());
+                attachedComandaListNew.add(comandaListNewComandaToAttach);
+            }
+            comandaListNew = attachedComandaListNew;
+            cliente.setComandaList(comandaListNew);
             cliente = em.merge(cliente);
+            for (Comanda comandaListNewComanda : comandaListNew) {
+                if (!comandaListOld.contains(comandaListNewComanda)) {
+                    Cliente oldIdclienteOfComandaListNewComanda = comandaListNewComanda.getIdcliente();
+                    comandaListNewComanda.setIdcliente(cliente);
+                    comandaListNewComanda = em.merge(comandaListNewComanda);
+                    if (oldIdclienteOfComandaListNewComanda != null && !oldIdclienteOfComandaListNewComanda.equals(cliente)) {
+                        oldIdclienteOfComandaListNewComanda.getComandaList().remove(comandaListNewComanda);
+                        oldIdclienteOfComandaListNewComanda = em.merge(oldIdclienteOfComandaListNewComanda);
+                    }
+                }
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -68,7 +122,7 @@ public class ClienteJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -79,6 +133,17 @@ public class ClienteJpaController implements Serializable {
                 cliente.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The cliente with id " + id + " no longer exists.", enfe);
+            }
+            List<String> illegalOrphanMessages = null;
+            List<Comanda> comandaListOrphanCheck = cliente.getComandaList();
+            for (Comanda comandaListOrphanCheckComanda : comandaListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Cliente (" + cliente + ") cannot be destroyed since the Comanda " + comandaListOrphanCheckComanda + " in its comandaList field has a non-nullable idcliente field.");
+            }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
             }
             em.remove(cliente);
             em.getTransaction().commit();

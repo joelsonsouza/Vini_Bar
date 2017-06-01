@@ -1,6 +1,7 @@
 package br.com.vinibar.bean;
 
 import br.com.vinibar.dao.ItensJpaController;
+import br.com.vinibar.dao.exceptions.IllegalOrphanException;
 import br.com.vinibar.dao.exceptions.NonexistentEntityException;
 import br.com.vinibar.model.Itens;
 import br.com.vinibar.util.Log;
@@ -53,7 +54,7 @@ public class BeanItens {
         }
     }
 
-    public void excluir() {
+    public void excluir() throws IllegalOrphanException {
         if (itens.getId() != null) {
             try {
                 new ItensJpaController(emf).destroy(itens.getId());

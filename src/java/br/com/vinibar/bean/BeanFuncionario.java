@@ -1,11 +1,14 @@
 package br.com.vinibar.bean;
 
 import br.com.vinibar.dao.FuncionarioJpaController;
+import br.com.vinibar.dao.exceptions.IllegalOrphanException;
 import br.com.vinibar.dao.exceptions.NonexistentEntityException;
 import br.com.vinibar.model.Funcionario;
 import br.com.vinibar.util.Log;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -53,7 +56,7 @@ public class BeanFuncionario {
         }
     }
 
-    public void excluir() {
+    public void excluir() throws IllegalOrphanException {
         if (funcionario.getId() != null) {
             try {
                 new FuncionarioJpaController(emf).destroy(funcionario.getId());
@@ -70,7 +73,6 @@ public class BeanFuncionario {
 
 
     /* -----------GETTER E SETTERS-----------*/
-
     public Funcionario getFuncionario() {
         return funcionario;
     }
@@ -86,5 +88,5 @@ public class BeanFuncionario {
     public void setLista(List<Funcionario> lista) {
         this.lista = lista;
     }
-    
+
 }

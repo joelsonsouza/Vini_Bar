@@ -6,7 +6,6 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core">
-
     <ui:define name="corpo">
         <title>ViniBarWeb</title>
 
@@ -107,15 +106,15 @@
                         </p:selectOneMenu>  
                     </p:panelGrid>
                 </p:fieldset>
-                </div>
-                
-                    <p:commandButton value="Salvar"   action="#{beanFornecedor.incluir()}" update="@(form)" process="@all" />
-                    <p:commandButton value="Editar"   action="#{beanFornecedor.incluir()}" update="@(form)" process="@all" />
-                    <p:commandButton value="Limpar"   action="#{beanFornecedor.init()}" update="@(form)" process="@all" />
-                    <p:commandButton value="Excluir"   action="#{beanFornecedor.excluir()}" update="@(form)" process="@this" />
-                    <p:separator/>
-               
-            
+            </div>
+
+            <p:commandButton value="Salvar"   action="#{beanFornecedor.incluir()}" update="@(form)" process="@all" />
+            <p:commandButton value="Editar"   action="#{beanFornecedor.incluir()}" update="@(form)" process="@all" />
+            <p:commandButton value="Limpar"   action="#{beanFornecedor.init()}" update="@(form)" process="@all" />
+            <p:commandButton value="Excluir"   action="#{beanFornecedor.excluir()}" update="@(form)" process="@this" />
+            <p:separator/>
+
+
         </h:form>
         <h:form>
             <p:dataTable id="tb" var="tbl" value="#{beanFornecedor.lista}" rows="10" paginator="true"  

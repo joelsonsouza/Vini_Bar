@@ -11,6 +11,20 @@
     <class>br.com.vinibar.model.Cliente</class>
     <class>br.com.vinibar.model.Funcionario</class>
     <class>br.com.vinibar.model.Itens</class>
+    <class>br.com.vinibar.model.Comanda</class>
+    <class>br.com.vinibar.model.exceptions.Despesas</class>
+    <class>br.com.vinibar.model.exceptions.Comanda</class>
+    <class>br.com.vinibar.model.exceptions.Funcionario</class>
+    <class>br.com.vinibar.model.exceptions.Itens</class>
+    <class>br.com.vinibar.model.exceptions.Cliente</class>
+    <class>br.com.vinibar.model.exceptions.Fornecedor</class>
+    <class>br.com.vinibar.model.exceptions.Tipodespesa</class>
+    <class>br.com.vinibar.model.Funcionario_1</class>
+    <class>br.com.vinibar.model.Comanda_1</class>
+    <class>br.com.vinibar.model.Itens_1</class>
+    <class>br.com.vinibar.model.Cliente_1</class>
+    <class>br.com.vinibar.model.Itenscomanda</class>
+    <class>br.com.vinibar.model.exceptions.Itenscomanda</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/barbearia"/>

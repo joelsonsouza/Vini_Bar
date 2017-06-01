@@ -7,7 +7,9 @@ package br.com.vinibar.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,10 +17,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -105,7 +109,7 @@ public class Funcionario implements Serializable {
     private Date dtadmissao;
     @Temporal(TemporalType.DATE)
     private Date dtdemissao;
-    @Column(length = 11)
+    @Column(length = 20)
     private String pis;
     @Column(length = 20)
     private String banco;
@@ -119,6 +123,8 @@ public class Funcionario implements Serializable {
     private String dtreg;
     @Column(length = 15)
     private String hrreg;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idfuncionario")
+    private List<Comanda> comandaList;
 
     public Funcionario() {
     }
@@ -354,6 +360,15 @@ public class Funcionario implements Serializable {
 
     public void setHrreg(String hrreg) {
         this.hrreg = hrreg;
+    }
+
+    @XmlTransient
+    public List<Comanda> getComandaList() {
+        return comandaList;
+    }
+
+    public void setComandaList(List<Comanda> comandaList) {
+        this.comandaList = comandaList;
     }
 
     @Override

@@ -12,14 +12,15 @@
         <h2 >Atendimento</h2>
 
         <p:messages id="messages" showDetail="true" showSummary="false" autoUpdate="true" closable="true" /> 
-        <h:form>
+        <h:form id="frm">
             <ui:include src="/WEB-INF/comanda/BotoesPedido.xhtml" />
             <ui:include src="/WEB-INF/comanda/CapaPedido.xhtml" />
-            <p:tabView style="margin-top: 20px">
-                <p:tab title="Itens">
-                    <ui:include src="/WEB-INF/comanda/ItensPedido.xhtml" />
-                </p:tab>
-            </p:tabView>
+            
+            <h2 style="margin-top: 20px" >Itens</h2>
+            <p:separator/>
+            <ui:include src="/WEB-INF/comanda/ItensPedido.xhtml" />
         </h:form>
+
+       
     </ui:define>
 </ui:composition>

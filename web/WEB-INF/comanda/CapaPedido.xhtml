@@ -4,44 +4,53 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-
-                xmlns:f="http://java.sun.com/jsf/core">
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:o="http://omnifaces.org/ui"
+                xmlns:of="http://omnifaces.org/functions">
 
 
     <div class="ui-fluid">
-        <p:panelGrid columns="4" layout="grid"
-                     columnClasses="ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3"
+        <h:form> 
+        <p:panelGrid columns="5" layout="grid"
+                     columnClasses="ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3,ui-grid-col-1"
                      styleClass="panelgrid-noborder">
+           
             <p:outputLabel value="Número:" />
-            <p:inputText disabled="true"/>
+            <p:inputText disabled="true" value="#{beanAtendimento.itscomanda.idcomanda}"/>
+           
 
             <p:outputLabel for="dt" value="Data:" />
-            <p:calendar id="dt" value=""/>
+            <p:calendar id="dt" required="true" requiredMessage="DATA" value="#{beanAtendimento.comanda.dtcomanda}"/>
+            <p:outputLabel/>
 
             <p:outputLabel value="Funcionário:" for="fun"/>
-            <p:selectOneMenu id="fun" filter="true" converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="FUNCIONÁRIO" value="">
+            <p:selectOneMenu id="fun" filter="true" converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="FUNCIONÁRIO" value="#{beanAtendimento.comanda.idfuncionario}">
                 <f:selectItem itemLabel="SELECIONE" itemValue="" />
                 <f:selectItems value="#{beanAtendimento.listaFuncionarios}" var="fun"
-                               itemValue="" itemLabel="#{fun.nome}" />
+                               itemValue="#{nome}" itemLabel="#{fun.nome}" />
             </p:selectOneMenu>
             
             <p:outputLabel value="Cliente:" for="cliente"/>
-            <p:selectOneMenu id="cliente" filter="true" converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="CLIENTE" value="">
+            <p:selectOneMenu id="cliente" filter="true" converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="CLIENTE" value="#{beanAtendimento.comanda.idcliente}">
                 <f:selectItem itemLabel="SELECIONE" itemValue="" />
                 <f:selectItems value="#{beanAtendimento.listaClientes}" var="cli"
-                               itemValue="" itemLabel="#{cli.nome}" />
+                               itemValue="#{nome}" itemLabel="#{cli.nome}" />
             </p:selectOneMenu>
+            <p:commandButton value="Abrir" action="#{beanAtendimento.abrir()}"  update="@(form)" process="@all" /> 
+  
             
             <p:outputLabel value="Item" for="it"/>
-            <p:selectOneMenu id="it" filter="true" converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="ITEM" value="">
+            <p:selectOneMenu id="it" filter="true" converter="omnifaces.SelectItemsConverter" required="false" requiredMessage="ITEM" value="#{beanAtendimento.itscomanda.idproduto}">
                 <f:selectItem itemLabel="SELECIONE" itemValue="" />
                 <f:selectItems value="#{beanAtendimento.listaItens}" var="it"
-                               itemValue="" itemLabel="#{it.descricao}" />
+                               itemValue="#{descricao}" itemLabel="#{it.descricao}" />
             </p:selectOneMenu>
             
             <p:outputLabel for="qn" value="Quantidade:" />
-            <p:inputNumber id="qn" value=""/>
+            <p:inputNumber id="qn" required="true" requiredMessage="QUANTIDADE" value="#{beanAtendimento.itscomanda.qnt}"/>
+            
+            <p:commandButton value="Adicionar" action="#{beanAtendimento.addItem()}" update="@(form)" process="@all"/>
         </p:panelGrid>
+    </h:form>
     </div>
-
 </ui:composition>

@@ -5,16 +5,20 @@
  */
 package br.com.vinibar.dao;
 
+import br.com.vinibar.dao.exceptions.IllegalOrphanException;
 import br.com.vinibar.dao.exceptions.NonexistentEntityException;
-import br.com.vinibar.model.Itens;
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import br.com.vinibar.model.Itenscomanda;
+import java.util.ArrayList;
+import java.util.List;
+import br.com.vinibar.model.Comanda;
+import br.com.vinibar.model.Itens;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 /**
  *
@@ -32,11 +36,47 @@ public class ItensJpaController implements Serializable {
     }
 
     public void create(Itens itens) {
+        if (itens.getItenscomandaList() == null) {
+            itens.setItenscomandaList(new ArrayList<Itenscomanda>());
+        }
+        if (itens.getComandaList() == null) {
+            itens.setComandaList(new ArrayList<Comanda>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            List<Itenscomanda> attachedItenscomandaList = new ArrayList<Itenscomanda>();
+            for (Itenscomanda itenscomandaListItenscomandaToAttach : itens.getItenscomandaList()) {
+                itenscomandaListItenscomandaToAttach = em.getReference(itenscomandaListItenscomandaToAttach.getClass(), itenscomandaListItenscomandaToAttach.getId());
+                attachedItenscomandaList.add(itenscomandaListItenscomandaToAttach);
+            }
+            itens.setItenscomandaList(attachedItenscomandaList);
+            List<Comanda> attachedComandaList = new ArrayList<Comanda>();
+            for (Comanda comandaListComandaToAttach : itens.getComandaList()) {
+                comandaListComandaToAttach = em.getReference(comandaListComandaToAttach.getClass(), comandaListComandaToAttach.getId());
+                attachedComandaList.add(comandaListComandaToAttach);
+            }
+            itens.setComandaList(attachedComandaList);
             em.persist(itens);
+            for (Itenscomanda itenscomandaListItenscomanda : itens.getItenscomandaList()) {
+                Itens oldIdprodutoOfItenscomandaListItenscomanda = itenscomandaListItenscomanda.getIdproduto();
+                itenscomandaListItenscomanda.setIdproduto(itens);
+                itenscomandaListItenscomanda = em.merge(itenscomandaListItenscomanda);
+                if (oldIdprodutoOfItenscomandaListItenscomanda != null) {
+                    oldIdprodutoOfItenscomandaListItenscomanda.getItenscomandaList().remove(itenscomandaListItenscomanda);
+                    oldIdprodutoOfItenscomandaListItenscomanda = em.merge(oldIdprodutoOfItenscomandaListItenscomanda);
+                }
+            }
+            for (Comanda comandaListComanda : itens.getComandaList()) {
+                Itens oldIditemOfComandaListComanda = comandaListComanda.getIditem();
+                comandaListComanda.setIditem(itens);
+                comandaListComanda = em.merge(comandaListComanda);
+                if (oldIditemOfComandaListComanda != null) {
+                    oldIditemOfComandaListComanda.getComandaList().remove(comandaListComanda);
+                    oldIditemOfComandaListComanda = em.merge(oldIditemOfComandaListComanda);
+                }
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -45,12 +85,73 @@ public class ItensJpaController implements Serializable {
         }
     }
 
-    public void edit(Itens itens) throws NonexistentEntityException, Exception {
+    public void edit(Itens itens) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Itens persistentItens = em.find(Itens.class, itens.getId());
+            List<Itenscomanda> itenscomandaListOld = persistentItens.getItenscomandaList();
+            List<Itenscomanda> itenscomandaListNew = itens.getItenscomandaList();
+            List<Comanda> comandaListOld = persistentItens.getComandaList();
+            List<Comanda> comandaListNew = itens.getComandaList();
+            List<String> illegalOrphanMessages = null;
+            for (Itenscomanda itenscomandaListOldItenscomanda : itenscomandaListOld) {
+                if (!itenscomandaListNew.contains(itenscomandaListOldItenscomanda)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Itenscomanda " + itenscomandaListOldItenscomanda + " since its idproduto field is not nullable.");
+                }
+            }
+            for (Comanda comandaListOldComanda : comandaListOld) {
+                if (!comandaListNew.contains(comandaListOldComanda)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Comanda " + comandaListOldComanda + " since its iditem field is not nullable.");
+                }
+            }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
+            }
+            List<Itenscomanda> attachedItenscomandaListNew = new ArrayList<Itenscomanda>();
+            for (Itenscomanda itenscomandaListNewItenscomandaToAttach : itenscomandaListNew) {
+                itenscomandaListNewItenscomandaToAttach = em.getReference(itenscomandaListNewItenscomandaToAttach.getClass(), itenscomandaListNewItenscomandaToAttach.getId());
+                attachedItenscomandaListNew.add(itenscomandaListNewItenscomandaToAttach);
+            }
+            itenscomandaListNew = attachedItenscomandaListNew;
+            itens.setItenscomandaList(itenscomandaListNew);
+            List<Comanda> attachedComandaListNew = new ArrayList<Comanda>();
+            for (Comanda comandaListNewComandaToAttach : comandaListNew) {
+                comandaListNewComandaToAttach = em.getReference(comandaListNewComandaToAttach.getClass(), comandaListNewComandaToAttach.getId());
+                attachedComandaListNew.add(comandaListNewComandaToAttach);
+            }
+            comandaListNew = attachedComandaListNew;
+            itens.setComandaList(comandaListNew);
             itens = em.merge(itens);
+            for (Itenscomanda itenscomandaListNewItenscomanda : itenscomandaListNew) {
+                if (!itenscomandaListOld.contains(itenscomandaListNewItenscomanda)) {
+                    Itens oldIdprodutoOfItenscomandaListNewItenscomanda = itenscomandaListNewItenscomanda.getIdproduto();
+                    itenscomandaListNewItenscomanda.setIdproduto(itens);
+                    itenscomandaListNewItenscomanda = em.merge(itenscomandaListNewItenscomanda);
+                    if (oldIdprodutoOfItenscomandaListNewItenscomanda != null && !oldIdprodutoOfItenscomandaListNewItenscomanda.equals(itens)) {
+                        oldIdprodutoOfItenscomandaListNewItenscomanda.getItenscomandaList().remove(itenscomandaListNewItenscomanda);
+                        oldIdprodutoOfItenscomandaListNewItenscomanda = em.merge(oldIdprodutoOfItenscomandaListNewItenscomanda);
+                    }
+                }
+            }
+            for (Comanda comandaListNewComanda : comandaListNew) {
+                if (!comandaListOld.contains(comandaListNewComanda)) {
+                    Itens oldIditemOfComandaListNewComanda = comandaListNewComanda.getIditem();
+                    comandaListNewComanda.setIditem(itens);
+                    comandaListNewComanda = em.merge(comandaListNewComanda);
+                    if (oldIditemOfComandaListNewComanda != null && !oldIditemOfComandaListNewComanda.equals(itens)) {
+                        oldIditemOfComandaListNewComanda.getComandaList().remove(comandaListNewComanda);
+                        oldIditemOfComandaListNewComanda = em.merge(oldIditemOfComandaListNewComanda);
+                    }
+                }
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -68,7 +169,7 @@ public class ItensJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -79,6 +180,24 @@ public class ItensJpaController implements Serializable {
                 itens.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The itens with id " + id + " no longer exists.", enfe);
+            }
+            List<String> illegalOrphanMessages = null;
+            List<Itenscomanda> itenscomandaListOrphanCheck = itens.getItenscomandaList();
+            for (Itenscomanda itenscomandaListOrphanCheckItenscomanda : itenscomandaListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Itens (" + itens + ") cannot be destroyed since the Itenscomanda " + itenscomandaListOrphanCheckItenscomanda + " in its itenscomandaList field has a non-nullable idproduto field.");
+            }
+            List<Comanda> comandaListOrphanCheck = itens.getComandaList();
+            for (Comanda comandaListOrphanCheckComanda : comandaListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Itens (" + itens + ") cannot be destroyed since the Comanda " + comandaListOrphanCheckComanda + " in its comandaList field has a non-nullable iditem field.");
+            }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
             }
             em.remove(itens);
             em.getTransaction().commit();

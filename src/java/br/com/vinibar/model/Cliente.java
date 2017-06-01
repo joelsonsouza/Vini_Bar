@@ -7,7 +7,9 @@ package br.com.vinibar.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,10 +17,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -44,7 +48,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Cliente.findByCidade", query = "SELECT c FROM Cliente c WHERE c.cidade = :cidade")
     , @NamedQuery(name = "Cliente.findByUf", query = "SELECT c FROM Cliente c WHERE c.uf = :uf")
     , @NamedQuery(name = "Cliente.findByDtreg", query = "SELECT c FROM Cliente c WHERE c.dtreg = :dtreg")
-    , @NamedQuery(name = "Cliente.findByHrreg", query = "SELECT c FROM Cliente c WHERE c.hrreg = :hrreg")})
+    , @NamedQuery(name = "Cliente.findByHrreg", query = "SELECT c FROM Cliente c WHERE c.hrreg = :hrreg")
+    , @NamedQuery(name = "Cliente.findByAtivo", query = "SELECT c FROM Cliente c WHERE c.ativo = :ativo")})
 public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -83,7 +88,9 @@ public class Cliente implements Serializable {
     private String dtreg;
     @Column(length = 15)
     private String hrreg;
-    private boolean ativo;
+    private Boolean ativo;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idcliente")
+    private List<Comanda> comandaList;
 
     public Cliente() {
     }
@@ -225,15 +232,22 @@ public class Cliente implements Serializable {
         this.hrreg = hrreg;
     }
 
-    public boolean isAtivo() {
+    public Boolean getAtivo() {
         return ativo;
     }
 
-    public void setAtivo(boolean ativo) {
+    public void setAtivo(Boolean ativo) {
         this.ativo = ativo;
     }
-    
-    
+
+    @XmlTransient
+    public List<Comanda> getComandaList() {
+        return comandaList;
+    }
+
+    public void setComandaList(List<Comanda> comandaList) {
+        this.comandaList = comandaList;
+    }
 
     @Override
     public int hashCode() {

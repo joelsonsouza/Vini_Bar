@@ -1,19 +1,12 @@
 package br.com.vinibar.bean;
 
-import br.com.vinibar.dao.DespesasJpaController;
-import br.com.vinibar.dao.FornecedorJpaController;
-import br.com.vinibar.dao.TipodespesaJpaController;
 import br.com.vinibar.dao.exceptions.NonexistentEntityException;
 import br.com.vinibar.model.Cliente;
 import br.com.vinibar.dao.ClienteJpaController;
-import br.com.vinibar.model.Despesas;
-import br.com.vinibar.model.Fornecedor;
-import br.com.vinibar.model.Tipodespesa;
+import br.com.vinibar.dao.exceptions.IllegalOrphanException;
 import br.com.vinibar.util.Log;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -60,7 +53,7 @@ public class BeanCliente {
         cliente = new Cliente();
     }
 
-    public void excluir() {
+    public void excluir() throws IllegalOrphanException {
 
         if (cliente.getId() != null) {
             try {
@@ -68,7 +61,7 @@ public class BeanCliente {
                 msg.info("REGISTRO EXCLUÍDO");
                 lista = new ClienteJpaController(emf).findClienteEntities();
                 cliente = new Cliente();
-            } catch (br.com.vinibar.model.exceptions.NonexistentEntityException ex) {
+            } catch (NonexistentEntityException ex) {
                 msg.info("FALHA NA EXCLUSÃO");
             }
         } else {
