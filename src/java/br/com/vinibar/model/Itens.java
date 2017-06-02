@@ -29,15 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(catalog = "barbearia", schema = "public")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Itens.findAll", query = "SELECT i FROM Itens i")
-    , @NamedQuery(name = "Itens.findById", query = "SELECT i FROM Itens i WHERE i.id = :id")
-    , @NamedQuery(name = "Itens.findByDescricao", query = "SELECT i FROM Itens i WHERE i.descricao = :descricao")
-    , @NamedQuery(name = "Itens.findByTipo", query = "SELECT i FROM Itens i WHERE i.tipo = :tipo")
-    , @NamedQuery(name = "Itens.findByMedida", query = "SELECT i FROM Itens i WHERE i.medida = :medida")
-    , @NamedQuery(name = "Itens.findByPreco", query = "SELECT i FROM Itens i WHERE i.preco = :preco")
-    , @NamedQuery(name = "Itens.findByDtreg", query = "SELECT i FROM Itens i WHERE i.dtreg = :dtreg")
-    , @NamedQuery(name = "Itens.findByHrreg", query = "SELECT i FROM Itens i WHERE i.hrreg = :hrreg")
-    , @NamedQuery(name = "Itens.findByAtivo", query = "SELECT i FROM Itens i WHERE i.ativo = :ativo")})
+    @NamedQuery(name = "Itens.findAll", query = "SELECT i FROM Itens i")})
 public class Itens implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -64,8 +56,6 @@ public class Itens implements Serializable {
     private Boolean ativo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idproduto")
     private List<Itenscomanda> itenscomandaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "iditem")
-    private List<Comanda> comandaList;
 
     public Itens() {
     }
@@ -152,15 +142,6 @@ public class Itens implements Serializable {
 
     public void setItenscomandaList(List<Itenscomanda> itenscomandaList) {
         this.itenscomandaList = itenscomandaList;
-    }
-
-    @XmlTransient
-    public List<Comanda> getComandaList() {
-        return comandaList;
-    }
-
-    public void setComandaList(List<Comanda> comandaList) {
-        this.comandaList = comandaList;
     }
 
     @Override

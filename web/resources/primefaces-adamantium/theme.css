@@ -3440,7 +3440,7 @@ hr.ui-widget-header {
   font-size: 16px !important;
 }
 .ui-button-text-only .ui-button-text {
-  padding: 10px 24px !important;
+  padding: 10px 0px !important; /*ORIGINAL 1Opx 24px*/
 }
 .ui-button.ui-button-icon-only .ui-button-text {
   padding: 10px 0px !important;

@@ -5,12 +5,12 @@
                 xmlns:p="http://primefaces.org/ui">
 
 
-    <p:toolbar style="margin-top: 20px">
+    <p:toolbar style="margin-top: 20px;">
         <p:toolbarGroup>
-            <p:commandButton value="Novo" action="#{beanAtendimento.init()}" update="@(form)" process="@all" />
-            <p:commandButton value="Salvar" update="@(form)" /> <!--action="#{cadastroPedidoBean.salvar}"-->
-            <p:commandButton value="Cancelar" action="#{beanAtendimento.init()}" update="@(form)" process="@all" />
-            <p:commandButton value="Pesquisa" />
+            <p:commandButton value="Novo"  style="width:80px;"  action="#{beanAtendimento.init()}" update="@(form)" process="@this" />             
+            <p:commandButton value="Salvar" style="width:80px"  action="#{beanAtendimento.salvar()}" update="@(form)" process="@this" />             
+            <p:commandButton value="Cancelar" style="width:80px" action="#{beanAtendimento.init()}" update="@(form)" process="@this" /> <!--Excluir-->
+            <p:commandButton value="Pesquisar" style="width:80px;" />
         </p:toolbarGroup>
     </p:toolbar>
 

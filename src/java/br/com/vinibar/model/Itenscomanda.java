@@ -27,12 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(catalog = "barbearia", schema = "public")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Itenscomanda.findAll", query = "SELECT i FROM Itenscomanda i")
-    , @NamedQuery(name = "Itenscomanda.findById", query = "SELECT i FROM Itenscomanda i WHERE i.id = :id")
-    , @NamedQuery(name = "Itenscomanda.findByQnt", query = "SELECT i FROM Itenscomanda i WHERE i.qnt = :qnt")
-    , @NamedQuery(name = "Itenscomanda.findByTotalitem", query = "SELECT i FROM Itenscomanda i WHERE i.totalitem = :totalitem")
-    , @NamedQuery(name = "Itenscomanda.findByDtreg", query = "SELECT i FROM Itenscomanda i WHERE i.dtreg = :dtreg")
-    , @NamedQuery(name = "Itenscomanda.findByHrreg", query = "SELECT i FROM Itenscomanda i WHERE i.hrreg = :hrreg")})
+    @NamedQuery(name = "Itenscomanda.findAll", query = "SELECT i FROM Itenscomanda i")})
 public class Itenscomanda implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,6 +38,9 @@ public class Itenscomanda implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @Column(nullable = false)
+    private int idcomanda;
+    @Basic(optional = false)
+    @Column(nullable = false)
     private int qnt;
     @Basic(optional = false)
     @Column(nullable = false)
@@ -51,25 +49,20 @@ public class Itenscomanda implements Serializable {
     private String dtreg;
     @Column(length = 15)
     private String hrreg;
-    @JoinColumn(name = "idcomanda", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
-    private Comanda idcomanda;
     @JoinColumn(name = "idproduto", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Itens idproduto;
 
     public Itenscomanda() {
-
-        super();
-    
     }
 
     public Itenscomanda(Integer id) {
         this.id = id;
     }
 
-    public Itenscomanda(Integer id, int qnt, double totalitem) {
+    public Itenscomanda(Integer id, int idcomanda, int qnt, double totalitem) {
         this.id = id;
+        this.idcomanda = idcomanda;
         this.qnt = qnt;
         this.totalitem = totalitem;
     }
@@ -80,6 +73,14 @@ public class Itenscomanda implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public int getIdcomanda() {
+        return idcomanda;
+    }
+
+    public void setIdcomanda(int idcomanda) {
+        this.idcomanda = idcomanda;
     }
 
     public int getQnt() {
@@ -114,14 +115,6 @@ public class Itenscomanda implements Serializable {
         this.hrreg = hrreg;
     }
 
-    public Comanda getIdcomanda() {
-        return idcomanda;
-    }
-
-    public void setIdcomanda(Comanda idcomanda) {
-        this.idcomanda = idcomanda;
-    }
-
     public Itens getIdproduto() {
         return idproduto;
     }
@@ -153,10 +146,6 @@ public class Itenscomanda implements Serializable {
     @Override
     public String toString() {
         return "br.com.vinibar.model.Itenscomanda[ id=" + id + " ]";
-    }
-
-    public void setIdcomanda(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

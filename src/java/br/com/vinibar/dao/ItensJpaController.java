@@ -7,6 +7,7 @@ package br.com.vinibar.dao;
 
 import br.com.vinibar.dao.exceptions.IllegalOrphanException;
 import br.com.vinibar.dao.exceptions.NonexistentEntityException;
+import br.com.vinibar.model.Itens;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -15,8 +16,6 @@ import javax.persistence.criteria.Root;
 import br.com.vinibar.model.Itenscomanda;
 import java.util.ArrayList;
 import java.util.List;
-import br.com.vinibar.model.Comanda;
-import br.com.vinibar.model.Itens;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -39,9 +38,6 @@ public class ItensJpaController implements Serializable {
         if (itens.getItenscomandaList() == null) {
             itens.setItenscomandaList(new ArrayList<Itenscomanda>());
         }
-        if (itens.getComandaList() == null) {
-            itens.setComandaList(new ArrayList<Comanda>());
-        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -52,12 +48,6 @@ public class ItensJpaController implements Serializable {
                 attachedItenscomandaList.add(itenscomandaListItenscomandaToAttach);
             }
             itens.setItenscomandaList(attachedItenscomandaList);
-            List<Comanda> attachedComandaList = new ArrayList<Comanda>();
-            for (Comanda comandaListComandaToAttach : itens.getComandaList()) {
-                comandaListComandaToAttach = em.getReference(comandaListComandaToAttach.getClass(), comandaListComandaToAttach.getId());
-                attachedComandaList.add(comandaListComandaToAttach);
-            }
-            itens.setComandaList(attachedComandaList);
             em.persist(itens);
             for (Itenscomanda itenscomandaListItenscomanda : itens.getItenscomandaList()) {
                 Itens oldIdprodutoOfItenscomandaListItenscomanda = itenscomandaListItenscomanda.getIdproduto();
@@ -66,15 +56,6 @@ public class ItensJpaController implements Serializable {
                 if (oldIdprodutoOfItenscomandaListItenscomanda != null) {
                     oldIdprodutoOfItenscomandaListItenscomanda.getItenscomandaList().remove(itenscomandaListItenscomanda);
                     oldIdprodutoOfItenscomandaListItenscomanda = em.merge(oldIdprodutoOfItenscomandaListItenscomanda);
-                }
-            }
-            for (Comanda comandaListComanda : itens.getComandaList()) {
-                Itens oldIditemOfComandaListComanda = comandaListComanda.getIditem();
-                comandaListComanda.setIditem(itens);
-                comandaListComanda = em.merge(comandaListComanda);
-                if (oldIditemOfComandaListComanda != null) {
-                    oldIditemOfComandaListComanda.getComandaList().remove(comandaListComanda);
-                    oldIditemOfComandaListComanda = em.merge(oldIditemOfComandaListComanda);
                 }
             }
             em.getTransaction().commit();
@@ -93,8 +74,6 @@ public class ItensJpaController implements Serializable {
             Itens persistentItens = em.find(Itens.class, itens.getId());
             List<Itenscomanda> itenscomandaListOld = persistentItens.getItenscomandaList();
             List<Itenscomanda> itenscomandaListNew = itens.getItenscomandaList();
-            List<Comanda> comandaListOld = persistentItens.getComandaList();
-            List<Comanda> comandaListNew = itens.getComandaList();
             List<String> illegalOrphanMessages = null;
             for (Itenscomanda itenscomandaListOldItenscomanda : itenscomandaListOld) {
                 if (!itenscomandaListNew.contains(itenscomandaListOldItenscomanda)) {
@@ -102,14 +81,6 @@ public class ItensJpaController implements Serializable {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
                     illegalOrphanMessages.add("You must retain Itenscomanda " + itenscomandaListOldItenscomanda + " since its idproduto field is not nullable.");
-                }
-            }
-            for (Comanda comandaListOldComanda : comandaListOld) {
-                if (!comandaListNew.contains(comandaListOldComanda)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Comanda " + comandaListOldComanda + " since its iditem field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -122,13 +93,6 @@ public class ItensJpaController implements Serializable {
             }
             itenscomandaListNew = attachedItenscomandaListNew;
             itens.setItenscomandaList(itenscomandaListNew);
-            List<Comanda> attachedComandaListNew = new ArrayList<Comanda>();
-            for (Comanda comandaListNewComandaToAttach : comandaListNew) {
-                comandaListNewComandaToAttach = em.getReference(comandaListNewComandaToAttach.getClass(), comandaListNewComandaToAttach.getId());
-                attachedComandaListNew.add(comandaListNewComandaToAttach);
-            }
-            comandaListNew = attachedComandaListNew;
-            itens.setComandaList(comandaListNew);
             itens = em.merge(itens);
             for (Itenscomanda itenscomandaListNewItenscomanda : itenscomandaListNew) {
                 if (!itenscomandaListOld.contains(itenscomandaListNewItenscomanda)) {
@@ -138,17 +102,6 @@ public class ItensJpaController implements Serializable {
                     if (oldIdprodutoOfItenscomandaListNewItenscomanda != null && !oldIdprodutoOfItenscomandaListNewItenscomanda.equals(itens)) {
                         oldIdprodutoOfItenscomandaListNewItenscomanda.getItenscomandaList().remove(itenscomandaListNewItenscomanda);
                         oldIdprodutoOfItenscomandaListNewItenscomanda = em.merge(oldIdprodutoOfItenscomandaListNewItenscomanda);
-                    }
-                }
-            }
-            for (Comanda comandaListNewComanda : comandaListNew) {
-                if (!comandaListOld.contains(comandaListNewComanda)) {
-                    Itens oldIditemOfComandaListNewComanda = comandaListNewComanda.getIditem();
-                    comandaListNewComanda.setIditem(itens);
-                    comandaListNewComanda = em.merge(comandaListNewComanda);
-                    if (oldIditemOfComandaListNewComanda != null && !oldIditemOfComandaListNewComanda.equals(itens)) {
-                        oldIditemOfComandaListNewComanda.getComandaList().remove(comandaListNewComanda);
-                        oldIditemOfComandaListNewComanda = em.merge(oldIditemOfComandaListNewComanda);
                     }
                 }
             }
@@ -188,13 +141,6 @@ public class ItensJpaController implements Serializable {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("This Itens (" + itens + ") cannot be destroyed since the Itenscomanda " + itenscomandaListOrphanCheckItenscomanda + " in its itenscomandaList field has a non-nullable idproduto field.");
-            }
-            List<Comanda> comandaListOrphanCheck = itens.getComandaList();
-            for (Comanda comandaListOrphanCheckComanda : comandaListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Itens (" + itens + ") cannot be destroyed since the Comanda " + comandaListOrphanCheckComanda + " in its comandaList field has a non-nullable iditem field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);

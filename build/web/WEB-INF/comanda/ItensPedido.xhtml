@@ -6,7 +6,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core">
 
-    <p:dataTable id="tb" var="tbl" value="#{beanAtendimento.lista}" rows="10" paginator="true" 
+    <p:dataTable id="tb" var="tbl" value="#{beanAtendimento.lista}"  paginator="false" emptyMessage="Não foram adionados itens na comanda"
                  selectionMode="single"   selection="#{beanAtendimento.item}"  rowKey="#{tbl.id}"> 
         <p:ajax event="rowSelect" update="frm"/>
         <f:facet name="header">
@@ -20,22 +20,23 @@
         </p:column>
 
         <p:column headerText="Valor unitário" >	
-            <h:outputText value="#{tbl.idproduto.preco}" />
+            <h:outputText value="R$ #{tbl.idproduto.preco}" />
         </p:column>
 
         <p:column headerText="Quantidade" >
-            <p:inputNumber  value="#{beanAtendimento.itscomanda.totalitem}" />
+            <h:outputText  value="#{tbl.qnt}" />
         </p:column >
 
         <p:column headerText="Valor total" >
-            <h:outputText value="R$ #{beanAtendimento.totalItens}"/>
+            <h:outputText value="R$ #{tbl.totalitem}"/>
         </p:column>
 
         <p:columnGroup type="footer">
             <p:row>
-                <p:column colspan="5" footerText="Subtotal" style="text-align: right" />
-                <p:column footerText="R$ 0,00" style="text-align: right" />
+                <p:column colspan="5" footerText="Subtotal:" style="text-align: right" />
+                <p:column footerText="R$ #{beanAtendimento.somaItens}" style="text-align: right" />
             </p:row>
+            
         </p:columnGroup>
     </p:dataTable>	
 </ui:composition>

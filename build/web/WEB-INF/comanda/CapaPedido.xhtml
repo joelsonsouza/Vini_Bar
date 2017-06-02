@@ -10,13 +10,13 @@
 
 
     <div class="ui-fluid">
-        <h:form> 
+        
         <p:panelGrid columns="5" layout="grid"
                      columnClasses="ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3,ui-grid-col-1"
                      styleClass="panelgrid-noborder">
            
             <p:outputLabel value="Número:" />
-            <p:inputText disabled="true" value="#{beanAtendimento.itscomanda.idcomanda}"/>
+            <p:inputText disabled="true" value="#{beanAtendimento.comanda.id}"/>
            
 
             <p:outputLabel for="dt" value="Data:" />
@@ -47,10 +47,11 @@
             </p:selectOneMenu>
             
             <p:outputLabel for="qn" value="Quantidade:" />
-            <p:inputNumber id="qn" required="true" requiredMessage="QUANTIDADE" value="#{beanAtendimento.itscomanda.qnt}"/>
-            
+            <p:spinner id="qn" value="#{beanAtendimento.itscomanda.qnt}" min="1" max="200" />
+ 
             <p:commandButton value="Adicionar" action="#{beanAtendimento.addItem()}" update="@(form)" process="@all"/>
         </p:panelGrid>
-    </h:form>
+            
+   
     </div>
 </ui:composition>

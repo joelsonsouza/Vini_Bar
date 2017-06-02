@@ -11,6 +11,7 @@ import br.com.vinibar.model.Funcionario;
 import br.com.vinibar.model.Itens;
 import br.com.vinibar.model.Itenscomanda;
 import br.com.vinibar.util.Log;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +26,6 @@ import javax.persistence.Persistence;
 @SessionScoped //deixa o os objetos instanciados até o fim do timeout da sessão
 @ManagedBean
 public class BeanAtendimento {
-    
 
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("Vini_BarPU");
     Log log = new Log();
@@ -33,22 +33,28 @@ public class BeanAtendimento {
     private List<Cliente> listaClientes = new ArrayList<>();
     private List<Itens> listaItens = new ArrayList<>();
     private List<Itenscomanda> lista = new ArrayList<>();
+    private List<Itenscomanda> somaItens;
     MessagesView msg = new MessagesView();
     Comanda comanda = new Comanda();
     Itens item = new Itens();
     Itenscomanda itscomanda = new Itenscomanda();
     double totalItens;
-    int idc;
+    int idc = 0, flag;
 
     @PostConstruct
     public void init() {
         listaFuncionarios = new FuncionarioJpaController(emf).findFuncionarioEntities();
         listaClientes = new ClienteJpaController(emf).findClienteEntities();
         listaItens = new ItensJpaController(emf).findItensEntities();
-        lista = new ItenscomandaJpaController(emf).findItenscomandaEntities();
+        somaItens = new ArrayList<>();
+        idc = 0;
+        lista = new ItenscomandaJpaController(emf).ItensPorComanda(idc);
         comanda = new Comanda();
-        comanda.setQnt(1);
         itscomanda = new Itenscomanda();
+        Date hoje = new Date();
+        comanda.setDtcomanda(hoje);
+        flag = 0;
+
     }
 
     public void abrir() {
@@ -56,53 +62,73 @@ public class BeanAtendimento {
         log.getPegaDataHoraAtual();
         comanda.setDtreg(log.getData1());
         comanda.setHrreg(log.getHora1());
-//        totalItens = comanda.getIditem().getPreco() * comanda.getQnt();
         if (comanda.getId() == null) {
             ComandaDao.getInstance().persist(comanda);
             msg.info("COMANDA ABERTA");
             idc = comanda.getId();
+            itscomanda.setQnt(1);
             log = new Log();
         } else {
             try {
                 ComandaDao.getInstance().merge(comanda);
                 msg.info("COMANDA ALTERADA");
+                itscomanda.setQnt(1);
                 idc = comanda.getId();
                 log = new Log();
             } catch (Exception ex) {
                 msg.info("FALHA NA ALTERAÇÃO");
             }
-        } 
+        }
     }
 
-
-    public void addItem()  {
+    public void addItem() {
         log.getPegaDataHoraAtual();
         itscomanda.setDtreg(log.getData1());
         itscomanda.setHrreg(log.getHora1());
-        //itscomanda.setIdcomanda(idc);
-        itscomanda.setIdcomanda(comanda.getId());
-        
-        totalItens = itscomanda.getIdproduto().getPreco() * itscomanda.getQnt();
-        itscomanda.setTotalitem(totalItens);
 
-        if (itscomanda.getId() == null) {
-            new ItenscomandaJpaController(emf).create(itscomanda);
-            msg.info("ITEM ADICIONADO");
-            itscomanda = new Itenscomanda();
-            lista = new ItenscomandaJpaController(emf).findItenscomandaEntities();
+        if (comanda.getId() == null) {
+            msg.error("A COMANDA NÃO FOI ABERTA");
         } else {
-            try {
-                new ItenscomandaJpaController(emf).edit(itscomanda);
-                msg.info("REGISTTRO ALTERADO");
-                lista = new ItenscomandaJpaController(emf).findItenscomandaEntities();
-            } catch (Exception ex) {
-                msg.info("FALHA NA ALTERAÇÃO");
+            itscomanda.setIdcomanda(comanda.getId());
+            if (itscomanda.getIdproduto() == null) {
+                msg.error("SELECIONE UM ITEM");
+            } else {
+                if (itscomanda.getId() == null) {
+                    totalItens = itscomanda.getIdproduto().getPreco() * itscomanda.getQnt();
+                    itscomanda.setTotalitem(totalItens);
+                    new ItenscomandaJpaController(emf).create(itscomanda);
+                    msg.info("ITEM ADICIONADO");
+                    flag = 1;
+                } else {
+                    try {
+                        totalItens = itscomanda.getIdproduto().getPreco() * itscomanda.getQnt();
+                        itscomanda.setTotalitem(totalItens);
+                        new ItenscomandaJpaController(emf).edit(itscomanda);
+                        msg.info("REGISTTRO ALTERADO");
+                    } catch (Exception ex) {
+                        msg.info("FALHA NA ALTERAÇÃO");
+                    }
+                }
+                lista = new ItenscomandaJpaController(emf).ItensPorComanda(idc);
+                somaItens = new ItenscomandaJpaController(emf).SomaValores(idc);
+                itscomanda = new Itenscomanda();
+                itscomanda.setQnt(1);
             }
         }
-        itscomanda = new Itenscomanda();
     }
 
-    
+    public void salvar() {
+
+        if (comanda.getId() == null) {
+            msg.error("A COMANDA NÃO FOI ABERTA");
+        }
+        if (flag == 0) {
+            msg.error("NÃO FORAM ADICIONADOS ITENS A COMANDA");
+        } else {
+            msg.info("COMANDA SALVA");
+            init();
+        }
+    }
 
     public void excluir() {
 
@@ -174,7 +200,12 @@ public class BeanAtendimento {
         this.itscomanda = itscomanda;
     }
 
-    
-    
+    public List<Itenscomanda> getSomaItens() {
+        return somaItens;
+    }
+
+    public void setSomaItens(List<Itenscomanda> somaItens) {
+        this.somaItens = somaItens;
+    }
 
 }

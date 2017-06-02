@@ -11,7 +11,6 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import br.com.vinibar.model.Comanda;
 import br.com.vinibar.model.Itens;
 import br.com.vinibar.model.Itenscomanda;
 import java.util.List;
@@ -38,21 +37,12 @@ public class ItenscomandaJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Comanda idcomanda = itenscomanda.getIdcomanda();
-            if (idcomanda != null) {
-                idcomanda = em.getReference(idcomanda.getClass(), idcomanda.getId());
-                itenscomanda.setIdcomanda(idcomanda);
-            }
             Itens idproduto = itenscomanda.getIdproduto();
             if (idproduto != null) {
                 idproduto = em.getReference(idproduto.getClass(), idproduto.getId());
                 itenscomanda.setIdproduto(idproduto);
             }
             em.persist(itenscomanda);
-            if (idcomanda != null) {
-                idcomanda.getItenscomandaList().add(itenscomanda);
-                idcomanda = em.merge(idcomanda);
-            }
             if (idproduto != null) {
                 idproduto.getItenscomandaList().add(itenscomanda);
                 idproduto = em.merge(idproduto);
@@ -71,27 +61,13 @@ public class ItenscomandaJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Itenscomanda persistentItenscomanda = em.find(Itenscomanda.class, itenscomanda.getId());
-            Comanda idcomandaOld = persistentItenscomanda.getIdcomanda();
-            Comanda idcomandaNew = itenscomanda.getIdcomanda();
             Itens idprodutoOld = persistentItenscomanda.getIdproduto();
             Itens idprodutoNew = itenscomanda.getIdproduto();
-            if (idcomandaNew != null) {
-                idcomandaNew = em.getReference(idcomandaNew.getClass(), idcomandaNew.getId());
-                itenscomanda.setIdcomanda(idcomandaNew);
-            }
             if (idprodutoNew != null) {
                 idprodutoNew = em.getReference(idprodutoNew.getClass(), idprodutoNew.getId());
                 itenscomanda.setIdproduto(idprodutoNew);
             }
             itenscomanda = em.merge(itenscomanda);
-            if (idcomandaOld != null && !idcomandaOld.equals(idcomandaNew)) {
-                idcomandaOld.getItenscomandaList().remove(itenscomanda);
-                idcomandaOld = em.merge(idcomandaOld);
-            }
-            if (idcomandaNew != null && !idcomandaNew.equals(idcomandaOld)) {
-                idcomandaNew.getItenscomandaList().add(itenscomanda);
-                idcomandaNew = em.merge(idcomandaNew);
-            }
             if (idprodutoOld != null && !idprodutoOld.equals(idprodutoNew)) {
                 idprodutoOld.getItenscomandaList().remove(itenscomanda);
                 idprodutoOld = em.merge(idprodutoOld);
@@ -128,11 +104,6 @@ public class ItenscomandaJpaController implements Serializable {
                 itenscomanda.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The itenscomanda with id " + id + " no longer exists.", enfe);
-            }
-            Comanda idcomanda = itenscomanda.getIdcomanda();
-            if (idcomanda != null) {
-                idcomanda.getItenscomandaList().remove(itenscomanda);
-                idcomanda = em.merge(idcomanda);
             }
             Itens idproduto = itenscomanda.getIdproduto();
             if (idproduto != null) {
@@ -193,5 +164,25 @@ public class ItenscomandaJpaController implements Serializable {
             em.close();
         }
     }
-    
+
+    public List<Itenscomanda> ItensPorComanda(int idcomanda) {
+        String jpql = "select f from Itenscomanda f where "
+                + "f.idcomanda = :id ";
+        Query q = getEntityManager().createQuery(jpql);
+
+        q.setParameter("id", idcomanda);
+
+        return q.getResultList();
+
+    }
+
+    public List<Itenscomanda> SomaValores(int idcomanda) {
+        String jpql = "select  SUM(f.totalitem) from Itenscomanda f where "
+                + "f.idcomanda = :id ";
+        Query q = getEntityManager().createQuery(jpql);
+
+        q.setParameter("id", idcomanda);
+
+        return q.getResultList();
+    }
 }
