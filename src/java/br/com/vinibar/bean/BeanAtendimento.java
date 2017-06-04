@@ -2,16 +2,17 @@ package br.com.vinibar.bean;
 
 import br.com.vinibar.dao.ClienteJpaController;
 import br.com.vinibar.dao.ComandaDao;
+import br.com.vinibar.dao.ComandaJpaController;
 import br.com.vinibar.dao.FuncionarioJpaController;
 import br.com.vinibar.dao.ItensJpaController;
 import br.com.vinibar.dao.ItenscomandaJpaController;
+import br.com.vinibar.dao.exceptions.NonexistentEntityException;
 import br.com.vinibar.model.Cliente;
 import br.com.vinibar.model.Comanda;
 import br.com.vinibar.model.Funcionario;
 import br.com.vinibar.model.Itens;
 import br.com.vinibar.model.Itenscomanda;
 import br.com.vinibar.util.Log;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,7 +40,7 @@ public class BeanAtendimento {
     Itens item = new Itens();
     Itenscomanda itscomanda = new Itenscomanda();
     double totalItens;
-    int idc = 0, flag;
+    int idc = 0, flag, pegaIditem=0;
 
     @PostConstruct
     public void init() {
@@ -58,14 +59,14 @@ public class BeanAtendimento {
     }
 
     public void abrir() {
-
+        itscomanda = new Itenscomanda();
         log.getPegaDataHoraAtual();
         comanda.setDtreg(log.getData1());
         comanda.setHrreg(log.getHora1());
-        if (comanda.getId() == null) {
+        if (comanda.getIdcomanda() == null) {
             ComandaDao.getInstance().persist(comanda);
             msg.info("COMANDA ABERTA");
-            idc = comanda.getId();
+            idc = comanda.getIdcomanda();
             itscomanda.setQnt(1);
             log = new Log();
         } else {
@@ -73,7 +74,7 @@ public class BeanAtendimento {
                 ComandaDao.getInstance().merge(comanda);
                 msg.info("COMANDA ALTERADA");
                 itscomanda.setQnt(1);
-                idc = comanda.getId();
+                idc = comanda.getIdcomanda();
                 log = new Log();
             } catch (Exception ex) {
                 msg.info("FALHA NA ALTERAÇÃO");
@@ -82,23 +83,24 @@ public class BeanAtendimento {
     }
 
     public void addItem() {
+        
         log.getPegaDataHoraAtual();
         itscomanda.setDtreg(log.getData1());
         itscomanda.setHrreg(log.getHora1());
 
-        if (comanda.getId() == null) {
+        if (comanda.getIdcomanda() == null) {
             msg.error("A COMANDA NÃO FOI ABERTA");
         } else {
-            itscomanda.setIdcomanda(comanda.getId());
+            itscomanda.setIdcomanda(comanda.getIdcomanda());
             if (itscomanda.getIdproduto() == null) {
                 msg.error("SELECIONE UM ITEM");
             } else {
-                if (itscomanda.getId() == null) {
+                if (itscomanda.getIditenscomanda() == null) {
                     totalItens = itscomanda.getIdproduto().getPreco() * itscomanda.getQnt();
                     itscomanda.setTotalitem(totalItens);
                     new ItenscomandaJpaController(emf).create(itscomanda);
                     msg.info("ITEM ADICIONADO");
-                    flag = 1;
+                    flag = 1;//ANALIZAR FLAG
                 } else {
                     try {
                         totalItens = itscomanda.getIdproduto().getPreco() * itscomanda.getQnt();
@@ -119,7 +121,7 @@ public class BeanAtendimento {
 
     public void salvar() {
 
-        if (comanda.getId() == null) {
+        if (comanda.getIdcomanda() == null) {
             msg.error("A COMANDA NÃO FOI ABERTA");
         }
         if (flag == 0) {
@@ -130,10 +132,40 @@ public class BeanAtendimento {
         }
     }
 
-    public void excluir() {
-
+    public void excluirItem() {
+        
+        if (itscomanda.getIditenscomanda() != null) {
+            try {
+                new ItenscomandaJpaController(emf).destroy(itscomanda.getIditenscomanda());
+                msg.info("REGISTRO EXCLUÍDO");
+                itscomanda = new Itenscomanda();
+                lista = new ItenscomandaJpaController(emf).ItensPorComanda(idc);
+                somaItens = new ItenscomandaJpaController(emf).SomaValores(idc);
+            } catch (NonexistentEntityException ex) {
+                msg.error("FALHA NA EXCLUSÃO");
+            }
+        } else {
+            msg.info("SELECIONE UM ITEM");
+        }
     }
 
+    public void excluir() {
+        itscomanda.setIdcomanda(idc);
+        if (comanda.getIdcomanda() != null) {
+            try {
+                new ComandaJpaController(emf).destroy(comanda.getIdcomanda());
+                msg.info("COMANDA CANCELADA");
+            } catch (NonexistentEntityException ex) {
+                msg.info("FALHA NA EXCLUSÃO");
+            }
+            itscomanda.setIdcomanda(idc);
+            if (idc != 0) {
+                new ItenscomandaJpaController(emf).excluirPorIdComanda(idc);
+                //msg.info("REGISTRO EXCLUÍDO");
+            }
+        }
+        init();
+    }
 
     /* -----------GETTER E SETTERS-----------*/
     public List<Funcionario> getListaFuncionarios() {
@@ -207,5 +239,15 @@ public class BeanAtendimento {
     public void setSomaItens(List<Itenscomanda> somaItens) {
         this.somaItens = somaItens;
     }
+
+    public int getPegaIditem() {
+        return pegaIditem;
+    }
+
+    public void setPegaIditem(int pegaIditem) {
+        this.pegaIditem = pegaIditem;
+    }
+    
+    
 
 }

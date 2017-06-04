@@ -70,7 +70,7 @@ public class ComandaJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Comanda persistentComanda = em.find(Comanda.class, comanda.getId());
+            Comanda persistentComanda = em.find(Comanda.class, comanda.getIdcomanda());
             Cliente idclienteOld = persistentComanda.getIdcliente();
             Cliente idclienteNew = comanda.getIdcliente();
             Funcionario idfuncionarioOld = persistentComanda.getIdfuncionario();
@@ -104,7 +104,7 @@ public class ComandaJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = comanda.getId();
+                Integer id = comanda.getIdcomanda();
                 if (findComanda(id) == null) {
                     throw new NonexistentEntityException("The comanda with id " + id + " no longer exists.");
                 }
@@ -125,7 +125,7 @@ public class ComandaJpaController implements Serializable {
             Comanda comanda;
             try {
                 comanda = em.getReference(Comanda.class, id);
-                comanda.getId();
+                comanda.getIdcomanda();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The comanda with id " + id + " no longer exists.", enfe);
             }

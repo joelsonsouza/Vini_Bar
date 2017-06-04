@@ -38,7 +38,7 @@ public class Comanda implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
-    private Integer id;
+    private Integer idcomanda;
     @Basic(optional = false)
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
@@ -63,22 +63,22 @@ public class Comanda implements Serializable {
     }
 
     public Comanda(Integer id) {
-        this.id = id;
+        this.idcomanda = id;
     }
 
     public Comanda(Integer id, Date dtcomanda, String dtreg, String hrreg) {
-        this.id = id;
+        this.idcomanda = id;
         this.dtcomanda = dtcomanda;
         this.dtreg = dtreg;
         this.hrreg = hrreg;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getIdcomanda() {
+        return idcomanda;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdcomanda(Integer idcomanda) {
+        this.idcomanda = idcomanda;
     }
 
     public Date getDtcomanda() {
@@ -132,7 +132,7 @@ public class Comanda implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (idcomanda != null ? idcomanda.hashCode() : 0);
         return hash;
     }
 
@@ -143,7 +143,7 @@ public class Comanda implements Serializable {
             return false;
         }
         Comanda other = (Comanda) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.idcomanda == null && other.idcomanda != null) || (this.idcomanda != null && !this.idcomanda.equals(other.idcomanda))) {
             return false;
         }
         return true;
@@ -151,7 +151,7 @@ public class Comanda implements Serializable {
 
     @Override
     public String toString() {
-        return "br.com.vinibar.model.Comanda[ id=" + id + " ]";
+        return "br.com.vinibar.model.Comanda[ id=" + idcomanda + " ]";
     }
     
 }

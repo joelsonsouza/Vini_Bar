@@ -35,7 +35,7 @@ public class Itenscomanda implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
-    private Integer id;
+    private Integer iditenscomanda;
     @Basic(optional = false)
     @Column(nullable = false)
     private int idcomanda;
@@ -57,22 +57,22 @@ public class Itenscomanda implements Serializable {
     }
 
     public Itenscomanda(Integer id) {
-        this.id = id;
+        this.iditenscomanda = id;
     }
 
     public Itenscomanda(Integer id, int idcomanda, int qnt, double totalitem) {
-        this.id = id;
+        this.iditenscomanda = id;
         this.idcomanda = idcomanda;
         this.qnt = qnt;
         this.totalitem = totalitem;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getIditenscomanda() {
+        return iditenscomanda;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIditenscomanda(Integer iditenscomanda) {
+        this.iditenscomanda = iditenscomanda;
     }
 
     public int getIdcomanda() {
@@ -126,7 +126,7 @@ public class Itenscomanda implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (iditenscomanda != null ? iditenscomanda.hashCode() : 0);
         return hash;
     }
 
@@ -137,7 +137,7 @@ public class Itenscomanda implements Serializable {
             return false;
         }
         Itenscomanda other = (Itenscomanda) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.iditenscomanda == null && other.iditenscomanda != null) || (this.iditenscomanda != null && !this.iditenscomanda.equals(other.iditenscomanda))) {
             return false;
         }
         return true;
@@ -145,7 +145,7 @@ public class Itenscomanda implements Serializable {
 
     @Override
     public String toString() {
-        return "br.com.vinibar.model.Itenscomanda[ id=" + id + " ]";
+        return "br.com.vinibar.model.Itenscomanda[ id=" + iditenscomanda + " ]";
     }
     
 }

@@ -69,7 +69,7 @@ public class ComandaDao {
           public void remove(Comanda comanda) {
                     try {
                              entityManager.getTransaction().begin();
-                             comanda = entityManager.find(Comanda.class, comanda.getId());
+                             comanda = entityManager.find(Comanda.class, comanda.getIdcomanda());
                              entityManager.remove(comanda);
                              entityManager.getTransaction().commit();
                     } catch (Exception ex) {

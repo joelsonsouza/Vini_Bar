@@ -44,7 +44,7 @@ public class FuncionarioJpaController implements Serializable {
             em.getTransaction().begin();
             List<Comanda> attachedComandaList = new ArrayList<Comanda>();
             for (Comanda comandaListComandaToAttach : funcionario.getComandaList()) {
-                comandaListComandaToAttach = em.getReference(comandaListComandaToAttach.getClass(), comandaListComandaToAttach.getId());
+                comandaListComandaToAttach = em.getReference(comandaListComandaToAttach.getClass(), comandaListComandaToAttach.getIdcomanda());
                 attachedComandaList.add(comandaListComandaToAttach);
             }
             funcionario.setComandaList(attachedComandaList);
@@ -88,7 +88,7 @@ public class FuncionarioJpaController implements Serializable {
             }
             List<Comanda> attachedComandaListNew = new ArrayList<Comanda>();
             for (Comanda comandaListNewComandaToAttach : comandaListNew) {
-                comandaListNewComandaToAttach = em.getReference(comandaListNewComandaToAttach.getClass(), comandaListNewComandaToAttach.getId());
+                comandaListNewComandaToAttach = em.getReference(comandaListNewComandaToAttach.getClass(), comandaListNewComandaToAttach.getIdcomanda());
                 attachedComandaListNew.add(comandaListNewComandaToAttach);
             }
             comandaListNew = attachedComandaListNew;

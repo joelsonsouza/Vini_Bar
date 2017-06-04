@@ -44,7 +44,7 @@ public class ClienteJpaController implements Serializable {
             em.getTransaction().begin();
             List<Comanda> attachedComandaList = new ArrayList<Comanda>();
             for (Comanda comandaListComandaToAttach : cliente.getComandaList()) {
-                comandaListComandaToAttach = em.getReference(comandaListComandaToAttach.getClass(), comandaListComandaToAttach.getId());
+                comandaListComandaToAttach = em.getReference(comandaListComandaToAttach.getClass(), comandaListComandaToAttach.getIdcomanda());
                 attachedComandaList.add(comandaListComandaToAttach);
             }
             cliente.setComandaList(attachedComandaList);
@@ -88,7 +88,7 @@ public class ClienteJpaController implements Serializable {
             }
             List<Comanda> attachedComandaListNew = new ArrayList<Comanda>();
             for (Comanda comandaListNewComandaToAttach : comandaListNew) {
-                comandaListNewComandaToAttach = em.getReference(comandaListNewComandaToAttach.getClass(), comandaListNewComandaToAttach.getId());
+                comandaListNewComandaToAttach = em.getReference(comandaListNewComandaToAttach.getClass(), comandaListNewComandaToAttach.getIdcomanda());
                 attachedComandaListNew.add(comandaListNewComandaToAttach);
             }
             comandaListNew = attachedComandaListNew;

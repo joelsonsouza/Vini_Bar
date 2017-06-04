@@ -44,7 +44,7 @@ public class ItensJpaController implements Serializable {
             em.getTransaction().begin();
             List<Itenscomanda> attachedItenscomandaList = new ArrayList<Itenscomanda>();
             for (Itenscomanda itenscomandaListItenscomandaToAttach : itens.getItenscomandaList()) {
-                itenscomandaListItenscomandaToAttach = em.getReference(itenscomandaListItenscomandaToAttach.getClass(), itenscomandaListItenscomandaToAttach.getId());
+                itenscomandaListItenscomandaToAttach = em.getReference(itenscomandaListItenscomandaToAttach.getClass(), itenscomandaListItenscomandaToAttach.getIditenscomanda());
                 attachedItenscomandaList.add(itenscomandaListItenscomandaToAttach);
             }
             itens.setItenscomandaList(attachedItenscomandaList);
@@ -88,7 +88,7 @@ public class ItensJpaController implements Serializable {
             }
             List<Itenscomanda> attachedItenscomandaListNew = new ArrayList<Itenscomanda>();
             for (Itenscomanda itenscomandaListNewItenscomandaToAttach : itenscomandaListNew) {
-                itenscomandaListNewItenscomandaToAttach = em.getReference(itenscomandaListNewItenscomandaToAttach.getClass(), itenscomandaListNewItenscomandaToAttach.getId());
+                itenscomandaListNewItenscomandaToAttach = em.getReference(itenscomandaListNewItenscomandaToAttach.getClass(), itenscomandaListNewItenscomandaToAttach.getIditenscomanda());
                 attachedItenscomandaListNew.add(itenscomandaListNewItenscomandaToAttach);
             }
             itenscomandaListNew = attachedItenscomandaListNew;

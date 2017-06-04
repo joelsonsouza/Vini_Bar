@@ -60,7 +60,7 @@ public class ItenscomandaJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Itenscomanda persistentItenscomanda = em.find(Itenscomanda.class, itenscomanda.getId());
+            Itenscomanda persistentItenscomanda = em.find(Itenscomanda.class, itenscomanda.getIditenscomanda());
             Itens idprodutoOld = persistentItenscomanda.getIdproduto();
             Itens idprodutoNew = itenscomanda.getIdproduto();
             if (idprodutoNew != null) {
@@ -80,7 +80,7 @@ public class ItenscomandaJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = itenscomanda.getId();
+                Integer id = itenscomanda.getIditenscomanda();
                 if (findItenscomanda(id) == null) {
                     throw new NonexistentEntityException("The itenscomanda with id " + id + " no longer exists.");
                 }
@@ -101,7 +101,7 @@ public class ItenscomandaJpaController implements Serializable {
             Itenscomanda itenscomanda;
             try {
                 itenscomanda = em.getReference(Itenscomanda.class, id);
-                itenscomanda.getId();
+                itenscomanda.getIditenscomanda();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The itenscomanda with id " + id + " no longer exists.", enfe);
             }
@@ -184,5 +184,16 @@ public class ItenscomandaJpaController implements Serializable {
         q.setParameter("id", idcomanda);
 
         return q.getResultList();
+    }
+    
+    public void excluirPorIdComanda(int idcomanda) {
+        
+        String jpql = "delete from Itenscomanda f where "
+                + "f.idcomanda = :id ";
+        Query q = getEntityManager().createQuery(jpql);
+
+        q.setParameter("id", idcomanda);
+
+        
     }
 }

@@ -2,16 +2,23 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
 
 
     <p:toolbar style="margin-top: 20px;">
         <p:toolbarGroup>
             <p:commandButton value="Novo"  style="width:80px;"  action="#{beanAtendimento.init()}" update="@(form)" process="@this" />             
             <p:commandButton value="Salvar" style="width:80px"  action="#{beanAtendimento.salvar()}" update="@(form)" process="@this" />             
-            <p:commandButton value="Cancelar" style="width:80px" action="#{beanAtendimento.init()}" update="@(form)" process="@this" /> <!--Excluir-->
+            <p:commandButton value="Cancelar" style="width:80px" action="#{beanAtendimento.excluir()}" update="@(form)" process="@all" >
+                <p:confirm header="Excluir registro" message="Esta ação excluirá a comanda!Confirmar?" icon="ui-icon-alert" />
+            </p:commandButton> <!--Excluir-->
             <p:commandButton value="Pesquisar" style="width:80px;" />
         </p:toolbarGroup>
     </p:toolbar>
-
+    <!--*******************************************CONFIRM DIALOG***********************************************************-->
+    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
+        <p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />              
+        <p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    </p:confirmDialog>
 </ui:composition>
