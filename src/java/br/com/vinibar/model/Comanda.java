@@ -7,7 +7,9 @@ package br.com.vinibar.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,10 +19,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,7 +34,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(catalog = "barbearia", schema = "public")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Comanda.findAll", query = "SELECT c FROM Comanda c")})
+    @NamedQuery(name = "Comanda.findAll", query = "SELECT c FROM Comanda c")
+    , @NamedQuery(name = "Comanda.findByIdcomanda", query = "SELECT c FROM Comanda c WHERE c.idcomanda = :idcomanda")
+    , @NamedQuery(name = "Comanda.findByDtcomanda", query = "SELECT c FROM Comanda c WHERE c.dtcomanda = :dtcomanda")
+    , @NamedQuery(name = "Comanda.findByDesconto", query = "SELECT c FROM Comanda c WHERE c.desconto = :desconto")
+    , @NamedQuery(name = "Comanda.findByDtreg", query = "SELECT c FROM Comanda c WHERE c.dtreg = :dtreg")
+    , @NamedQuery(name = "Comanda.findByHrreg", query = "SELECT c FROM Comanda c WHERE c.hrreg = :hrreg")
+    , @NamedQuery(name = "Comanda.ComandaAberta", query = "SELECT co FROM Comanda co  WHERE co.status='ABERTA'")
+    , @NamedQuery(name = "Comanda.update", query = "UPDATE  Comanda c SET c.status = :st WHERE c.idcomanda = :idcomanda")
+    , @NamedQuery(name = "Comanda.findBySalva", query = "SELECT c FROM Comanda c WHERE c.salva = :salva")})
 public class Comanda implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,22 +64,26 @@ public class Comanda implements Serializable {
     @Basic(optional = false)
     @Column(nullable = false, length = 15)
     private String hrreg;
+    private Boolean salva;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idcomanda")
+    private List<Caixa> caixaList;
     @JoinColumn(name = "idcliente", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Cliente idcliente;
     @JoinColumn(name = "idfuncionario", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Funcionario idfuncionario;
+    private String status;
 
     public Comanda() {
     }
 
-    public Comanda(Integer id) {
-        this.idcomanda = id;
+    public Comanda(Integer idcomanda) {
+        this.idcomanda = idcomanda;
     }
 
-    public Comanda(Integer id, Date dtcomanda, String dtreg, String hrreg) {
-        this.idcomanda = id;
+    public Comanda(Integer idcomanda, Date dtcomanda, String dtreg, String hrreg) {
+        this.idcomanda = idcomanda;
         this.dtcomanda = dtcomanda;
         this.dtreg = dtreg;
         this.hrreg = hrreg;
@@ -113,6 +129,23 @@ public class Comanda implements Serializable {
         this.hrreg = hrreg;
     }
 
+    public Boolean getSalva() {
+        return salva;
+    }
+
+    public void setSalva(Boolean salva) {
+        this.salva = salva;
+    }
+
+    @XmlTransient
+    public List<Caixa> getCaixaList() {
+        return caixaList;
+    }
+
+    public void setCaixaList(List<Caixa> caixaList) {
+        this.caixaList = caixaList;
+    }
+
     public Cliente getIdcliente() {
         return idcliente;
     }
@@ -127,6 +160,14 @@ public class Comanda implements Serializable {
 
     public void setIdfuncionario(Funcionario idfuncionario) {
         this.idfuncionario = idfuncionario;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override
@@ -151,7 +192,7 @@ public class Comanda implements Serializable {
 
     @Override
     public String toString() {
-        return "br.com.vinibar.model.Comanda[ id=" + idcomanda + " ]";
+        return "br.com.vinibar.model.Comanda[ idcomanda=" + idcomanda + " ]";
     }
-    
+
 }

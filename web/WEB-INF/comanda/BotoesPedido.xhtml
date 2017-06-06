@@ -8,9 +8,9 @@
 
     <p:toolbar style="margin-top: 20px;">
         <p:toolbarGroup>
-            <p:commandButton value="Novo"  style="width:80px;"  action="#{beanAtendimento.init()}" update="@(form)" process="@this" />             
-            <p:commandButton value="Salvar" style="width:80px"  action="#{beanAtendimento.salvar()}" update="@(form)" process="@this" />             
-            <p:commandButton value="Cancelar" style="width:80px" action="#{beanAtendimento.excluir()}" update="@(form)" process="@all" >
+            <p:commandButton value="Novo"  style="width:80px;"  action="#{beanComanda.init()}" update="@(form)" process="@this" />             
+            <p:commandButton value="Salvar" style="width:80px"  action="#{beanComanda.salvar()}" update="@(form)" process="@this" />             
+            <p:commandButton value="Cancelar" style="width:80px" action="#{beanComanda.excluir()}" update="@(form)" process="@all" >
                 <p:confirm header="Excluir registro" message="Esta ação excluirá a comanda!Confirmar?" icon="ui-icon-alert" />
             </p:commandButton> <!--Excluir-->
             <p:commandButton value="Pesquisar" style="width:80px;" />

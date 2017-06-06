@@ -30,7 +30,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(catalog = "barbearia", schema = "public")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Despesas.findAll", query = "SELECT d FROM Despesas d")})
+    @NamedQuery(name = "Despesas.findAll", query = "SELECT d FROM Despesas d")
+    , @NamedQuery(name = "Despesas.findById", query = "SELECT d FROM Despesas d WHERE d.id = :id")
+    , @NamedQuery(name = "Despesas.findByDescricao", query = "SELECT d FROM Despesas d WHERE d.descricao = :descricao")
+    , @NamedQuery(name = "Despesas.findByDtdespesa", query = "SELECT d FROM Despesas d WHERE d.dtdespesa = :dtdespesa")
+    , @NamedQuery(name = "Despesas.findByValor", query = "SELECT d FROM Despesas d WHERE d.valor = :valor")
+    , @NamedQuery(name = "Despesas.findByDtreg", query = "SELECT d FROM Despesas d WHERE d.dtreg = :dtreg")
+    , @NamedQuery(name = "Despesas.findByHrreg", query = "SELECT d FROM Despesas d WHERE d.hrreg = :hrreg")
+    , @NamedQuery(name = "Despesas.findByPago", query = "SELECT d FROM Despesas d WHERE d.pago = :pago")})
 public class Despesas implements Serializable {
 
     private static final long serialVersionUID = 1L;

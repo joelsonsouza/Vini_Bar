@@ -31,6 +31,7 @@
                         <f:selectItem itemValue="" itemLabel="SELECIONE"/>
                         <f:selectItem itemValue="SERVIÇO" itemLabel="SERVIÇO"/>
                         <f:selectItem itemValue="PRODUTO" itemLabel="PRUDUTO"/>          
+                        <f:selectItem itemValue="PROMOÇÃO" itemLabel="PROMOÇÃO"/>          
                     </p:selectOneMenu> 
                     <p:outputLabel value="Un. Medida:" for="un"/>
                     <p:selectOneMenu id="un" filter="false" value="#{beanItens.itens.medida}">
@@ -65,11 +66,11 @@
                 <p:column  headerText="Nome" filterBy="#{tbl.descricao}" sortBy="#{tbl.descricao}">
                     <h:outputText value="#{tbl.descricao}" />
                 </p:column>
-                <p:column  headerText="Tipo">
+                <p:column  headerText="Tipo" style="text-align: center">
                     <h:outputText value="#{tbl.tipo}" />
                 </p:column>
-                <p:column  headerText="Preço">
-                    <h:outputText value="#{tbl.preco}" />
+                <p:column  headerText="Preço" style="text-align: center">
+                    <h:outputText value="R$ #{tbl.preco}" />
                 </p:column>
             </p:dataTable>
             <!--*******************************************CONFIRM DIALOG***********************************************************-->

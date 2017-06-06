@@ -25,6 +25,8 @@
     <class>br.com.vinibar.model.Cliente_1</class>
     <class>br.com.vinibar.model.Itenscomanda</class>
     <class>br.com.vinibar.model.exceptions.Itenscomanda</class>
+    <class>br.com.vinibar.model.Caixa</class>
+    <class>br.com.vinibar.model.exceptions.Caixa</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/barbearia"/>

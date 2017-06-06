@@ -27,7 +27,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(catalog = "barbearia", schema = "public")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Itenscomanda.findAll", query = "SELECT i FROM Itenscomanda i")})
+    @NamedQuery(name = "Itenscomanda.findAll", query = "SELECT i FROM Itenscomanda i")
+    , @NamedQuery(name = "Itenscomanda.findByIditenscomanda", query = "SELECT i FROM Itenscomanda i WHERE i.iditenscomanda = :iditenscomanda")
+    , @NamedQuery(name = "Itenscomanda.findByIdcomanda", query = "SELECT i FROM Itenscomanda i WHERE i.idcomanda = :idcomanda")
+    , @NamedQuery(name = "Itenscomanda.findByQnt", query = "SELECT i FROM Itenscomanda i WHERE i.qnt = :qnt")
+    , @NamedQuery(name = "Itenscomanda.findByTotalitem", query = "SELECT i FROM Itenscomanda i WHERE i.totalitem = :totalitem")
+    , @NamedQuery(name = "Itenscomanda.findByDtreg", query = "SELECT i FROM Itenscomanda i WHERE i.dtreg = :dtreg")
+    , @NamedQuery(name = "Itenscomanda.findByHrreg", query = "SELECT i FROM Itenscomanda i WHERE i.hrreg = :hrreg")})
 public class Itenscomanda implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,12 +62,12 @@ public class Itenscomanda implements Serializable {
     public Itenscomanda() {
     }
 
-    public Itenscomanda(Integer id) {
-        this.iditenscomanda = id;
+    public Itenscomanda(Integer iditenscomanda) {
+        this.iditenscomanda = iditenscomanda;
     }
 
-    public Itenscomanda(Integer id, int idcomanda, int qnt, double totalitem) {
-        this.iditenscomanda = id;
+    public Itenscomanda(Integer iditenscomanda, int idcomanda, int qnt, double totalitem) {
+        this.iditenscomanda = iditenscomanda;
         this.idcomanda = idcomanda;
         this.qnt = qnt;
         this.totalitem = totalitem;
@@ -145,7 +151,7 @@ public class Itenscomanda implements Serializable {
 
     @Override
     public String toString() {
-        return "br.com.vinibar.model.Itenscomanda[ id=" + iditenscomanda + " ]";
+        return "br.com.vinibar.model.Itenscomanda[ iditenscomanda=" + iditenscomanda + " ]";
     }
     
 }

@@ -6,8 +6,8 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core">
 
-    <p:dataTable id="tb" var="tbl" value="#{beanAtendimento.lista}"  paginator="false" emptyMessage="Não foram adionados itens na comanda" style="text-align: center" > 
-                 <!--selectionMode="single"   selection="#{beanAtendimento.itscomanda}"  rowKey="#{tbl.iditenscomanda}">--> 
+    <p:dataTable id="tb" var="tbl" value="#{beanComanda.lista}"  paginator="false" emptyMessage="Não foram adionados itens na comanda" style="text-align: center" > 
+                 <!--selectionMode="single"   selection="#{beanComanda.itenscomanda}"  rowKey="#{tbl.iditenscomanda}">--> 
         <p:ajax event="rowSelect" update="frm"/>
         <f:facet name="header">
             <p:outputPanel>
@@ -36,8 +36,8 @@
         </p:column>
         <!--*******************************************EXCLUIR***********************************************************-->
         <p:column width="25">
-            <p:commandButton  icon="ui-icon-trash" title="Excluir Registro" oncomplete="#{beanAtendimento.excluirItem()}" update="@(form)" process="@all" style="color:#FF0000;background-color:#FFFFFF"> <!--process="@all" update="@form"-->
-                <!--<f:setPropertyActionListener value="#{itscomanda}" target="#{beanAtendimento.itscomanda}"/>-->
+            <p:commandButton  icon="ui-icon-trash" title="Excluir Registro" oncomplete="#{beanComanda.excluirItem()}" update="@(form)" process="@all" style="color:#FF0000;background-color:#FFFFFF"> <!--process="@all" update="@form"-->
+                <!--<f:setPropertyActionListener value="#{itscomanda}" target="#{beanComanda.itenscomanda}"/>-->
                 <p:confirm header="" message="Exluir registro?" icon="ui-icon-alert" />
             </p:commandButton>
         </p:column>
@@ -45,7 +45,7 @@
         <p:columnGroup type="footer">
             <p:row>
                 <p:column colspan="5" footerText="Subtotal:" style="text-align: right" />
-                <p:column colspan="2" footerText="R$ #{beanAtendimento.somaItens}" style="text-align: center" />
+                <p:column colspan="2" footerText="R$ #{beanComanda.somaItens}" style="text-align: center" />
             </p:row>
 
         </p:columnGroup>

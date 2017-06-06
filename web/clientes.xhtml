@@ -41,7 +41,7 @@
                         <p:inputMask id="telefone" mask="(99)9999-9999" value="#{beanCliente.cliente.telefone}"/>  
 
                         <p:outputLabel for="celular" value="Celular:"/>
-                        <p:inputMask id="celular" mask="(99)99999-9999" value="#{beanCliente.cliente.celular}"/> 
+                        <p:inputMask id="celular" mask="(99)99999-9999" required="true" requiredMessage="CELULAR" value="#{beanCliente.cliente.celular}"/> 
 
                         <p:outputLabel for="email" value="Email:"/>
                         <p:inputText id="email" value="#{beanCliente.cliente.email}" placeholder="exemplo@exemplo.com"/> 

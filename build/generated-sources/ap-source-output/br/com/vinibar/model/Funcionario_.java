@@ -1,5 +1,6 @@
 package br.com.vinibar.model;
 
+import br.com.vinibar.model.Caixa;
 import br.com.vinibar.model.Comanda;
 import java.util.Date;
 import javax.annotation.Generated;
@@ -7,7 +8,7 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-06-01T14:47:31")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-06-06T02:20:13")
 @StaticMetamodel(Funcionario.class)
 public class Funcionario_ { 
 
@@ -16,6 +17,7 @@ public class Funcionario_ {
     public static volatile SingularAttribute<Funcionario, String> cidade;
     public static volatile SingularAttribute<Funcionario, Boolean> ativo;
     public static volatile SingularAttribute<Funcionario, Integer> numero;
+    public static volatile ListAttribute<Funcionario, Caixa> caixaList;
     public static volatile SingularAttribute<Funcionario, String> conta;
     public static volatile SingularAttribute<Funcionario, String> agencia;
     public static volatile SingularAttribute<Funcionario, String> cep;

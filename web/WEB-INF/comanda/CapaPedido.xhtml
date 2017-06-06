@@ -16,40 +16,40 @@
                      styleClass="panelgrid-noborder">
            
             <p:outputLabel value="Número:" />
-            <p:inputText disabled="true" value="#{beanAtendimento.comanda.idcomanda}"/>
+            <p:inputText disabled="true" value="#{beanComanda.comanda.idcomanda}"/>
            
 
             <p:outputLabel for="dt" value="Data:" />
-            <p:calendar id="dt" required="true" requiredMessage="DATA" value="#{beanAtendimento.comanda.dtcomanda}"/>
+            <p:calendar id="dt" required="true" requiredMessage="DATA" value="#{beanComanda.comanda.dtcomanda}"/>
             <p:outputLabel/>
 
             <p:outputLabel value="Funcionário:" for="fun"/>
-            <p:selectOneMenu id="fun" filter="true" converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="FUNCIONÁRIO" value="#{beanAtendimento.comanda.idfuncionario}">
+            <p:selectOneMenu id="fun" filter="true" converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="FUNCIONÁRIO" value="#{beanComanda.comanda.idfuncionario}">
                 <f:selectItem itemLabel="SELECIONE" itemValue="" />
-                <f:selectItems value="#{beanAtendimento.listaFuncionarios}" var="fun"
+                <f:selectItems value="#{beanComanda.listaFuncionarios}" var="fun"
                                itemValue="#{nome}" itemLabel="#{fun.nome}" />
             </p:selectOneMenu>
             
             <p:outputLabel value="Cliente:" for="cliente"/>
-            <p:selectOneMenu id="cliente" filter="true" converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="CLIENTE" value="#{beanAtendimento.comanda.idcliente}">
+            <p:selectOneMenu id="cliente" filter="true" converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="CLIENTE" value="#{beanComanda.comanda.idcliente}">
                 <f:selectItem itemLabel="SELECIONE" itemValue="" />
-                <f:selectItems value="#{beanAtendimento.listaClientes}" var="cli"
+                <f:selectItems value="#{beanComanda.listaClientes}" var="cli"
                                itemValue="#{nome}" itemLabel="#{cli.nome}" />
             </p:selectOneMenu>
-            <p:commandButton value="Abrir" action="#{beanAtendimento.abrir()}"  update="@(form)" process="@all" /> 
+            <p:commandButton value="Abrir" action="#{beanComanda.abrir()}"  update="@(form)" process="@all" /> 
   
             
             <p:outputLabel value="Item" for="it"/>
-            <p:selectOneMenu id="it" filter="true" converter="omnifaces.SelectItemsConverter" required="false" requiredMessage="ITEM" value="#{beanAtendimento.itscomanda.idproduto}">
+            <p:selectOneMenu id="it" filter="true" converter="omnifaces.SelectItemsConverter" required="false" requiredMessage="ITEM" value="#{beanComanda.itenscomanda.idproduto}">
                 <f:selectItem itemLabel="SELECIONE" itemValue="" />
-                <f:selectItems value="#{beanAtendimento.listaItens}" var="it"
+                <f:selectItems value="#{beanComanda.listaItens}" var="it"
                                itemValue="#{descricao}" itemLabel="#{it.descricao}" />
             </p:selectOneMenu>
             
             <p:outputLabel for="qn" value="Quantidade:" />
-            <p:spinner id="qn" value="#{beanAtendimento.itscomanda.qnt}" min="1" max="200" />
+            <p:spinner id="qn" value="#{beanComanda.itenscomanda.qnt}" min="1" max="200" />
  
-            <p:commandButton value="Adicionar" action="#{beanAtendimento.addItem()}" update="@(form)" process="@all"/>
+            <p:commandButton value="Adicionar" action="#{beanComanda.addItem()}" update="@(form)" process="@all"/>
         </p:panelGrid>
             
    

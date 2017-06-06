@@ -6,6 +6,7 @@
 package br.com.vinibar.dao;
 
 import br.com.vinibar.dao.exceptions.NonexistentEntityException;
+import br.com.vinibar.model.Caixa;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -14,6 +15,7 @@ import javax.persistence.criteria.Root;
 import br.com.vinibar.model.Cliente;
 import br.com.vinibar.model.Comanda;
 import br.com.vinibar.model.Funcionario;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -193,5 +195,64 @@ public class ComandaJpaController implements Serializable {
             em.close();
         }
     }
+    
+    public List<Comanda> ComandasAbertas() {
+        EntityManager em = getEntityManager();
+        List<Comanda> comanda;
+        try {
+            Query q = em.createNamedQuery("Comanda.ComandaAberta");
+            comanda = q.getResultList();
+        } catch (Exception e) {
+            comanda = new ArrayList(); //retorna uma lista vazia
+        } finally {
+            em.close();
+        }
+        return comanda;
+    }
+    
+        public void Update(String status,int idcomanda) {
+        EntityManager em = getEntityManager();
+       
+        try {
+            Query q = em.createNamedQuery("Comanda.update");
+            em.getTransaction().begin();
+            q.setParameter("st", status);
+            q.setParameter("idcomanda", idcomanda);
+            q.executeUpdate();
+            em.getTransaction().commit();
+            
+        } catch (Exception e) {
+             //em.getTransaction().rollback();
+        } finally {
+            em.close();
+        }
+        
+    }
+    
+    
+//     public List<Comanda> ComandasAbertas(Boolean salva) {
+//         String jpql = "select f from Comanda f where "
+//                + "f.salva= :aberta"; //
+//        Query q = getEntityManager().createQuery(jpql);
+//        
+//        q.setParameter("aberta", salva);
+//
+//        return q.getResultList();
+//    }
+//     public void ComandasAbertas(Boolean salva) {
+//         EntityManager em = getEntityManager();
+//         em.getTransaction().begin();
+//         Query q = em
+//                 .createNativeQuery("SELECT a as Comanda ");
+//         
+//         
+//       // String jpql = ( "SELECT f FROM Comanda g JOIN  Caixa f where f.salva = :salva and g.status='ABERTA'");
+//       // Query query = em.createNamedQuery(jpql);
+//        //query.setParameter("salva", salva);
+//        
+//        em.getTransaction().commit();
+//        em.close();
+//       // return query.getResultList();
+//    }
     
 }

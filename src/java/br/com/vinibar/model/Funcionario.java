@@ -32,7 +32,35 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(catalog = "barbearia", schema = "public")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Funcionario.findAll", query = "SELECT f FROM Funcionario f")})
+    @NamedQuery(name = "Funcionario.findAll", query = "SELECT f FROM Funcionario f")
+    , @NamedQuery(name = "Funcionario.findById", query = "SELECT f FROM Funcionario f WHERE f.id = :id")
+    , @NamedQuery(name = "Funcionario.findByNome", query = "SELECT f FROM Funcionario f WHERE f.nome = :nome")
+    , @NamedQuery(name = "Funcionario.findByCpf", query = "SELECT f FROM Funcionario f WHERE f.cpf = :cpf")
+    , @NamedQuery(name = "Funcionario.findByDtnascimento", query = "SELECT f FROM Funcionario f WHERE f.dtnascimento = :dtnascimento")
+    , @NamedQuery(name = "Funcionario.findByCargo", query = "SELECT f FROM Funcionario f WHERE f.cargo = :cargo")
+    , @NamedQuery(name = "Funcionario.findBySalario", query = "SELECT f FROM Funcionario f WHERE f.salario = :salario")
+    , @NamedQuery(name = "Funcionario.findByTelefone", query = "SELECT f FROM Funcionario f WHERE f.telefone = :telefone")
+    , @NamedQuery(name = "Funcionario.findByCelular", query = "SELECT f FROM Funcionario f WHERE f.celular = :celular")
+    , @NamedQuery(name = "Funcionario.findByEmail", query = "SELECT f FROM Funcionario f WHERE f.email = :email")
+    , @NamedQuery(name = "Funcionario.findByLogradouro", query = "SELECT f FROM Funcionario f WHERE f.logradouro = :logradouro")
+    , @NamedQuery(name = "Funcionario.findByNumero", query = "SELECT f FROM Funcionario f WHERE f.numero = :numero")
+    , @NamedQuery(name = "Funcionario.findByComplemento", query = "SELECT f FROM Funcionario f WHERE f.complemento = :complemento")
+    , @NamedQuery(name = "Funcionario.findByBairro", query = "SELECT f FROM Funcionario f WHERE f.bairro = :bairro")
+    , @NamedQuery(name = "Funcionario.findByCep", query = "SELECT f FROM Funcionario f WHERE f.cep = :cep")
+    , @NamedQuery(name = "Funcionario.findByCidade", query = "SELECT f FROM Funcionario f WHERE f.cidade = :cidade")
+    , @NamedQuery(name = "Funcionario.findByUf", query = "SELECT f FROM Funcionario f WHERE f.uf = :uf")
+    , @NamedQuery(name = "Funcionario.findByAtivo", query = "SELECT f FROM Funcionario f WHERE f.ativo = :ativo")
+    , @NamedQuery(name = "Funcionario.findByObservacoes", query = "SELECT f FROM Funcionario f WHERE f.observacoes = :observacoes")
+    , @NamedQuery(name = "Funcionario.findByStatus", query = "SELECT f FROM Funcionario f WHERE f.status = :status")
+    , @NamedQuery(name = "Funcionario.findByDtadmissao", query = "SELECT f FROM Funcionario f WHERE f.dtadmissao = :dtadmissao")
+    , @NamedQuery(name = "Funcionario.findByDtdemissao", query = "SELECT f FROM Funcionario f WHERE f.dtdemissao = :dtdemissao")
+    , @NamedQuery(name = "Funcionario.findByPis", query = "SELECT f FROM Funcionario f WHERE f.pis = :pis")
+    , @NamedQuery(name = "Funcionario.findByBanco", query = "SELECT f FROM Funcionario f WHERE f.banco = :banco")
+    , @NamedQuery(name = "Funcionario.findByAgencia", query = "SELECT f FROM Funcionario f WHERE f.agencia = :agencia")
+    , @NamedQuery(name = "Funcionario.findByConta", query = "SELECT f FROM Funcionario f WHERE f.conta = :conta")
+    , @NamedQuery(name = "Funcionario.findByTipocontrato", query = "SELECT f FROM Funcionario f WHERE f.tipocontrato = :tipocontrato")
+    , @NamedQuery(name = "Funcionario.findByDtreg", query = "SELECT f FROM Funcionario f WHERE f.dtreg = :dtreg")
+    , @NamedQuery(name = "Funcionario.findByHrreg", query = "SELECT f FROM Funcionario f WHERE f.hrreg = :hrreg")})
 public class Funcionario implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -95,6 +123,8 @@ public class Funcionario implements Serializable {
     private String dtreg;
     @Column(length = 15)
     private String hrreg;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idfuncionariocaixa")
+    private List<Caixa> caixaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idfuncionario")
     private List<Comanda> comandaList;
 
@@ -332,6 +362,15 @@ public class Funcionario implements Serializable {
 
     public void setHrreg(String hrreg) {
         this.hrreg = hrreg;
+    }
+
+    @XmlTransient
+    public List<Caixa> getCaixaList() {
+        return caixaList;
+    }
+
+    public void setCaixaList(List<Caixa> caixaList) {
+        this.caixaList = caixaList;
     }
 
     @XmlTransient

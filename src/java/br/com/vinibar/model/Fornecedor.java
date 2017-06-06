@@ -28,7 +28,24 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(catalog = "barbearia", schema = "public")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Fornecedor.findAll", query = "SELECT f FROM Fornecedor f")})
+    @NamedQuery(name = "Fornecedor.findAll", query = "SELECT f FROM Fornecedor f")
+    , @NamedQuery(name = "Fornecedor.findById", query = "SELECT f FROM Fornecedor f WHERE f.id = :id")
+    , @NamedQuery(name = "Fornecedor.findByEmpresa", query = "SELECT f FROM Fornecedor f WHERE f.empresa = :empresa")
+    , @NamedQuery(name = "Fornecedor.findByCnpj", query = "SELECT f FROM Fornecedor f WHERE f.cnpj = :cnpj")
+    , @NamedQuery(name = "Fornecedor.findByReponsavel", query = "SELECT f FROM Fornecedor f WHERE f.reponsavel = :reponsavel")
+    , @NamedQuery(name = "Fornecedor.findByTelefone", query = "SELECT f FROM Fornecedor f WHERE f.telefone = :telefone")
+    , @NamedQuery(name = "Fornecedor.findByCelular", query = "SELECT f FROM Fornecedor f WHERE f.celular = :celular")
+    , @NamedQuery(name = "Fornecedor.findByEmail", query = "SELECT f FROM Fornecedor f WHERE f.email = :email")
+    , @NamedQuery(name = "Fornecedor.findByLogradouro", query = "SELECT f FROM Fornecedor f WHERE f.logradouro = :logradouro")
+    , @NamedQuery(name = "Fornecedor.findByNumero", query = "SELECT f FROM Fornecedor f WHERE f.numero = :numero")
+    , @NamedQuery(name = "Fornecedor.findByComplemeto", query = "SELECT f FROM Fornecedor f WHERE f.complemeto = :complemeto")
+    , @NamedQuery(name = "Fornecedor.findByBairro", query = "SELECT f FROM Fornecedor f WHERE f.bairro = :bairro")
+    , @NamedQuery(name = "Fornecedor.findByCep", query = "SELECT f FROM Fornecedor f WHERE f.cep = :cep")
+    , @NamedQuery(name = "Fornecedor.findByCidade", query = "SELECT f FROM Fornecedor f WHERE f.cidade = :cidade")
+    , @NamedQuery(name = "Fornecedor.findByUf", query = "SELECT f FROM Fornecedor f WHERE f.uf = :uf")
+    , @NamedQuery(name = "Fornecedor.findByAtivo", query = "SELECT f FROM Fornecedor f WHERE f.ativo = :ativo")
+    , @NamedQuery(name = "Fornecedor.findByDtreg", query = "SELECT f FROM Fornecedor f WHERE f.dtreg = :dtreg")
+    , @NamedQuery(name = "Fornecedor.findByHrreg", query = "SELECT f FROM Fornecedor f WHERE f.hrreg = :hrreg")})
 public class Fornecedor implements Serializable {
 
     private static final long serialVersionUID = 1L;

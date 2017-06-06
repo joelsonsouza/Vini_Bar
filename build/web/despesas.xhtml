@@ -67,11 +67,11 @@
                 <p:column  headerText="Descrição" filterBy="#{desp.descricao}" sortBy="#{desp.descricao}">
                     <h:outputText value="#{desp.descricao}" />
                 </p:column>
-                <p:column  headerText="Tipo" filterBy="#{desp.idtipo.tipo}"> 
+                <p:column  headerText="Tipo" style="text-align: center" filterBy="#{desp.idtipo.tipo}"> 
                     <h:outputText value="#{desp.idtipo.tipo}"  />
                 </p:column>
-                 <p:column  headerText="Valor">
-                    <h:outputText value="#{desp.valor}"/>
+                <p:column  headerText="Valor" style="text-align: center">
+                    <h:outputText value="R$ #{desp.valor}"/>
                 </p:column>
             </p:dataTable>
             <!--*******************************************CONFIRM DIALOG***********************************************************-->
