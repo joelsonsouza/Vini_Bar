@@ -5,6 +5,7 @@
  */
 package br.com.vinibar.dao;
 
+import br.com.vinibar.bean.MessagesView;
 import br.com.vinibar.dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -166,8 +167,7 @@ public class ItenscomandaJpaController implements Serializable {
     }
 
     public List<Itenscomanda> ItensPorComanda(int idcomanda) {
-        String jpql = "select f from Itenscomanda f where "
-                + "f.idcomanda = :id ";
+        String jpql = "select f from Itenscomanda f where f.idcomanda = :id ";
         Query q = getEntityManager().createQuery(jpql);
 
         q.setParameter("id", idcomanda);
@@ -186,14 +186,41 @@ public class ItenscomandaJpaController implements Serializable {
         return q.getResultList();
     }
     
-    public void excluirPorIdComanda(int idcomanda) {
+public void DeleteIdItemcomanda(int iditemcomanda) {
+        EntityManager em = getEntityManager();
+       
+        try {
+            Query q = em.createNamedQuery("Itenscomanda.DeleteIdItemComanda");
+            em.getTransaction().begin();
+            q.setParameter("iditemcomanda", iditemcomanda);
+            q.executeUpdate();
+            em.getTransaction().commit();
+            
+        } catch (Exception e) {
+            MessagesView msg = new MessagesView();
+             em.getTransaction().rollback();
+             msg.error(e.getMessage());
+             
+        } finally {
+            em.close();
+        }
         
-        String jpql = "delete from Itenscomanda f where "
-                + "f.idcomanda = :id ";
-        Query q = getEntityManager().createQuery(jpql);
-
-        q.setParameter("id", idcomanda);
-
+    }
+public void DeleteIdComanda(int idcomanda) {
+        EntityManager em = getEntityManager();
+       
+        try {
+            Query q = em.createNamedQuery("Itenscomanda.DeleteIdComandaporComanda");
+            em.getTransaction().begin();
+            q.setParameter("idcomanda", idcomanda);
+            q.executeUpdate();
+            em.getTransaction().commit();
+            
+        } catch (Exception e) {
+             em.getTransaction().rollback();
+        } finally {
+            em.close();
+        }
         
     }
 }

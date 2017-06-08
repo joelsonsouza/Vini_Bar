@@ -8,7 +8,7 @@
 
     <p:dataTable id="tb" var="tbl" value="#{beanCaixa.lista}"  paginator="false" emptyMessage="Não foram adionados itens na comanda" style="text-align: center" > 
                  <!--selectionMode="single"   selection="#{beanComanda.itenscomanda}"  rowKey="#{tbl.iditenscomanda}">--> 
-        <p:ajax event="rowSelect" update="frm"/>
+        <!--<p:ajax event="rowSelect" update="frm"/>-->
         <f:facet name="header">
             <p:outputPanel>
                 <h:outputText value="Itens da Comanda" />
@@ -36,9 +36,9 @@
         </p:column>
         <!--*******************************************EXCLUIR***********************************************************-->
         <p:column width="25">
-            <p:commandButton  icon="ui-icon-trash" title="Excluir Registro" oncomplete="#{beanComanda.excluirItem()}" update="@(form)" process="@all" style="color:#FF0000;background-color:#FFFFFF"> <!--process="@all" update="@form"-->
-                <!--<f:setPropertyActionListener value="#{itscomanda}" target="#{beanComanda.itenscomanda}"/>-->
-                <p:confirm header="" message="Exluir registro?" icon="ui-icon-alert" />
+            <p:commandButton  icon="ui-icon-trash" title="Excluir Registro" action="#{beanCaixa.excluirItem()}"  update="tb" process="@this" style="color:#FF0000;background-color:#FFFFFF"> <!--process="@all" update="@form"-->
+                <f:setPropertyActionListener value="#{tbl.iditenscomanda}" target="#{beanCaixa.itenscomanda.iditenscomanda}"/>
+                <p:confirm header="" message="Exluir registro?" icon="ui-icon-alert" />               
             </p:commandButton>
         </p:column>
 

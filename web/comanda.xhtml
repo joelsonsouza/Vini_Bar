@@ -10,15 +10,37 @@
         <h2 >Comanda</h2>
 
         <p:messages id="messages" showDetail="true" showSummary="false" autoUpdate="true" closable="true" /> 
+<!--         <p:growl id="msgs" showDetail="false"/>-->
         <h:form id="frm">
             <ui:include src="/WEB-INF/comanda/BotoesPedido.xhtml" />
             <ui:include src="/WEB-INF/comanda/CapaPedido.xhtml" />
-            
-            <h2 style="margin-top: 20px" >Itens</h2>
-            <p:separator/>
+
+
+            <p:separator style="margin-top: 20px;"/>
             <ui:include src="/WEB-INF/comanda/ItensPedido.xhtml" />
+            <!--*******************************************CONFIRM DIALOG***********************************************************-->
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
+                <p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />              
+                <p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
         </h:form>
 
-       
+        <!--*******************************************P:DIALOG***********************************************************-->
+
+        <p:dialog  header="Comadas Registradas" widgetVar="novoDialogo" resizable="false" modal="false"  appendTo ="@(body)" hideEffect="side" showEffect="side"  closable="true" > <!--appendTo ="@(body)"-->
+            <ui:include src="/WEB-INF/comanda/Listacomandas.xhtml" />
+
+            <!--            <h:form>
+                            
+                        <p:commandButton value="Alterar"                                       
+                                         
+                                         process="@all"
+                                         update="@(form)"
+                                         onclick="PF('novoDialogo').hide();"
+            
+                                         >  action="#{tipoDespesaBean.editar()}"  
+                        </p:commandButton>  
+                        </h:form>-->
+        </p:dialog>          
     </ui:define>
 </ui:composition>

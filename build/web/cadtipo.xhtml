@@ -20,7 +20,7 @@
                 <p:separator/>
 
                 <p:panelGrid columns="6" layout="grid"  columnClasses="ui-grid-col-0,ui-grid-col-0,ui-grid-col-4,ui-grid-col-0,ui-grid-col-4,ui-grid-col-0"
-		 styleClass="panelgrid-noborder" > <!--cellpadding="6" styleClass="panelgrid-noborder" styleClass="ui-panelgrid-blank ui-fluid" >-->
+                             styleClass="panelgrid-noborder" > <!--cellpadding="6" styleClass="panelgrid-noborder" styleClass="ui-panelgrid-blank ui-fluid" >-->
                     <p:outputLabel value="* Tipo:" for="tipo" />
                     <p:inputText id="tipo"  value="#{tipoDespesaBean.tipodespesa.tipo}" required="false" requiredMessage="INFORME O TIPO"  placeholder="EX: COSMÉTICOS"/> 
                     <p:outputLabel value="* Período:" for="per"/>
@@ -29,9 +29,9 @@
                         <f:selectItem itemValue="FIXO" itemLabel="FIXO"/>
                         <f:selectItem itemValue="EVENTUAL" itemLabel="EVENTUAL"/>          
                     </p:selectOneMenu> 
-                    
+
                     <p:commandButton value="Salvar"   action="#{tipoDespesaBean.incluir()}" update="@(form)" />  
-           
+
                 </p:panelGrid>   
 
                 <p:separator/>
@@ -108,7 +108,7 @@
 
                 </p:dialog>     
             </h:form>
-            </div>   
+        </div>   
     </ui:define>
 </ui:composition>
 

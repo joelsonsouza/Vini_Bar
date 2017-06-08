@@ -200,13 +200,19 @@ public class ItensJpaController implements Serializable {
         }
     }
 
+    public List<Itens> ListaItens() {
+
+        String jpql = "select f from Itens f where f.tipo='SERVIÇO' OR f.tipo='PRODUTO' ";
+        Query q = getEntityManager().createQuery(jpql);
+        return q.getResultList();
+    }
+
     public List<Itens> ListaDesconto(String desconto) {
 
-        String jpql = "select f from Itens f where "
-                + "f.tipo like :x ";
+        String jpql = "select f from Itens f where f.tipo like :x ";
         Query q = getEntityManager().createQuery(jpql);
 
-        q.setParameter("x", "%"+desconto+"%");
+        q.setParameter("x", "%" + desconto + "%");
         return q.getResultList();
     }
 }

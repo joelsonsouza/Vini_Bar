@@ -6,7 +6,6 @@
 package br.com.vinibar.dao;
 
 import br.com.vinibar.dao.exceptions.NonexistentEntityException;
-import br.com.vinibar.model.Caixa;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -15,6 +14,7 @@ import javax.persistence.criteria.Root;
 import br.com.vinibar.model.Cliente;
 import br.com.vinibar.model.Comanda;
 import br.com.vinibar.model.Funcionario;
+import br.com.vinibar.model.Itenscomanda;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -195,7 +195,7 @@ public class ComandaJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public List<Comanda> ComandasAbertas() {
         EntityManager em = getEntityManager();
         List<Comanda> comanda;
@@ -209,10 +209,10 @@ public class ComandaJpaController implements Serializable {
         }
         return comanda;
     }
-    
-        public void Update(String status,int idcomanda) {
+
+    public void Update(String status, int idcomanda) {
         EntityManager em = getEntityManager();
-       
+
         try {
             Query q = em.createNamedQuery("Comanda.update");
             em.getTransaction().begin();
@@ -220,16 +220,23 @@ public class ComandaJpaController implements Serializable {
             q.setParameter("idcomanda", idcomanda);
             q.executeUpdate();
             em.getTransaction().commit();
-            
+
         } catch (Exception e) {
-             //em.getTransaction().rollback();
+            //em.getTransaction().rollback();
         } finally {
             em.close();
         }
-        
+
     }
-    
-    
+
+    public List<Itenscomanda> SomaItensPorcomanda() { //desenvolvimento
+        String jpql = "select SUM(f.totalitem) from Itenscomanda f group by f.idcomanda";
+        Query q = getEntityManager().createQuery(jpql);
+        
+        return q.getResultList();
+
+    }
+
 //     public List<Comanda> ComandasAbertas(Boolean salva) {
 //         String jpql = "select f from Comanda f where "
 //                + "f.salva= :aberta"; //
@@ -254,5 +261,4 @@ public class ComandaJpaController implements Serializable {
 //        em.close();
 //       // return query.getResultList();
 //    }
-    
 }

@@ -1,5 +1,6 @@
 package br.com.vinibar.bean;
 
+import br.com.vinibar.dao.CaixaJpaController;
 import br.com.vinibar.dao.ClienteJpaController;
 import br.com.vinibar.dao.ComandaDao;
 import br.com.vinibar.dao.ComandaJpaController;
@@ -16,12 +17,17 @@ import br.com.vinibar.util.Log;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import org.primefaces.event.CellEditEvent;
 
 //@RequestScoped //para  apenas enviar o formulário
 @SessionScoped //deixa o os objetos instanciados até o fim do timeout da sessão
@@ -35,8 +41,10 @@ public class BeanComanda {
     private List<Itens> listaItens = new ArrayList<>();
     private List<Itenscomanda> lista = new ArrayList<>();
     private List<Itenscomanda> somaItens;
+    private List<Comanda> listaComanda = new ArrayList<>(); //listar comandas no p:dialog
     MessagesView msg = new MessagesView();
     Comanda comanda = new Comanda();
+    Comanda edcomanda = new Comanda();
     Itenscomanda itenscomanda = new Itenscomanda();
     double totalItens;
     int idc = 0, flag, pegaIditem = 0; //idc: variável local para pegar a id da comanda
@@ -45,8 +53,9 @@ public class BeanComanda {
     public void init() {
         listaFuncionarios = new FuncionarioJpaController(emf).findFuncionarioEntities();
         listaClientes = new ClienteJpaController(emf).findClienteEntities();
-        listaItens = new ItensJpaController(emf).findItensEntities();
+        listaItens = new ItensJpaController(emf).ListaItens();
         somaItens = new ArrayList<>();
+        listaComanda = new ComandaJpaController(emf).findComandaEntities();
         idc = 0;
         lista = new ItenscomandaJpaController(emf).ItensPorComanda(idc);//JPQL com lista filtrada por id da comanda
         comanda = new Comanda();
@@ -115,6 +124,19 @@ public class BeanComanda {
         }
     }
 
+    public void excluirItem() {
+
+        if (itenscomanda.getIditenscomanda() != null) {
+            new ItenscomandaJpaController(emf).DeleteIdItemcomanda(itenscomanda.getIditenscomanda());
+            msg.info("REGISTRO EXCLUÍDO");
+            itenscomanda = new Itenscomanda();
+            lista = new ItenscomandaJpaController(emf).ItensPorComanda(idc);
+            somaItens = new ItenscomandaJpaController(emf).SomaValores(idc);
+        } else {
+            msg.error("FALHA NA EXCLUSÃO");
+        }
+    }
+
     public void salvar() {
 
         if (comanda.getIdcomanda() == null) {
@@ -131,39 +153,41 @@ public class BeanComanda {
         }
     }
 
-    public void excluirItem() {
-
-        if (itenscomanda.getIditenscomanda() != null) {
-            try {
-                new ItenscomandaJpaController(emf).destroy(itenscomanda.getIditenscomanda());
-                msg.info("REGISTRO EXCLUÍDO");
-                itenscomanda = new Itenscomanda();
-                lista = new ItenscomandaJpaController(emf).ItensPorComanda(idc);
-                somaItens = new ItenscomandaJpaController(emf).SomaValores(idc);
-            } catch (NonexistentEntityException ex) {
-                msg.error("FALHA NA EXCLUSÃO");
-            }
-        } else {
-            msg.info("SELECIONE UM ITEM");
-        }
-    }
-
     public void excluir() {
         itenscomanda.setIdcomanda(idc);
         if (comanda.getIdcomanda() != null) {
             try {
                 new ComandaJpaController(emf).destroy(comanda.getIdcomanda());
+                new ItenscomandaJpaController(emf).DeleteIdComanda(comanda.getIdcomanda());
                 msg.info("COMANDA CANCELADA");
             } catch (NonexistentEntityException ex) {
                 msg.info("FALHA NA EXCLUSÃO");
             }
-            itenscomanda.setIdcomanda(idc);
-            if (idc != 0) {
-                new ItenscomandaJpaController(emf).excluirPorIdComanda(idc);
-                //msg.info("REGISTRO EXCLUÍDO");
-            }
         }
         init();
+    }
+
+    public void ListaComandas() {
+        somaItens = new ItenscomandaJpaController(emf).SomaValores(idc); //desenvolvimento
+        listaComanda = new ComandaJpaController(emf).findComandaEntities();
+
+    }
+
+    public void updateComanda() {
+        log.getPegaDataHoraAtual();
+        edcomanda.setDtreg(log.getData1());
+        edcomanda.setHrreg(log.getHora1());
+        edcomanda.setIdcomanda(edcomanda.getIdcomanda());
+        edcomanda.setStatus(edcomanda.getStatus());
+        try {
+            new ComandaJpaController(emf).edit(edcomanda);
+            msg.info("REGISTRO ALTERADO");
+            listaComanda = new ComandaJpaController(emf).findComandaEntities();
+            init();
+        } catch (Exception ex) {
+            msg.error("FALHA NA ALTERAÇÃO");
+        }
+        
     }
 
     /* -----------GETTER E SETTERS-----------*/
@@ -237,6 +261,22 @@ public class BeanComanda {
 
     public void setPegaIditem(int pegaIditem) {
         this.pegaIditem = pegaIditem;
+    }
+
+    public List<Comanda> getListaComanda() {
+        return listaComanda;
+    }
+
+    public void setListaComanda(List<Comanda> listaComanda) {
+        this.listaComanda = listaComanda;
+    }
+
+    public Comanda getEdcomanda() {
+        return edcomanda;
+    }
+
+    public void setEdcomanda(Comanda edcomanda) {
+        this.edcomanda = edcomanda;
     }
 
 }

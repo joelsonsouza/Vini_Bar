@@ -3,10 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Users/joels/Documents/NetBeansProjects/Vini_Bar/web/WEB-INF/caixa/ItensPedido.xhtml</file>
-            <file>file:/D:/Users/joels/Documents/NetBeansProjects/Vini_Bar/web/WEB-INF/caixa/BotoesCaixa.xhtml</file>
-            <file>file:/D:/Users/joels/Documents/NetBeansProjects/Vini_Bar/web/WEB-INF/caixa/CapaCaixa.xhtml</file>
-            <file>file:/D:/Users/joels/Documents/NetBeansProjects/Vini_Bar/src/java/br/com/vinibar/bean/BeanCaixa.java</file>
+            <file>file:/D:/Users/joels/Documents/NetBeansProjects/Vini_Bar/web/WEB-INF/comanda/BotoesPedido.xhtml</file>
+            <file>file:/D:/Users/joels/Documents/NetBeansProjects/Vini_Bar/web/resources/primefaces-adamantium/theme.css</file>
         </group>
     </open-files>
 </project-private>

@@ -1,6 +1,7 @@
 package br.com.vinibar.dao;
 
 import br.com.vinibar.model.Comanda;
+import br.com.vinibar.model.Itenscomanda;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -77,6 +78,7 @@ public class ComandaDao {
                              entityManager.getTransaction().rollback();
                     }
           }
+          
   
           public void removeById(final int id) {
                     try {

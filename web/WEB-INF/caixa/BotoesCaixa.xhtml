@@ -12,15 +12,10 @@
                 <p:confirm header="Salvar Registro" message="Realizar baixa na comanda?" icon="ui-icon-alert" />
             </p:commandButton>
                 <p:commandButton value="Cancelar" style="width:80px"  action="#{beanCaixa.init()}" update="@(form)" process="@this"/>             
-            <p:commandButton value="Pesquisar" action="#{beanCaixa.carregalista()}" update="@(form)" process="@all" style="width:80px;" />
         </p:toolbarGroup>
         <p:toolbarGroup align="right">
             <p:outputLabel value="#{beanCaixa.status}" style="color: red;font-size: 30px;font-style: oblique; font-weight: bolder"/>
         </p:toolbarGroup>
     </p:toolbar>
-    <!--*******************************************CONFIRM DIALOG***********************************************************-->
-    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
-        <p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />              
-        <p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-    </p:confirmDialog>
+    
 </ui:composition>

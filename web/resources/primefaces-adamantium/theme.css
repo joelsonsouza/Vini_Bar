@@ -1,3 +1,5 @@
+/*3443*/
+
 @font-face {
   font-family: 'latobold';
   src: url("#{resource['primefaces-adamantium:fonts/lato-bold-webfont.eot']}");
@@ -3440,7 +3442,8 @@ hr.ui-widget-header {
   font-size: 16px !important;
 }
 .ui-button-text-only .ui-button-text {
-  padding: 10px 0px !important; /*ORIGINAL 1Opx 24px*/
+  padding: 10px 24px 10px !important; /*ORIGINAL 1Opx 24px*/
+  /*width: 80px !important;*/
 }
 .ui-button.ui-button-icon-only .ui-button-text {
   padding: 10px 0px !important;

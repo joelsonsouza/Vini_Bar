@@ -13,12 +13,17 @@
         <h:form id="frm">
             <ui:include src="/WEB-INF/caixa/BotoesCaixa.xhtml" />
             <ui:include src="/WEB-INF/caixa/CapaCaixa.xhtml" />
+
             
-            <h2 style="margin-top: 20px" >Itens</h2>
-            <p:separator/>
+            <p:separator style="margin-top: 20px;"/>
             <ui:include src="/WEB-INF/caixa/ItensPedido.xhtml" />
+            <!--*******************************************CONFIRM DIALOG***********************************************************-->
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
+                <p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />              
+                <p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
         </h:form>
 
-       
+
     </ui:define>
 </ui:composition>

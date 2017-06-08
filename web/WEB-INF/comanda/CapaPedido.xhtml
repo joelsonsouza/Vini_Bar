@@ -22,7 +22,7 @@
             <p:outputLabel for="dt" value="Data:" />
             <p:calendar id="dt" required="true" requiredMessage="DATA" value="#{beanComanda.comanda.dtcomanda}"/>
             <p:outputLabel/>
-
+ 
             <p:outputLabel value="Funcionário:" for="fun"/>
             <p:selectOneMenu id="fun" filter="true" converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="FUNCIONÁRIO" value="#{beanComanda.comanda.idfuncionario}">
                 <f:selectItem itemLabel="SELECIONE" itemValue="" />

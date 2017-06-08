@@ -29,11 +29,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Itenscomanda.findAll", query = "SELECT i FROM Itenscomanda i")
     , @NamedQuery(name = "Itenscomanda.findByIditenscomanda", query = "SELECT i FROM Itenscomanda i WHERE i.iditenscomanda = :iditenscomanda")
-    , @NamedQuery(name = "Itenscomanda.findByIdcomanda", query = "SELECT i FROM Itenscomanda i WHERE i.idcomanda = :idcomanda")
-    , @NamedQuery(name = "Itenscomanda.findByQnt", query = "SELECT i FROM Itenscomanda i WHERE i.qnt = :qnt")
-    , @NamedQuery(name = "Itenscomanda.findByTotalitem", query = "SELECT i FROM Itenscomanda i WHERE i.totalitem = :totalitem")
-    , @NamedQuery(name = "Itenscomanda.findByDtreg", query = "SELECT i FROM Itenscomanda i WHERE i.dtreg = :dtreg")
-    , @NamedQuery(name = "Itenscomanda.findByHrreg", query = "SELECT i FROM Itenscomanda i WHERE i.hrreg = :hrreg")})
+    , @NamedQuery(name = "Itenscomanda.DeleteIdComandaporComanda", query = "DELETE FROM Itenscomanda i WHERE i.idcomanda = :idcomanda")
+    , @NamedQuery(name = "Itenscomanda.DeleteIdItemComanda", query = "DELETE FROM Itenscomanda i WHERE i.iditenscomanda = :iditemcomanda")
+    , })
 public class Itenscomanda implements Serializable {
 
     private static final long serialVersionUID = 1L;

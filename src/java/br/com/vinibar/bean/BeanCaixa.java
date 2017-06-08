@@ -72,7 +72,7 @@ public class BeanCaixa {
         itenscomanda.setHrreg(log.getHora1());
 
         itenscomanda.setIdcomanda(idc); // pega o valor do id da comada armazanado na variável local idc
-        if (itenscomanda.getIdproduto() == null) { // verifica se um item foi selecionado no combo
+        if (itenscomanda.getIdproduto() == null ) { // verifica se um item foi selecionado no combo
             msg.error("SELECIONE UM ITEM");
         } else {
             if (itenscomanda.getIditenscomanda() == null) { //verifica seleção de item via tabela
@@ -96,6 +96,19 @@ public class BeanCaixa {
         }
 
     }
+        public void excluirItem() {
+
+        if (itenscomanda.getIditenscomanda() != null) {
+                new ItenscomandaJpaController(emf).DeleteIdItemcomanda(itenscomanda.getIditenscomanda());
+                msg.info("REGISTRO EXCLUÍDO");
+                itenscomanda = new Itenscomanda();
+                lista = new ItenscomandaJpaController(emf).ItensPorComanda(idc);
+                somaItens = new ItenscomandaJpaController(emf).SomaValores(idc);
+            } else {
+                msg.error("FALHA NA EXCLUSÃO");
+            }
+    }
+    
 
     public void salvar() {
         log.getPegaDataHoraAtual();
