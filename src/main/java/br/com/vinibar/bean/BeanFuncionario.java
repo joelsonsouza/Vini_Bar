@@ -12,8 +12,7 @@ import javax.faces.bean.SessionScoped;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-//@RequestScoped //para  apenas enviar o formulário
-@SessionScoped // deixa o os objetos instanciados até o fim do timeout da sessão
+@SessionScoped
 @ManagedBean
 public class BeanFuncionario {
 

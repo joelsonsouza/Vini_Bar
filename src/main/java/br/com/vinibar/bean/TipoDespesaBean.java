@@ -13,8 +13,7 @@ import br.com.vinibar.dao.DaoTipoDespesa;
 import br.com.vinibar.model.Tipodespesa;
 import br.com.vinibar.util.Log;
 
-//@RequestScoped //para  apenas enviar o formulário
-@SessionScoped // deixa o os objetos instanciados até o fim do timeout da sessão
+@SessionScoped
 @ManagedBean
 public class TipoDespesaBean {
 

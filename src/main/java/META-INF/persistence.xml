@@ -13,18 +13,22 @@
 		<class>br.com.vinibar.model.Itens</class>
 		<class>br.com.vinibar.model.Itenscomanda</class>
 		<class>br.com.vinibar.model.Tipodespesa</class>
-<!-- 		<class>br.com.vinibar.model.exceptions.IllegalOrphanException</class> -->
-<!-- 		<class>br.com.vinibar.model.exceptions.NonexistentEntityException</class> -->
-<!-- 		<class>br.com.vinibar.model.exceptions.PreexistingEntityException</class> -->
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
-<!-- 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" /> -->
+
 			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/barbearia" />
 			<property name="javax.persistence.jdbc.user" value="postgres" />
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
 			<property name="javax.persistence.jdbc.password" value="JOELSONSS" />
 			<property name="javax.persistence.schema-generation.database.action"
 				value="create" />
+			<property name="eclipselink.ddl-generation" value="create-tables"/>
+			<property name="javax.persistence.schema-generation.scripts.action" value="create"/>
+			<property name="javax.persistence.schema-generation.create-database-schemas" value="false"/>
+			
+			<property name="eclipselink.logging.level.sql" value="ALL"/>
+			<property name="eclipselink.logging.level.jpa" value="OFF"/>
+			<property name="eclipselink.logging.level" value="INFO"/>
 
 		</properties>
 

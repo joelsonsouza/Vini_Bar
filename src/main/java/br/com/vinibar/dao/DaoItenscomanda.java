@@ -92,7 +92,8 @@ public class DaoItenscomanda {
 
 	@SuppressWarnings("unchecked")
 	public List<Itenscomanda> ItensPorComanda(int idcomanda) {
-		String jpql = "select f from Itenscomanda f where f.idcomanda = :id ";
+		String jpql = "select f from Itenscomanda f  where f.idcomanda = :id ";
+		//String jpql = "select f from Itenscomanda f INNER JOIN f.idcomanda co where co.idcomanda = :id ";
 		Query q = getEntityManager().createQuery(jpql);
 
 		q.setParameter("id", idcomanda);

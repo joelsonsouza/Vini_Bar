@@ -20,7 +20,6 @@ import javax.faces.bean.SessionScoped;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-//@RequestScoped //para  apenas enviar o formulário
 @SessionScoped // deixa o os objetos instanciados até o fim do timeout da sessão
 @ManagedBean
 public class BeanComanda {
@@ -37,7 +36,7 @@ public class BeanComanda {
 	MessagesView msg = new MessagesView();
 	Comanda comanda = new Comanda();
 	Comanda edcomanda = new Comanda();
-	Itenscomanda itenscomanda = new Itenscomanda();
+	Itenscomanda itenscomanda;
 	double totalItens;
 	int idc = 0, flag, pegaIditem = 0; // idc: variável local para pegar a id da
 										// comanda
@@ -95,7 +94,7 @@ public class BeanComanda {
 			msg.error("A COMANDA NÃO FOI ABERTA");
 		} else {
 			itenscomanda.setIdcomanda(idc); // pega o valor do id da comada
-											// armazanado na variável local idc
+			// armazanado na variável local idc
 
 			if (itenscomanda.getIdproduto() == null) { // verifica se um item
 														// foi selecionado

@@ -28,220 +28,221 @@ import javax.xml.bind.annotation.XmlTransient;
 
 public class Fornecedor implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(nullable = false)
-    private Integer id;
-    @Column(length = 50)
-    private String empresa;
-    @Column(length = 2147483647)
-    private String cnpj;
-    @Column(length = 50)
-    private String reponsavel;
-    @Column(length = 15)
-    private String telefone;
-    @Column(length = 15)
-    private String celular;
-    @Column(length = 50)
-    private String email;
-    @Column(length = 50)
-    private String logradouro;
-    private Integer numero;
-    @Column(length = 30)
-    private String complemeto;
-    @Column(length = 30)
-    private String bairro;
-    @Column(length = 10)
-    private String cep;
-    @Column(length = 30)
-    private String cidade;
-    @Column(length = 2)
-    private String uf;
-    private Boolean ativo;
-    @Column(length = 15)
-    private String dtreg;
-    @Column(length = 10)
-    private String hrreg;
-    @OneToMany(mappedBy = "idfornecedor")
-    private List<Despesas> despesasList;
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Basic(optional = false)
+	@Column(nullable = false)
+	private Integer id;
+	@Column(length = 50)
+	private String empresa;
+	@Column(length = 2147483647)
+	private String cnpj;
+	@Column(length = 50)
+	private String reponsavel;
+	@Column(length = 15)
+	private String telefone;
+	@Column(length = 15)
+	private String celular;
+	@Column(length = 50)
+	private String email;
+	@Column(length = 50)
+	private String logradouro;
+	private Integer numero;
+	@Column(length = 30)
+	private String complemento;
+	@Column(length = 30)
+	private String bairro;
+	@Column(length = 10)
+	private String cep;
+	@Column(length = 30)
+	private String cidade;
+	@Column(length = 2)
+	private String uf;
+	private Boolean ativo;
+	@Column(length = 15)
+	private String dtreg;
+	@Column(length = 15)
+	private String hrreg;
+	@OneToMany(mappedBy = "idfornecedor")
+	private List<Despesas> despesasList;
 
-    public Fornecedor() {
-    }
+	public Fornecedor() {
+	}
 
-    public Fornecedor(Integer id) {
-        this.id = id;
-    }
+	public Fornecedor(Integer id) {
+		this.id = id;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getEmpresa() {
-        return empresa;
-    }
+	public String getEmpresa() {
+		return empresa;
+	}
 
-    public void setEmpresa(String empresa) {
-        this.empresa = empresa;
-    }
+	public void setEmpresa(String empresa) {
+		this.empresa = empresa;
+	}
 
-    public String getCnpj() {
-        return cnpj;
-    }
+	public String getCnpj() {
+		return cnpj;
+	}
 
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
 
-    public String getReponsavel() {
-        return reponsavel;
-    }
+	public String getReponsavel() {
+		return reponsavel;
+	}
 
-    public void setReponsavel(String reponsavel) {
-        this.reponsavel = reponsavel;
-    }
+	public void setReponsavel(String reponsavel) {
+		this.reponsavel = reponsavel;
+	}
 
-    public String getTelefone() {
-        return telefone;
-    }
+	public String getTelefone() {
+		return telefone;
+	}
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
 
-    public String getCelular() {
-        return celular;
-    }
+	public String getCelular() {
+		return celular;
+	}
 
-    public void setCelular(String celular) {
-        this.celular = celular;
-    }
+	public void setCelular(String celular) {
+		this.celular = celular;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public String getLogradouro() {
-        return logradouro;
-    }
+	public String getLogradouro() {
+		return logradouro;
+	}
 
-    public void setLogradouro(String logradouro) {
-        this.logradouro = logradouro;
-    }
+	public void setLogradouro(String logradouro) {
+		this.logradouro = logradouro;
+	}
 
-    public Integer getNumero() {
-        return numero;
-    }
+	public Integer getNumero() {
+		return numero;
+	}
 
-    public void setNumero(Integer numero) {
-        this.numero = numero;
-    }
+	public void setNumero(Integer numero) {
+		this.numero = numero;
+	}
 
-    public String getComplemeto() {
-        return complemeto;
-    }
+	public String getComplemeto() {
+		return complemento;
+	}
 
-    public void setComplemeto(String complemeto) {
-        this.complemeto = complemeto;
-    }
+	public void setComplemeto(String complemeto) {
+		this.complemento = complemeto;
+	}
 
-    public String getBairro() {
-        return bairro;
-    }
+	public String getBairro() {
+		return bairro;
+	}
 
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
-    }
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
 
-    public String getCep() {
-        return cep;
-    }
+	public String getCep() {
+		return cep;
+	}
 
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
 
-    public String getCidade() {
-        return cidade;
-    }
+	public String getCidade() {
+		return cidade;
+	}
 
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
-    }
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
 
-    public String getUf() {
-        return uf;
-    }
+	public String getUf() {
+		return uf;
+	}
 
-    public void setUf(String uf) {
-        this.uf = uf;
-    }
+	public void setUf(String uf) {
+		this.uf = uf;
+	}
 
-    public Boolean getAtivo() {
-        return ativo;
-    }
+	public Boolean getAtivo() {
+		return ativo;
+	}
 
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
-    }
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
+	}
 
-    public String getDtreg() {
-        return dtreg;
-    }
+	public String getDtreg() {
+		return dtreg;
+	}
 
-    public void setDtreg(String dtreg) {
-        this.dtreg = dtreg;
-    }
+	public void setDtreg(String dtreg) {
+		this.dtreg = dtreg;
+	}
 
-    public String getHrreg() {
-        return hrreg;
-    }
+	public String getHrreg() {
+		return hrreg;
+	}
 
-    public void setHrreg(String hrreg) {
-        this.hrreg = hrreg;
-    }
+	public void setHrreg(String hrreg) {
+		this.hrreg = hrreg;
+	}
 
-    @XmlTransient
-    public List<Despesas> getDespesasList() {
-        return despesasList;
-    }
+	@XmlTransient
+	public List<Despesas> getDespesasList() {
+		return despesasList;
+	}
 
-    public void setDespesasList(List<Despesas> despesasList) {
-        this.despesasList = despesasList;
-    }
+	public void setDespesasList(List<Despesas> despesasList) {
+		this.despesasList = despesasList;
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (id != null ? id.hashCode() : 0);
+		return hash;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Fornecedor)) {
-            return false;
-        }
-        Fornecedor other = (Fornecedor) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
+	@Override
+	public boolean equals(Object object) {
+		// TODO: Warning - this method won't work in the case the id fields are
+		// not set
+		if (!(object instanceof Fornecedor)) {
+			return false;
+		}
+		Fornecedor other = (Fornecedor) object;
+		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+			return false;
+		}
+		return true;
+	}
 
-    @Override
-    public String toString() {
-        return "br.com.vinibar.model.Fornecedor[ id=" + id + " ]";
-    }
-    
+	@Override
+	public String toString() {
+		return "br.com.vinibar.model.Fornecedor[ id=" + id + " ]";
+	}
+
 }

@@ -17,7 +17,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,141 +28,141 @@ import javax.xml.bind.annotation.XmlTransient;
 
 public class Itens implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(nullable = false)
-    private Integer id;
-    @Basic(optional = false)
-    @Column(nullable = false, length = 100)
-    private String descricao;
-    @Basic(optional = false)
-    @Column(nullable = false, length = 100)
-    private String tipo;
-    @Column(length = 5)
-    private String medida;
-    @Basic(optional = false)
-    @Column(nullable = false)
-    private double preco;
-    @Column(length = 15)
-    private String dtreg;
-    @Column(length = 15)
-    private String hrreg;
-    private Boolean ativo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idproduto")
-    private List<Itenscomanda> itenscomandaList;
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Basic(optional = false)
+	@Column(nullable = false)
+	private Integer id;
+	private Boolean ativo;
+	@Basic(optional = false)
+	@Column(nullable = false, length = 100)
+	private String descricao;
+	@Column(length = 15)
+	private String dtreg;
+	@Column(length = 15)
+	private String hrreg;
+	@Column(length = 5)
+	private String medida;
+	@Basic(optional = false)
+	@Column(nullable = false)
+	private double preco;
+	@Basic(optional = false)
+	@Column(nullable = false, length = 100)
+	private String tipo;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "idproduto")
+	private List<Itenscomanda> itenscomandaList;
 
-    public Itens() {
-    }
+	public Itens() {
+	}
 
-    public Itens(Integer id) {
-        this.id = id;
-    }
+	public Itens(Integer id) {
+		this.id = id;
+	}
 
-    public Itens(Integer id, String descricao, String tipo, double preco) {
-        this.id = id;
-        this.descricao = descricao;
-        this.tipo = tipo;
-        this.preco = preco;
-    }
+	public Itens(Integer id, String descricao, double preco, String tipo) {
+		this.id = id;
+		this.descricao = descricao;
+		this.preco = preco;
+		this.tipo = tipo;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getDescricao() {
-        return descricao;
-    }
+	public Boolean getAtivo() {
+		return ativo;
+	}
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
+	}
 
-    public String getTipo() {
-        return tipo;
-    }
+	public String getDescricao() {
+		return descricao;
+	}
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
 
-    public String getMedida() {
-        return medida;
-    }
+	public String getDtreg() {
+		return dtreg;
+	}
 
-    public void setMedida(String medida) {
-        this.medida = medida;
-    }
+	public void setDtreg(String dtreg) {
+		this.dtreg = dtreg;
+	}
 
-    public double getPreco() {
-        return preco;
-    }
+	public String getHrreg() {
+		return hrreg;
+	}
 
-    public void setPreco(double preco) {
-        this.preco = preco;
-    }
+	public void setHrreg(String hrreg) {
+		this.hrreg = hrreg;
+	}
 
-    public String getDtreg() {
-        return dtreg;
-    }
+	public String getMedida() {
+		return medida;
+	}
 
-    public void setDtreg(String dtreg) {
-        this.dtreg = dtreg;
-    }
+	public void setMedida(String medida) {
+		this.medida = medida;
+	}
 
-    public String getHrreg() {
-        return hrreg;
-    }
+	public double getPreco() {
+		return preco;
+	}
 
-    public void setHrreg(String hrreg) {
-        this.hrreg = hrreg;
-    }
+	public void setPreco(double preco) {
+		this.preco = preco;
+	}
 
-    public Boolean getAtivo() {
-        return ativo;
-    }
+	public String getTipo() {
+		return tipo;
+	}
 
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
-    }
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
 
-    @XmlTransient
-    public List<Itenscomanda> getItenscomandaList() {
-        return itenscomandaList;
-    }
+	public List<Itenscomanda> getItenscomandaList() {
+		return itenscomandaList;
+	}
 
-    public void setItenscomandaList(List<Itenscomanda> itenscomandaList) {
-        this.itenscomandaList = itenscomandaList;
-    }
+	public void setItenscomandaList(List<Itenscomanda> itenscomandaList) {
+		this.itenscomandaList = itenscomandaList;
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (id != null ? id.hashCode() : 0);
+		return hash;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Itens)) {
-            return false;
-        }
-        Itens other = (Itens) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
+	@Override
+	public boolean equals(Object object) {
+		// TODO: Warning - this method won't work in the case the id fields are
+		// not set
+		if (!(object instanceof Itens)) {
+			return false;
+		}
+		Itens other = (Itens) object;
+		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+			return false;
+		}
+		return true;
+	}
 
-    @Override
-    public String toString() {
-        return "br.com.vinibar.model.Itens[ id=" + id + " ]";
-    }
-    
+	@Override
+	public String toString() {
+		return "br.com.vinibar.model.Itens[ id=" + id + " ]";
+	}
+
 }
