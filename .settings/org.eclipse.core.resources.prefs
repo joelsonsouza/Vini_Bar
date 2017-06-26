@@ -1,6 +1,16 @@
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
 encoding//src/main/resources=UTF-8
+encoding//src/main/webapp/reports/relComandasPagasAbertas.jrxml=UTF-8
+encoding//src/main/webapp/reports/relComandasPorCliente.jrxml=UTF-8
+encoding//src/main/webapp/reports/relComandasPorClienteSelecionado.jrxml=UTF-8
+encoding//src/main/webapp/reports/relComandasPorFuncionario.jrxml=UTF-8
+encoding//src/main/webapp/reports/relComandasPorFuncionarioSelecionado.jrxml=UTF-8
+encoding//src/main/webapp/reports/relComandasPorPeriodo.jrxml=UTF-8
+encoding//src/main/webapp/reports/relDespesasPorPeriodo.jrxml=UTF-8
+encoding//src/main/webapp/reports/relDespesasPorPeriodoFiltroMensalEventual.jrxml=UTF-8
+encoding//src/main/webapp/reports/relDespesasPorPeriodoPagasNaoPagas.jrxml=UTF-8
+encoding//src/main/webapp/reports/relDespesasPorTipo.jrxml=UTF-8
 encoding//src/test/java=UTF-8
 encoding//src/test/resources=UTF-8
 encoding/<project>=UTF-8

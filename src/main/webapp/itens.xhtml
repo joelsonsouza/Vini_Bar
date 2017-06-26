@@ -10,7 +10,7 @@
     <ui:define name="corpo"> 
         <title>ViniBarWeb</title>
 
-        <h2 >Cadastro de Itens</h2>
+        <h2 >Cadastro de Produtos</h2>
 
         <p:messages id="messages" showDetail="true" showSummary="false" autoUpdate="true" closable="true" />
         <h:form id="frm">
@@ -19,49 +19,49 @@
                              columnClasses="ui-grid-col-2, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3"
                              styleClass="panelgrid-noborder">
 
-                    <p:selectBooleanCheckbox itemLabel="Ativo?" value="#{beanItens.itens.ativo}" />
+                    <p:selectBooleanCheckbox itemLabel="Ativo?" value="#{beanProduto.produto.ativo}" />
                     <p:outputLabel/>
                     <p:outputLabel/>
                     <p:outputLabel/>
 
                     <p:outputLabel value="Descrição" for="desc" />
-                    <p:inputText id="desc" styleClass="up" required="true" requiredMessage="DESCRIÇÃO" value="#{beanItens.itens.descricao}"/> 
+                    <p:inputText id="desc" styleClass="up" required="true" requiredMessage="DESCRIÇÃO" value="#{beanProduto.produto.descricao}"/> 
                     <p:outputLabel value="* Tipo" for="tip"/>
-                    <p:selectOneMenu id="tip" filter="false" required="true" requiredMessage="TIPO" value="#{beanItens.itens.tipo}" >
+                    <p:selectOneMenu id="tip" filter="false" required="true" requiredMessage="TIPO" value="#{beanProduto.produto.tipo}" >
                         <f:selectItem itemValue="" itemLabel="SELECIONE"/>
                         <f:selectItem itemValue="SERVIÇO" itemLabel="SERVIÇO"/>
                         <f:selectItem itemValue="PRODUTO" itemLabel="PRUDUTO"/>          
                         <f:selectItem itemValue="PROMOÇÃO" itemLabel="PROMOÇÃO"/>          
                     </p:selectOneMenu> 
                     <p:outputLabel value="Un. Medida:" for="un"/>
-                    <p:selectOneMenu id="un" filter="false" value="#{beanItens.itens.medida}">
+                    <p:selectOneMenu id="un" filter="false" value="#{beanProduto.produto.medida}">
                         <f:selectItem itemValue="" itemLabel="SELECIONE"/>
                         <f:selectItem itemValue="UN" itemLabel="UN"/>
                         <f:selectItem itemValue="ML" itemLabel="ML"/>          
                         <f:selectItem itemValue="GR" itemLabel="GR"/>       
                     </p:selectOneMenu> 
                     <p:outputLabel value="Preço:" for="pre" />
-                    <p:inputNumber id="pre" required="true" requiredMessage="PREÇO" value="#{beanItens.itens.preco}" />
+                    <p:inputNumber id="pre" required="true" requiredMessage="PREÇO" value="#{beanProduto.produto.preco}" />
                 </p:panelGrid>
             </div>
 
-            <p:commandButton value="Salvar"   action="#{beanItens.incluir()}" update="@(form)" />
-            <p:commandButton value="Editar"   action="#{beanItens.incluir()}" update="@(form)" />
-            <p:commandButton value="Limpar"   action="#{beanItens.init()}" update="@(form)"/>
-            <p:commandButton value="Excluir"  action="#{beanItens.excluir()}" update="@(form)"  />
+            <p:commandButton value="Salvar"   action="#{beanProduto.salvar()}" update="@(form)" />
+            <p:commandButton value="Editar"   action="#{beanProduto.salvar()}" update="@(form)" />
+            <p:commandButton value="Limpar"   action="#{beanProduto.init()}" update="@(form)"/>
+            <p:commandButton value="Excluir"  action="#{beanProduto.excluir()}" update="@(form)"  />
             <p:separator/>
         </h:form> 
         <h:form>
-            <p:dataTable id="tb" var="tbl" value="#{beanItens.lista}" rows="10" paginator="true" 
-                         selectionMode="single"   selection="#{beanItens.itens}"  rowKey="#{tbl.id}"> 
+            <p:dataTable id="tb" var="tbl" value="#{beanProduto.lista}" rows="10" paginator="true" sortBy="{#{tbl.descricao}" sortOrder="ASCENDING"
+                         selectionMode="single"   selection="#{beanProduto.produto}"  rowKey="#{tbl.codigo}"> 
                 <p:ajax event="rowSelect" update="frm"/>
                 <f:facet name="header">
                     <p:outputPanel>
                         <h:outputText value="Clientes Cadastrados" />
                     </p:outputPanel>
                 </f:facet>
-                <p:column  headerText="Id"  width="25" sortBy="#{tbl.id}"> 
-                    <h:outputText value="#{tbl.id}" />
+                <p:column visible="false" headerText="Id"  width="25" sortBy="#{tbl.codigo}"> 
+                    <h:outputText value="#{tbl.codigo}" />
                 </p:column>
                 <p:column  headerText="Nome" filterBy="#{tbl.descricao}" sortBy="#{tbl.descricao}">
                     <h:outputText value="#{tbl.descricao}" />
@@ -69,6 +69,11 @@
                 <p:column  headerText="Tipo" style="text-align: center">
                     <h:outputText value="#{tbl.tipo}" />
                 </p:column>
+                
+                <p:column  headerText="Ativo" style="text-align: center">
+                    <h:outputText value="#{tbl.ativoFormatado}" />
+                </p:column>
+                
                 <p:column  headerText="Preço" style="text-align: center">
                     <h:outputText value="R$ #{tbl.preco}" />
                 </p:column>

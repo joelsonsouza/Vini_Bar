@@ -12,8 +12,8 @@
         <p:messages id="messages" showDetail="true" showSummary="false" autoUpdate="true" closable="true" /> 
 <!--         <p:growl id="msgs" showDetail="false"/>-->
         <h:form id="frm">
-            <ui:include src="/WEB-INF/comanda/BotoesPedido.xhtml" />
-            <ui:include src="/WEB-INF/comanda/CapaPedido.xhtml" />
+            <ui:include src="/WEB-INF/comanda/BotoesComanda.xhtml" />
+            <ui:include src="/WEB-INF/comanda/CapaComanda.xhtml" />
 
 
             <p:separator style="margin-top: 20px;"/>
@@ -30,17 +30,6 @@
         <p:dialog  header="Comadas Registradas" widgetVar="novoDialogo" resizable="false" modal="false"  appendTo ="@(body)" hideEffect="side" showEffect="side"  closable="true" > <!--appendTo ="@(body)"-->
             <ui:include src="/WEB-INF/comanda/Listacomandas.xhtml" />
 
-            <!--            <h:form>
-                            
-                        <p:commandButton value="Alterar"                                       
-                                         
-                                         process="@all"
-                                         update="@(form)"
-                                         onclick="PF('novoDialogo').hide();"
-            
-                                         >  action="#{tipoDespesaBean.editar()}"  
-                        </p:commandButton>  
-                        </h:form>-->
         </p:dialog>          
     </ui:define>
 </ui:composition>

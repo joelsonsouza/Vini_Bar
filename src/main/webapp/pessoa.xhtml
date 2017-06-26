@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:define name="corpo">
+		<title>ViniBarWeb</title>
+		<h1>Cadastro de Pessoa</h1>
+		<p:messages id="messages" showDetail="true" showSummary="false"
+			autoUpdate="true" closable="true" />
+		<h:form id="frm">
+			<div class="ui-fluid">
+				<p:panelGrid columns="4" layout="grid"
+					columnClasses="ui-grid-col-2, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3"
+					styleClass="panelgrid-noborder">
+
+					<p:selectBooleanCheckbox itemLabel="Ativo?"
+						value="#{beanPessoa.pessoa.ativo}" />
+					<p:outputLabel />
+					<p:outputLabel />
+					<p:outputLabel />
+
+					<p:outputLabel for="nome" value="Nome:" />
+					<p:inputText id="nome" required="true"
+						requiredMessage="PREENCHA O NOME" styleClass="up"
+						value="#{beanPessoa.pessoa.nome}" />
+
+					<p:outputLabel for="cpf" value="CPF:" />
+					<p:inputMask id="cpf" mask="999.999.999-99"
+						value="#{beanPessoa.pessoa.cpf}" />
+
+					<p:outputLabel for="dataNascimento" value="Nascimento:" />
+					<p:calendar id="dataNascimento"
+						value="#{beanPessoa.pessoa.dtnascimento}" />
+
+				</p:panelGrid>
+				<p:fieldset legend="Contato" toggleable="true" toggleSpeed="500"
+					collapsed="true">
+					<p:panelGrid columns="4" layout="grid"
+						columnClasses="ui-grid-col-2, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3"
+						styleClass="panelgrid-noborder">
+
+						<p:outputLabel for="telefone" value="Telefone:" />
+						<p:inputMask id="telefone" mask="(99)9999-9999"
+							value="#{beanPessoa.pessoa.telefone}" />
+
+						<p:outputLabel for="celular" value="Celular:" />
+						<p:inputMask id="celular" mask="(99)99999-9999" required="true"
+							requiredMessage="CELULAR" value="#{beanPessoa.pessoa.celular}" />
+
+						<p:outputLabel for="email" value="Email:" />
+						<p:inputText id="email" value="#{beanPessoa.pessoa.email}"
+							placeholder="exemplo@exemplo.com" />
+					</p:panelGrid>
+				</p:fieldset>
+				<p:fieldset legend="Endereço" toggleable="true" toggleSpeed="500"
+					collapsed="true">
+					<p:panelGrid columns="4" layout="grid"
+						columnClasses="ui-grid-col-2, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3"
+						styleClass="panelgrid-noborder">
+
+						<p:outputLabel for="logradouro" value="Logradouro:" />
+						<p:inputText id="logradouro" styleClass="up"
+							value="#{beanPessoa.pessoa.logradouro}" />
+
+						<p:outputLabel for="numero" value="Nº:" />
+						<p:inputText id="numero" maxlength="7" size="10"
+							value="#{beanPessoa.pessoa.numero}" required="true"
+							requiredMessage="O campo 'Nº' é obrigatório"
+							converterMessage="INFORME UM VALOR VÁLIDO PARA O CAMPO 'Nº'"
+							validatorMessage="INFORME UM VALOR VÁLIDO PARA O CAMPO 'Nº'">
+							<f:validateLongRange minimum="0" maximum="9999999" />
+						</p:inputText>
+
+						
+
+						<p:outputLabel for="comp" value="Complemento:" />
+						<p:inputText id="comp" styleClass="up"
+							value="#{beanPessoa.pessoa.complemento}" />
+
+
+						<p:outputLabel for="bairro" value="Bairro:" />
+						<p:inputText id="bairro" styleClass="up"
+							value="#{beanPessoa.pessoa.bairro}" />
+
+						<p:outputLabel for="cep" value="CEP:" />
+						<p:inputMask id="cep" mask="99999-999"
+							value="#{beanPessoa.pessoa.cep}" />
+
+
+						<p:outputLabel for="cidade" value="Cidade:" />
+						<p:inputText id="cidade" styleClass="up"
+							value="#{beanPessoa.pessoa.cidade}" />
+
+						<p:outputLabel for="uf" value="UF:" />
+						<p:selectOneMenu id="uf" filter="false"
+							value="#{beanPessoa.pessoa.uf}" required="false"
+							requiredMessage="INFORME O PERÍODO">
+							<f:selectItem itemValue="" itemLabel="SELECIONE" />
+							<f:selectItem itemValue="MS" itemLabel="MS" />
+							<f:selectItem itemValue="AC" itemLabel="AC" />
+							<f:selectItem itemValue="AL" itemLabel="AL" />
+							<f:selectItem itemValue="AP" itemLabel="AP" />
+							<f:selectItem itemValue="AM" itemLabel="AM" />
+							<f:selectItem itemValue="BA" itemLabel="BA" />
+							<f:selectItem itemValue="CE" itemLabel="CE" />
+							<f:selectItem itemValue="DF" itemLabel="DF" />
+							<f:selectItem itemValue="ES" itemLabel="ES" />
+							<f:selectItem itemValue="GO" itemLabel="GO" />
+							<f:selectItem itemValue="MA" itemLabel="MA" />
+							<f:selectItem itemValue="MT" itemLabel="MT" />
+
+							<f:selectItem itemValue="MG" itemLabel="MG" />
+							<f:selectItem itemValue="PA" itemLabel="PA" />
+							<f:selectItem itemValue="PB" itemLabel="PB" />
+							<f:selectItem itemValue="PR" itemLabel="PR" />
+							<f:selectItem itemValue="PE" itemLabel="PE" />
+							<f:selectItem itemValue="PI" itemLabel="PI" />
+							<f:selectItem itemValue="RJ" itemLabel="RJ" />
+							<f:selectItem itemValue="RN" itemLabel="RN" />
+							<f:selectItem itemValue="RS" itemLabel="RS" />
+							<f:selectItem itemValue="RO" itemLabel="RO" />
+							<f:selectItem itemValue="RR" itemLabel="RR" />
+							<f:selectItem itemValue="SC" itemLabel="SC" />
+							<f:selectItem itemValue="SP" itemLabel="SP" />
+							<f:selectItem itemValue="SE" itemLabel="SE" />
+							<f:selectItem itemValue="TO" itemLabel="TO" />
+						</p:selectOneMenu>
+					</p:panelGrid>
+				</p:fieldset>
+			</div>
+			<p:commandButton value="Salvar" action="#{beanPessoa.salvar()}"
+				update="@(form)" />
+			<p:commandButton value="Editar" action="#{beanPessoa.salvar()}"
+				update="@(form)" />
+			<p:commandButton value="Limpar" action="#{beanPessoa.init()}"
+				update="@(form)" />
+			<p:commandButton value="Excluir" action="#{beanPessoa.excluir()}"
+				update="@(form)" />
+			<p:separator />
+
+
+		</h:form>
+		<h:form>
+
+			<p:dataTable id="tb" var="tbl" value="#{beanPessoa.lista}" rows="10"
+				paginator="true" selectionMode="single"
+				selection="#{beanPessoa.pessoa}" rowKey="#{tbl.codigo}"
+				sortBy="#{tbl.nome}" sortOrder="ASCENDING">
+				<p:ajax event="rowSelect" update="frm" />
+				<f:facet name="header">
+					<p:outputPanel>
+						<h:outputText value="Clientes Cadastrados" />
+					</p:outputPanel>
+				</f:facet>
+				<p:column visible="false" headerText="Id" width="25"
+					sortBy="#{tbl.codigo}">
+					<h:outputText value="#{tbl.codigo}" />
+				</p:column>
+				<p:column headerText="Nome" filterBy="#{tbl.nome}"
+					sortBy="#{tbl.nome}">
+					<h:outputText value="#{tbl.nome}" />
+				</p:column>
+				<p:column headerText="Celular">
+					<h:outputText value="#{tbl.celular}" />
+				</p:column>
+			</p:dataTable>
+
+			<!--*******************************************CONFIRM DIALOG***********************************************************-->
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="SIM" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="NÃO" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+			<!--*******************************************P:DIALOG***********************************************************-->
+
+		</h:form>
+	</ui:define>
+</ui:composition>

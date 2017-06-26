@@ -9,19 +9,19 @@
 
     <h:form id="pdialog">
         <p:growl id="msgs" showDetail="true"/>
-        <p:dataTable id="tbc" var="tbl" value="#{beanComanda.listaComanda}" emptyMessage="Não criadas comandas " style="text-align: center" rows="5" paginator="true" sortBy="#{tbl.idcomanda}" > 
+        <p:dataTable id="tbc" var="tbl" value="#{beanComanda.listaComanda}" emptyMessage="Nenhum registro encontrado " style="text-align: center" rows="5" paginator="true" sortBy="#{tbl.codigo}" > 
             <f:facet name="header">
                 <p:outputPanel>
                     <h:outputText value="Comandas" />
                 </p:outputPanel>
             </f:facet>
 
-            <p:column visible="true" width="30" headerText="id" sortBy="#{tbl.idcomanda}">
-                <h:outputText value="#{tbl.idcomanda}"/>
+            <p:column visible="true" width="30" headerText="id" sortBy="#{tbl.codigo}">
+                <h:outputText value="#{tbl.codigo}"/>
             </p:column>
 
-            <p:column colspan="3" headerText="Cliente" style="text-align: left" filterBy="#{tbl.idcliente.nome}">
-                <h:outputText value="#{tbl.idcliente.nome}"  />
+            <p:column colspan="3" headerText="Cliente" style="text-align: left" filterBy="#{tbl.cliente.pessoa.nome}">
+                <h:outputText value="#{tbl.cliente.pessoa.nome}"  />
             </p:column>
 
             <p:column  headerText="Data" style="text-align: center" >
@@ -39,9 +39,9 @@
 
             <!--*******************************************ALTERAR***********************************************************-->
             <p:column width="25">
-                <p:commandButton id="btnAlterar"  oncomplete="PF('status').show();" process="@this" update="@(form)"  title="Alterar Registro" icon="fa fa-pencil" style="color:#65ff00;background-color:#FFFFFF">  <!--process="@this" update="@(form)" -->   
+                <p:commandButton id="btnAlterar"  oncomplete="PF('status').show();" process="@this" update="@(form)"  title="Alterar Registro" icon="fa fa-pencil" style="color:#65ff00;background-color:#FFFFFF">     
                     <f:setPropertyActionListener value="#{tbl}" target="#{beanComanda.edcomanda}"/> 
-                    <f:ajax render="status" execute="@form"   /> <!--execute="@form"-->
+                    <f:ajax render="status" execute="@form"   /> 
                 </p:commandButton>
             </p:column> 
 
@@ -68,7 +68,7 @@
     <p:dialog  header="Alterar Status" widgetVar="status" resizable="false" modal="false"   hideEffect="side" showEffect="side"  closable="true" width="300" height="130"> <!--appendTo ="@(body)"-->
 
         <h:form id='statusDialog'>
-            <p:outputLabel for="stu" style="color: blue;font-weight: bolder" value="ID:#{beanComanda.edcomanda.idcomanda} - #{beanComanda.edcomanda.idcliente.nome}" />
+            <p:outputLabel for="stu" style="color: blue;font-weight: bolder" value="ID:#{beanComanda.edcomanda.codigo} - #{beanComanda.edcomanda.cliente.pessoa.nome}" />
             <p:separator/>
             <p:selectOneMenu id="stu" style="width: 200px" value="#{beanComanda.edcomanda.status}"><!-- Itens utilizados em parâmemtros em: Comanda.java / ComandaJpaController.java-->
                 <f:selectItem itemLabel="ABERTA" itemValue="ABERTA" />

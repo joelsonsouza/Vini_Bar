@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -10,7 +10,7 @@
                 xmlns:of="http://omnifaces.org/functions">
 
     <ui:define name="corpo">
-        <title>ViniBarWeb</title>
+
         <h1 >Cadastro de Despesas</h1>
         <p:messages id="messages" showDetail="true" showSummary="false" autoUpdate="true" closable="true" />
         <h:form id="frm">
@@ -23,55 +23,65 @@
                     <p:inputText id="desc" required="true" requiredMessage="PREENCHA A DESCRIÇÃO" styleClass="up" value="#{beanDespesas.despesa.descricao}"/>
 
                     <p:outputLabel for="tipo" value="Tipo:"/>
-                    <p:selectOneMenu id="tipo" filter="false" converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="PREENCHA O TIPO" value="#{beanDespesas.despesa.idtipo}"  > <!--required="true" requiredMessage="INFORME O TIPO"-->
+                    <p:selectOneMenu id="tipo" filter="false" converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="PREENCHA O TIPO" value="#{beanDespesas.despesa.tipodespesa}"  > <!--required="true" requiredMessage="INFORME O TIPO"-->
                         <f:selectItem itemValue="" itemLabel="SELECIONE UM TIPO"/>
-                        <f:selectItems value="#{beanDespesas.listaTipo}" var="listaTipo" 
+                        <f:selectItems value="#{beanDespesas.listaTipodespesa}" var="listaTipo" 
                                        itemLabel="#{listaTipo.tipo} - #{listaTipo.periodo}" itemValue="#{tipo}" />
                     </p:selectOneMenu>       
 
                     <p:outputLabel for="dt" value="Data:"/>
-                    <p:calendar id="dt" required="true" requiredMessage="PREENCHA A DATA" value="#{beanDespesas.despesa.dtdespesa}" /> 
+                    <p:calendar id="dt" required="true" locale="pt_BR" requiredMessage="PREENCHA A DATA" value="#{beanDespesas.despesa.dtdespesa}" /> 
 
                     <p:outputLabel for="fornec" value="Fornecedor"/>
-                    <p:selectOneMenu id="fornec" filter="false" value="#{beanDespesas.despesa.idfornecedor}" converter="omnifaces.SelectItemsConverter" >
+                    <p:selectOneMenu id="fornec" filter="false" value="#{beanDespesas.despesa.fornecedor}" converter="omnifaces.SelectItemsConverter" >
                         <f:selectItem itemValue="" itemLabel="SELECIONE UM FORNECEDOR"/>
                         <f:selectItems value="#{beanDespesas.listaFornecedor}" var="lista" 
                                        itemLabel="#{lista.empresa}" itemValue="#{empresa}"/>
                     </p:selectOneMenu> 
 
-                    <p:outputLabel for="val" value="* Valor:"/>
-                    <p:inputNumber id="val" required="true" requiredMessage="PREENCHA O VALOR" value="#{beanDespesas.despesa.valor}"/> <!--decimalSeparator="," thousandSeparator=".">  -->
+                    <p:outputLabel for="val" value="Valor:"/>
+                    <p:inputText id="val" required="true" requiredMessage="PREENCHA O VALOR" value="#{beanDespesas.despesa.valor}"
+                     converterMessage="INFORME UM VALOR VÁLIDO NO CAMPO 'Valor'" validatorMessage="INFORME UM VALOR VÁLIDO NO CAMPO 'Valor'">
+<!--                      <f:validateDoubleRange minimum="0.01" maximum="9999.99" /> -->
+                     <f:convertNumber locale="pt_BR" minFractionDigits="2" />
+                    </p:inputText>
 
                     <p:selectBooleanCheckbox value="#{beanDespesas.despesa.pago}" itemLabel="Pago" />
                     <p:outputLabel/>
                 </p:panelGrid>
             </div>
-            <p:commandButton value="Salvar"   action="#{beanDespesas.incluir()}" update="@(form)" process="@all" />
-            <p:commandButton value="Editar"   action="#{beanDespesas.incluir()}" update="@(form)" process="@all" />
-            <p:commandButton value="Limpar"   action="#{beanDespesas.init()}" update="@(form)" process="@all" />
+            <p:commandButton value="Salvar"   action="#{beanDespesa.salvar()}" update="@(form)" process="@all" />
+            <p:commandButton value="Editar"   action="#{beanDespesas.salvar()}" update="@(form)" process="@all" />
+            <p:commandButton value="Limpar"   action="#{beanDespesas.init()}" update="@(form)" process="@this" />
             <p:commandButton value="Excluir"   action="#{beanDespesas.excluir()}" update="@(form)" process="@this" />
             <p:separator/>
         </h:form>
         <h:form>
-            <p:dataTable id="desp" var="desp" value="#{beanDespesas.listaDespesas}" rows="10" paginator="true" 
-                         selectionMode="single" selection="#{beanDespesas.despesa}"  rowKey="#{desp.id}" > 
+            <p:dataTable id="desp" var="desp" value="#{beanDespesas.listaDespesa}" rows="10" paginator="true" paginatorPosition="bottom"
+                         selectionMode="single" selection="#{beanDespesas.despesa}"  rowKey="#{desp.codigo}" sortBy="#{desp.dtdespesa}" sortOrder="DESCENDING">  
                 <p:ajax event="rowSelect" update="frm"/>
                 <f:facet name="header">
                     <p:outputPanel>
                         <h:outputText value="Despesas Cadastradas" />
                     </p:outputPanel>
                 </f:facet>
-                <p:column  headerText="Id"  width="25" sortBy="#{desp.id}"> 
-                    <h:outputText value="#{desp.id}" />
+                
+                <p:column visible="false"  headerText="Id"  width="50" sortBy="#{desp.codigo}"> 
+                <p:outputLabel disabled="true" value="#{desp.codigo}"/>
+                </p:column>
+                 
+                <p:column  headerText="Data"  width="100" sortBy="#{desp.dtdespesa}"> 
+                <p:calendar disabled="true" value="#{desp.dtdespesa}"/>
                 </p:column>
                 <p:column  headerText="Descrição" filterBy="#{desp.descricao}" sortBy="#{desp.descricao}">
                     <h:outputText value="#{desp.descricao}" />
                 </p:column>
-                <p:column  headerText="Tipo" style="text-align: center" filterBy="#{desp.idtipo.tipo}"> 
-                    <h:outputText value="#{desp.idtipo.tipo}"  />
+                <p:column  headerText="Tipo" style="text-align: center" filterBy="#{desp.tipodespesa.tipo}"> 
+                    <h:outputText  value="#{desp.tipodespesa.tipo}"  />
                 </p:column>
                 <p:column  headerText="Valor" style="text-align: center">
-                    <h:outputText value="R$ #{desp.valor}"/>
+                    <h:outputText value="R$ #{desp.valor}">﻿﻿
+                    </h:outputText>
                 </p:column>
             </p:dataTable>
             <!--*******************************************CONFIRM DIALOG***********************************************************-->

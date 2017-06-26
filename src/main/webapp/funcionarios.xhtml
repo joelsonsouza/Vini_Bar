@@ -22,89 +22,18 @@
                     <p:outputLabel/>
                     <p:outputLabel/>
 
-                    <p:outputLabel for="nome" value="Nome:"/>
-                    <p:inputText id="nome" required="true" requiredMessage="NOME" styleClass="up" value="#{beanFuncionario.funcionario.nome}"/>
+                    <p:outputLabel for="pes" value="Pessoa:"/>
+                    <p:selectOneMenu id="pes" size="150" filter="true" value="#{beanFuncionario.funcionario.pessoa}" converter="omnifaces.SelectItemsConverter" >
+                        <f:selectItem itemValue="" itemLabel="SELECIONE"/>
+                        <f:selectItems value="#{beanFuncionario.listaPessoa}" var="lista" 
+                                       itemLabel="#{lista.nome}" itemValue="#{nome}"/>
+                     </p:selectOneMenu>
 
-                    <p:outputLabel for="cpf" value="CPF:"/>
-                    <p:inputMask id="cpf" required="true" requiredMessage="CPF" mask="999.999.999-99" value="#{beanFuncionario.funcionario.cpf}"/>       
-
-                    <p:outputLabel for="dataNascimento" value="Nascimento:"/>
-                    <p:calendar id="dataNascimento" required="true" requiredMessage="DATA DE NASCIMENTO" value="#{beanFuncionario.funcionario.dtnascimento}"/>       
+                    <p:outputLabel for="dataCad" value="Dt. Cadastro:"/>
+                    <p:calendar id="dataCad" size="150" value="#{beanFuncionario.funcionario.dtcadastro}"/>       
+                  
                 </p:panelGrid>
 
-                <p:fieldset legend="Contato" toggleable="true" toggleSpeed="500" collapsed="true">    
-                    <p:panelGrid columns="4" layout="grid"
-                                 columnClasses="ui-grid-col-2, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3"
-                                 styleClass="panelgrid-noborder">
-
-                        <p:outputLabel for="telefone" value="Telefone:"/>
-                        <p:inputMask id="telefone" mask="(99)9999-9999" value="#{beanFuncionario.funcionario.telefone}"/>  
-
-                        <p:outputLabel for="celular"  value="Celular:"/>
-                        <p:inputMask id="celular" required="true" requiredMessage="CELULAR" mask="(99)99999-9999" value="#{beanFuncionario.funcionario.celular}"/> 
-
-                        <p:outputLabel for="email" value="Email:"/>
-                        <p:inputText id="email" value="#{beanFuncionario.funcionario.email}" placeholder="exemplo@exemplo.com"/> 
-                    </p:panelGrid>
-                </p:fieldset>
-                <p:fieldset legend="Endereço" toggleable="true" toggleSpeed="500" collapsed="true">    
-                    <p:panelGrid columns="4" layout="grid"
-                                 columnClasses="ui-grid-col-2, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3"
-                                 styleClass="panelgrid-noborder">
-
-                        <p:outputLabel for="logradouro" value="Logradouro:"/>
-                        <p:inputText id="logradouro" styleClass="up" required="true" requiredMessage="LOGRADOURO" value="#{beanFuncionario.funcionario.logradouro}"/>
-
-                        <p:outputLabel for="numero" value="Nº:"/>
-                        <p:inputNumber id="numero" required="true" requiredMessage="NÚMERO" value="#{beanFuncionario.funcionario.numero}"/> 
-
-                        <p:outputLabel for="comp" value="Complemento:"/>
-                        <p:inputText id="comp" styleClass="up" value="#{beanFuncionario.funcionario.complemento}"/>      
-
-
-                        <p:outputLabel for="bairro" value="Bairro:"/>
-                        <p:inputText id="bairro" styleClass="up" required="true" requiredMessage="BAIRRO" value="#{beanFuncionario.funcionario.bairro}"/> 
-
-                        <p:outputLabel for="cep" value="CEP:"/>
-                        <p:inputMask id="cep" mask="99999-999" required="true" requiredMessage="CEP" value="#{beanFuncionario.funcionario.cep}"/> 
-
-
-                        <p:outputLabel for="cidade" value="Cidade:"/>
-                        <p:inputText id="cidade" styleClass="up" value="#{beanFuncionario.funcionario.cidade}"/>  
-
-                        <p:outputLabel for="uf" value="UF:"/>
-                        <p:selectOneMenu id="uf" filter="false" value="#{beanFuncionario.funcionario.uf}" required="false" requiredMessage="INFORME O PERÍODO">
-                            <f:selectItem itemValue="" itemLabel="SELECIONE"/>
-                            <f:selectItem itemValue="MS" itemLabel="MS"/>
-                            <f:selectItem itemValue="AC" itemLabel="AC"/>
-                            <f:selectItem itemValue="AL" itemLabel="AL"/>          
-                            <f:selectItem itemValue="AP" itemLabel="AP"/>          
-                            <f:selectItem itemValue="AM" itemLabel="AM"/>                   
-                            <f:selectItem itemValue="BA" itemLabel="BA"/>          
-                            <f:selectItem itemValue="CE" itemLabel="CE"/>          
-                            <f:selectItem itemValue="DF" itemLabel="DF"/>          
-                            <f:selectItem itemValue="ES" itemLabel="ES"/>          
-                            <f:selectItem itemValue="GO" itemLabel="GO"/>          
-                            <f:selectItem itemValue="MA" itemLabel="MA"/>          
-                            <f:selectItem itemValue="MT" itemLabel="MT"/>          
-                            <f:selectItem itemValue="MG" itemLabel="MG"/>          
-                            <f:selectItem itemValue="PA" itemLabel="PA"/>          
-                            <f:selectItem itemValue="PB" itemLabel="PB"/>          
-                            <f:selectItem itemValue="PR" itemLabel="PR"/>          
-                            <f:selectItem itemValue="PE" itemLabel="PE"/>          
-                            <f:selectItem itemValue="PI" itemLabel="PI"/>          
-                            <f:selectItem itemValue="RJ" itemLabel="RJ"/>          
-                            <f:selectItem itemValue="RN" itemLabel="RN"/>          
-                            <f:selectItem itemValue="RS" itemLabel="RS"/>          
-                            <f:selectItem itemValue="RO" itemLabel="RO"/>          
-                            <f:selectItem itemValue="RR" itemLabel="RR"/>          
-                            <f:selectItem itemValue="SC" itemLabel="SC"/>          
-                            <f:selectItem itemValue="SP" itemLabel="SP"/>          
-                            <f:selectItem itemValue="SE" itemLabel="SE"/>          
-                            <f:selectItem itemValue="TO" itemLabel="TO"/>          
-                        </p:selectOneMenu>  
-                    </p:panelGrid>
-                </p:fieldset>
                 <p:fieldset legend="Contrato" toggleable="true" toggleSpeed="500" collapsed="true">    
                     <p:panelGrid columns="4" layout="grid"
                                  columnClasses="ui-grid-col-2, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3"
@@ -150,8 +79,8 @@
                     </p:panelGrid>
                 </p:fieldset>
             </div>
-            <p:commandButton value="Salvar"   action="#{beanFuncionario.incluir()}" update="@(form)" />
-            <p:commandButton value="Editar"   action="#{beanFuncionario.incluir()}" update="@(form)" />
+            <p:commandButton value="Salvar"   action="#{beanFuncionario.salvar()}" update="@(form)" />
+            <p:commandButton value="Editar"   action="#{beanFuncionario.salvar()}" update="@(form)" />
             <p:commandButton value="Limpar"   action="#{beanFuncionario.init()}" update="@(form)"/>
             <p:commandButton value="Excluir"  action="#{beanFuncionario.excluir()}" update="@(form)"  />
             <p:separator/>
@@ -159,21 +88,25 @@
         <h:form>    
 
             <p:dataTable id="tb" var="tbl" value="#{beanFuncionario.lista}" rows="10" paginator="true" 
-                         selectionMode="single"   selection="#{beanFuncionario.funcionario}"  rowKey="#{tbl.id}"> 
+                        selectionMode="single"   selection="#{beanFuncionario.funcionario}"  rowKey="#{tbl.codigo}"> 
                 <p:ajax event="rowSelect" update="frm"/>
                 <f:facet name="header">
                     <p:outputPanel>
                         <h:outputText value="Clientes Cadastrados" />
                     </p:outputPanel>
                 </f:facet>
-                <p:column  headerText="Id"  width="25" sortBy="#{tbl.id}"> 
-                    <h:outputText value="#{tbl.id}" />
+                <p:column visible="false" headerText="Id"  width="25" sortBy="#{tbl.codigo}"> 
+                    <h:outputText value="#{tbl.codigo}" />
                 </p:column>
-                <p:column  headerText="Nome" filterBy="#{tbl.nome}" sortBy="#{tbl.nome}">
-                    <h:outputText value="#{tbl.nome}" />
+                <p:column  headerText="Nome" filterBy="#{tbl.pessoa.nome}" sortBy="#{tbl.pessoa.nome}">
+                    <h:outputText value="#{tbl.pessoa.nome}" />
                 </p:column>
                 <p:column  headerText="Celular">
-                    <h:outputText value="#{tbl.celular}" />
+                    <h:outputText value="#{tbl.pessoa.celular}" />
+                </p:column>
+                
+                <p:column  headerText="Ativo">
+                    <h:outputText value="#{tbl.ativoFormatado}" />
                 </p:column>
             </p:dataTable>
 

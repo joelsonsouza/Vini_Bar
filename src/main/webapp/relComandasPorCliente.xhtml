@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:define name="corpo">
+
+		<p:messages id="messages" showDetail="true" showSummary="false"
+			autoUpdate="true" closable="true" />
+		<h:form id="frm">
+			<p:remoteCommand autoRun="true"
+				oncomplete="PF('novoDialogo').show();" />
+			<p:dialog header="Relatório de Comandas por cliente" widgetVar="novoDialogo"
+				resizable="false" modal="false" hideEffect="side" closable="false"
+				draggable="false">
+				<div class="ui-fluid">
+					<p:panelGrid columns="4" layout="grid"
+						columnClasses="ui-grid-col-3, ui-grid-col-4, ui-grid-col-1, ui-grid-col-4"
+						styleClass="panelgrid-noborder">
+
+						<p:outputLabel for="dtin" value="Período:" />
+						<p:calendar id="dtin" required="true" requiredMessage="DT INICIAL"
+							value="#{beanRelComandas.dtin}" /> à <p:calendar id="dtfin"
+							required="true" requiredMessage="DT FINAL"
+							value="#{beanRelComandas.dtfin}" />
+
+						<p:outputLabel value="Eventual/Mensal:" for="per" />
+						<p:selectOneMenu id="per" filter="true"
+							value="#{beanRelComandas.cliente}" required="false"
+							requiredMessage="INFORME O PERÍODO">
+							<f:selectItem itemValue="" itemLabel="TODOS" />
+							<f:selectItems value="#{beanComanda.listaClientes}" var="cli"
+								itemValue="#{cli.pessoa.nome}" itemLabel="#{cli.pessoa.nome}" />
+						</p:selectOneMenu>
+
+					</p:panelGrid>
+					<p:separator />
+					<p:commandButton value="Buscar"
+						action="#{beanRelComandas.RelComandasPorCliente()}" />
+
+				</div>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>
+

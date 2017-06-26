@@ -59,7 +59,7 @@
                         <p:inputNumber id="num" value="#{beanFornecedor.fornecedor.numero}" maxlength="5"/>
 
                         <p:outputLabel for="com" value="Complemento:"/>
-                        <p:inputText id="com" styleClass="up" value="#{beanFornecedor.fornecedor.complemeto}"/>      
+                        <p:inputText id="com" styleClass="up" value="#{beanFornecedor.fornecedor.complemento}"/>      
 
 
                         <p:outputLabel for="bai" value="Bairro:"/>
@@ -108,9 +108,9 @@
                 </p:fieldset>
             </div>
 
-            <p:commandButton value="Salvar"   action="#{beanFornecedor.incluir()}" update="@(form)" process="@all" />
-            <p:commandButton value="Editar"   action="#{beanFornecedor.incluir()}" update="@(form)" process="@all" />
-            <p:commandButton value="Limpar"   action="#{beanFornecedor.init()}" update="@(form)" process="@all" />
+            <p:commandButton value="Salvar"   action="#{beanFornecedor.salvar()}" update="@(form)" process="@all" />
+            <p:commandButton value="Editar"   action="#{beanFornecedor.salvar()}" update="@(form)" process="@all" />
+            <p:commandButton value="Limpar"   action="#{beanFornecedor.init()}" update="@(form)" process="@this" />
             <p:commandButton value="Excluir"   action="#{beanFornecedor.excluir()}" update="@(form)" process="@this" />
             <p:separator/>
 
@@ -118,15 +118,15 @@
         </h:form>
         <h:form>
             <p:dataTable id="tb" var="tbl" value="#{beanFornecedor.lista}" rows="10" paginator="true"  
-                         selectionMode="single" selection="#{beanFornecedor.fornecedor}"   rowKey="#{tbl.id}"  > 
+                         selectionMode="single" selection="#{beanFornecedor.fornecedor}"   rowKey="#{tbl.codigo}"  > 
                 <p:ajax event="rowSelect" update="frm"/>
                 <f:facet name="header">
                     <p:outputPanel>
                         <h:outputText value="Fornecedores Cadastrados" />
                     </p:outputPanel>
                 </f:facet>
-                <p:column  headerText="Id"  width="25" sortBy=""> 
-                    <h:outputText value="#{tbl.id}" />
+                <p:column visible="false" headerText="Id"  width="25" sortBy=""> 
+                    <h:outputText value="#{tbl.codigo}" />
                 </p:column>
                 <p:column  headerText="Responsável" filterBy="" sortBy="">
                     <h:outputText value="#{tbl.reponsavel}" />
